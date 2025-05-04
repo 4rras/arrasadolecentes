@@ -1,75 +1,103 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla de Horarios</title>
+    <title>Invitación Especial</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            font-family: 'Segoe UI', sans-serif;
             text-align: center;
+            background: linear-gradient(to right, #f8c8dc, #d8bfe5);
+            margin: 0;
+            padding: 0;
         }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+            border-radius: 14px;
         }
-        th {
-            background-color: #f4f4f4;
+        h1 {
+            color: #7e57c2;
+            font-size: 32px;
+            margin-bottom: 15px;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        p {
+            font-size: 20px;
+            color: #5a5a5a;
         }
-        td {
-            min-width: 100px;
+        .date {
+            font-weight: bold;
+            color: #7e57c2;
+            font-size: 22px;
         }
-        td input {
-            width: 100%;
+        .location {
+            font-weight: bold;
+            color: #7e57c2;
+            font-size: 22px;
+        }
+        .location a {
+            color: #5e35b1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .location a:hover {
+            text-decoration: underline;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 20px;
+            margin-top: 20px;
+            background-color: #7e57c2;
+            color: white;
             border: none;
-            text-align: center;
-            background-color: transparent;
-            outline: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
         }
-        td input:focus {
-            background-color: #e6f7ff;
+        .button:hover {
+            background-color: #5e35b1;
+            transform: scale(1.07);
+        }
+        .link-button {
+            display: inline-block;
+            padding: 12px 18px;
+            margin-top: 10px;
+            background-color: #5e35b1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .link-button:hover {
+            background-color: #4527a0;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <h1>Tabla de Horarios</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Hora</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-                <th>Domingo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Filas de horarios -->
-            <tr><td>6:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>7:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>8:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>9:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>10:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>11:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>12:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>13:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>14:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>15:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>16:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>17:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>18:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>19:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>20:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>21:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-            <tr><td>22:00</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>🌸 ¡Hola, Fatima Ferreira! 🌸</h1>
+        <p>Quiero compartir contigo un momento especial. Me encantaría que pasemos un tiempo juntos, disfrutando y creando lindos recuerdos.</p>
+        <p class="date">📅 Fecha: 10/05/25</p>
+        <p class="location">📍 Lugar: <a href="https://maps.app.goo.gl/eCTpWpGMxUxyM2j3A" target="_blank">Ver ubicación</a></p>
+        <button class="button" onclick="confirmarAsistencia()">¡Me apunto! 😊</button>
+        <a class="link-button" href="https://maps.app.goo.gl/eCTpWpGMxUxyM2j3A" target="_blank">Abrir ubicación</a>
+    </div>
+
+    <script>
+        function confirmarAsistencia() {
+            alert("¡Qué emoción! Será un día increíble. Nos vemos pronto 💖");
+        }
+    </script>
 </body>
 </html>

@@ -1,103 +1,487 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación Especial</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-            background: linear-gradient(to right, #f8c8dc, #d8bfe5);
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 90%;
-            max-width: 650px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: white;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-            border-radius: 14px;
-        }
-        h1 {
-            color: #7e57c2;
-            font-size: 32px;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 20px;
-            color: #5a5a5a;
-        }
-        .date {
-            font-weight: bold;
-            color: #7e57c2;
-            font-size: 22px;
-        }
-        .location {
-            font-weight: bold;
-            color: #7e57c2;
-            font-size: 22px;
-        }
-        .location a {
-            color: #5e35b1;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .location a:hover {
-            text-decoration: underline;
-        }
-        .button {
-            display: inline-block;
-            padding: 14px 20px;
-            margin-top: 20px;
-            background-color: #7e57c2;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-        .button:hover {
-            background-color: #5e35b1;
-            transform: scale(1.07);
-        }
-        .link-button {
-            display: inline-block;
-            padding: 12px 18px;
-            margin-top: 10px;
-            background-color: #5e35b1;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .link-button:hover {
-            background-color: #4527a0;
-            transform: scale(1.05);
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz Bíblico - Génesis Avanzado</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #start-screen, #quiz-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    max-width: 700px;
+    width: 100%;
+    padding: 40px 35px 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  #start-screen::before, #quiz-container::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    background: #ffb347;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.7;
+    z-index: 0;
+    animation: pulse 6s infinite alternate ease-in-out;
+  }
+
+  #start-screen::after, #quiz-container::after {
+    content: "";
+    position: absolute;
+    bottom: -70px;
+    left: -70px;
+    width: 200px;
+    height: 200px;
+    background: #ffcc70;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.6;
+    z-index: 0;
+    animation: pulse2 7s infinite alternate ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.15) translateY(-20px);}
+  }
+
+  @keyframes pulse2 {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.15) translateY(20px);}
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 12px rgba(255, 179, 71, 0.8);
+    position: relative;
+    z-index: 1;
+  }
+
+  label {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    outline: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+
+  #start-btn, #submit-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 25px;
+    background: #ffb347;
+    color: #3a1a00;
+    cursor: pointer;
+    box-shadow: 0 5px 15px #ffb347cc;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  #start-btn:hover:not(:disabled), #submit-btn:hover:not(:disabled) {
+    background: #ff9f00;
+    box-shadow: 0 8px 20px #ff9f0055;
+  }
+
+  #submit-btn:disabled {
+    background-color: #ffd7a1;
+    color: #b67e26;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  #result {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 15px;
+    color: #ffefc5;
+    text-shadow: 0 0 8px #ffb347cc;
+  }
+
+  .question-number {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #ffd580;
+    letter-spacing: 0.7px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .question-text {
+    font-size: 1.25rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+    white-space: pre-line;
+  }
+
+  .options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .options li {
+    margin-bottom: 15px;
+  }
+
+  .option-label {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 14px 18px;
+    border-radius: 15px;
+    display: block;
+    cursor: pointer;
+    border: 2px solid transparent;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+    transition: all 0.3s ease;
+    user-select: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+
+  .option-label:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #ffd580;
+    box-shadow: 0 5px 15px rgba(255, 213, 110, 0.6);
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked + .option-label {
+    border-color: #ffb347;
+    background: #ffb347;
+    color: #3a1a00;
+    box-shadow: 0 0 25px #ffb347aa;
+    transform: scale(1.03);
+    transition: all 0.3s ease;
+  }
+
+  /* Animación de fade-in */
+  .fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Contenedor para el confeti */
+  #confetti-canvas {
+    position: fixed;
+    pointer-events: none;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9999;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌸 ¡Hola, Fatima Ferreira! 🌸</h1>
-        <p>Quiero compartir contigo un momento especial. Me encantaría que pasemos un tiempo juntos, disfrutando y creando lindos recuerdos.</p>
-        <p class="date">📅 Fecha: 10/05/25</p>
-        <p class="location">📍 Lugar: <a href="https://maps.app.goo.gl/eCTpWpGMxUxyM2j3A" target="_blank">Ver ubicación</a></p>
-        <button class="button" onclick="confirmarAsistencia()">¡Me apunto! 😊</button>
-        <a class="link-button" href="https://maps.app.goo.gl/eCTpWpGMxUxyM2j3A" target="_blank">Abrir ubicación</a>
-    </div>
 
-    <script>
-        function confirmarAsistencia() {
-            alert("¡Qué emoción! Será un día increíble. Nos vemos pronto 💖");
-        }
-    </script>
+<div id="start-screen">
+  <h1>Bienvenido al Quiz Bíblico - Génesis</h1>
+  <label for="username">Por favor, escribe tu nombre:</label>
+  <input type="text" id="username" placeholder="Tu nombre aquí" />
+  <button id="start-btn" disabled>Estoy listo</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <h1>Quiz Bíblico - Génesis Avanzado</h1>
+  <div id="question-container">
+    <div class="question-number fade-in"></div>
+    <div class="question-text fade-in"></div>
+    <ul class="options fade-in"></ul>
+    <button id="submit-btn" disabled>Responder</button>
+  </div>
+  <div id="result" style="display:none;"></div>
+</div>
+
+<!-- Canvas para confeti -->
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+  const startScreen = document.getElementById('start-screen');
+  const quizContainer = document.getElementById('quiz-container');
+  const startBtn = document.getElementById('start-btn');
+  const usernameInput = document.getElementById('username');
+
+  let username = '';
+
+  usernameInput.addEventListener('input', () => {
+    startBtn.disabled = usernameInput.value.trim() === '';
+  });
+
+  startBtn.addEventListener('click', () => {
+    username = usernameInput.value.trim();
+    if (username === '') return;
+    startScreen.style.display = 'none';
+    quizContainer.style.display = 'block';
+    cargarPregunta();
+  });
+
+  const preguntas = [
+    {
+      pregunta: `Según el relato de Génesis 1:1-3, ¿qué fue lo primero que Dios creó y qué acción realizó para dar inicio a la creación?`,
+      opciones: [
+        "Dios creó los animales y luego creó la luz.",
+        "Dios creó los cielos y la tierra, y luego dijo: ‘Sea la luz’.",
+        "Dios creó al hombre primero y después el cielo."
+      ],
+      correcta: 1
+    },
+    {
+      pregunta: `En Génesis 3, ¿qué consecuencia enfrentaron Adán y Eva después de comer del árbol prohibido?`,
+      opciones: [
+        "Fueron expulsados del jardín y enfrentaron dolor y muerte.",
+        "Fueron bendecidos con sabiduría y conocimiento.",
+        "Se convirtieron en dioses."
+      ],
+      correcta: 0
+    },
+    {
+      pregunta: `¿Cuál fue la señal que Dios dio a Noé para prometer que nunca más destruiría la tierra con un diluvio?`,
+      opciones: [
+        "Una paloma blanca con una rama de olivo.",
+        "Un arco iris en las nubes.",
+        "Un fuego en el cielo."
+      ],
+      correcta: 1
+    },
+    {
+      pregunta: `En Génesis 12, ¿qué le prometió Dios a Abraham cuando le llamó a salir de su tierra?`,
+      opciones: [
+        "Que su descendencia sería numerosa y bendecida.",
+        "Que tendría riquezas y poder terrenal.",
+        "Que sería rey de muchos pueblos."
+      ],
+      correcta: 0
+    },
+    {
+      pregunta: `Según Génesis 22, ¿qué prueba enfrentó Abraham para demostrar su fe?`,
+      opciones: [
+        "Sacrificar a su hijo Isaac en el monte Moriah.",
+        "Renunciar a su esposa Sara.",
+        "Construir un altar en Egipto."
+      ],
+      correcta: 0
+    },
+  ];
+
+  let currentQuestionIndex = localStorage.getItem('quizIndex') ? parseInt(localStorage.getItem('quizIndex')) : 0;
+  let score = localStorage.getItem('quizScore') ? parseInt(localStorage.getItem('quizScore')) : 0;
+
+  const questionNumberEl = document.querySelector('.question-number');
+  const questionTextEl = document.querySelector('.question-text');
+  const optionsEl = document.querySelector('.options');
+  const submitBtn = document.getElementById('submit-btn');
+  const resultEl = document.getElementById('result');
+
+  // Confeti simple
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const ctx = confettiCanvas.getContext('2d');
+  let confettiParticles = [];
+  let animationFrameId;
+
+  function resizeCanvas() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class ConfettiParticle {
+    constructor() {
+      this.x = Math.random() * confettiCanvas.width;
+      this.y = Math.random() * confettiCanvas.height - confettiCanvas.height;
+      this.size = Math.random() * 8 + 4;
+      this.speedY = Math.random() * 3 + 2;
+      this.speedX = (Math.random() - 0.5) * 2;
+      this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      this.opacity = 1;
+      this.gravity = 0.05;
+      this.drag = 0.005;
+    }
+    update() {
+      this.speedY += this.gravity;
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.opacity -= 0.02;
+      if (this.opacity < 0) this.opacity = 0;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.opacity;
+      ctx.fillRect(this.x, this.y, this.size, this.size * 0.4);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function createConfetti() {
+    for (let i = 0; i < 150; i++) {
+      confettiParticles.push(new ConfettiParticle());
+    }
+  }
+
+  function animateConfetti() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiParticles.forEach((p, i) => {
+      p.update();
+      p.draw();
+      if (p.opacity <= 0 || p.y > confettiCanvas.height) {
+        confettiParticles.splice(i, 1);
+      }
+    });
+    if (confettiParticles.length > 0) {
+      animationFrameId = requestAnimationFrame(animateConfetti);
+    } else {
+      cancelAnimationFrame(animationFrameId);
+    }
+  }
+
+  function lanzarConfeti() {
+    createConfetti();
+    animateConfetti();
+  }
+
+  function cargarPregunta() {
+    if (currentQuestionIndex >= preguntas.length) {
+      mostrarResultadoFinal();
+      return;
+    }
+    resultEl.style.display = 'none';
+    submitBtn.disabled = true;
+    const pregunta = preguntas[currentQuestionIndex];
+    questionNumberEl.textContent = `Pregunta ${currentQuestionIndex + 1} de ${preguntas.length}`;
+    questionTextEl.textContent = pregunta.pregunta;
+    optionsEl.innerHTML = '';
+    pregunta.opciones.forEach((opcion, index) => {
+      const li = document.createElement('li');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'option';
+      input.id = `option${index}`;
+      input.value = index;
+
+      input.addEventListener('change', () => {
+        submitBtn.disabled = false;
+      });
+
+      const label = document.createElement('label');
+      label.htmlFor = input.id;
+      label.classList.add('option-label');
+      label.textContent = opcion;
+
+      li.appendChild(input);
+      li.appendChild(label);
+      optionsEl.appendChild(li);
+    });
+  }
+
+  submitBtn.addEventListener('click', () => {
+    const selected = document.querySelector('input[name="option"]:checked');
+    if (!selected) return;
+    const respuestaSeleccionada = parseInt(selected.value);
+    const pregunta = preguntas[currentQuestionIndex];
+
+    if (respuestaSeleccionada === pregunta.correcta) {
+      score++;
+      lanzarConfeti();
+      resultEl.style.color = '#8BC34A';
+      resultEl.textContent = '¡Correcto! 🎊';
+    } else {
+      resultEl.style.color = '#FF5722';
+      resultEl.textContent = `Incorrecto. La respuesta correcta es: "${pregunta.opciones[pregunta.correcta]}"`;
+    }
+
+    resultEl.style.display = 'block';
+    submitBtn.disabled = true;
+    // Guardar progreso
+    currentQuestionIndex++;
+    localStorage.setItem('quizIndex', currentQuestionIndex);
+    localStorage.setItem('quizScore', score);
+
+    // Pequeña pausa antes de cargar siguiente pregunta
+    setTimeout(() => {
+      cargarPregunta();
+    }, 2200);
+  });
+
+  function mostrarResultadoFinal() {
+    quizContainer.innerHTML = `
+      <h1>¡Felicidades, ${username}!</h1>
+      <p>Terminaste el quiz con <strong>${score}</strong> respuestas correctas de ${preguntas.length}.</p>
+      <button id="restart-btn">Reiniciar Quiz</button>
+    `;
+    const restartBtn = document.getElementById('restart-btn');
+    restartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      score = 0;
+      localStorage.removeItem('quizIndex');
+      localStorage.removeItem('quizScore');
+      location.reload();
+    });
+  }
+</script>
+
 </body>
 </html>
+

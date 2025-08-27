@@ -286,6 +286,65 @@
             margin-bottom: 20px;
         }
         
+        .quiz-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .quiz-controls button {
+            flex: 1;
+        }
+        
+        .exit-btn {
+            background: linear-gradient(to right, #f44336, #ff9800) !important;
+        }
+        
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #6a11cb, #2575fc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid white;
+        }
+        
+        .user-avatar i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .exit-video-btn {
+            background: linear-gradient(to right, #f44336, #ff9800);
+            padding: 10px 20px;
+            width: auto;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         /* Responsive para móviles */
         @media (max-width: 480px) {
             .container {
@@ -336,6 +395,26 @@
             .countdown {
                 font-size: 1.2rem;
             }
+            
+            .quiz-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .video-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .exit-video-btn {
+                width: 100%;
+            }
         }
         
         /* Responsive para tablets */
@@ -377,13 +456,28 @@
         
         <!-- Pantalla de video -->
         <div id="video-screen" class="screen">
+            <div class="video-header">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="user-name" id="video-player-name">Usuario</div>
+                        <div class="user-status">Viendo video introductorio</div>
+                    </div>
+                </div>
+                <button id="exit-video-btn" class="exit-video-btn">
+                    <i class="fas fa-sign-out-alt"></i> Salir al Inicio
+                </button>
+            </div>
+            
             <div class="video-info">
                 <h2>Antes de comenzar...</h2>
                 <p>Por favor, mira este video introductorio de 3 minutos</p>
             </div>
             
-            <div class="video-container">
-                <iframe id="youtube-video" src="https://www.youtube.com/embed/RpxiptFOg5k?rel=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-container" id="video-container">
+                <iframe id="youtube-video" src="https://www.youtube.com/embed/RpxiptFOg5k?rel=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             
             <div class="countdown" id="countdown">Tiempo restante: 3:00</div>
@@ -406,6 +500,12 @@
                 <div class="question-text" id="question-text">¿Pregunta?</div>
                 <div class="options-container" id="options-container"></div>
             </div>
+            
+            <div class="quiz-controls">
+                <button id="exit-quiz-btn" class="exit-btn">
+                    <i class="fas fa-video"></i> Salir al Video
+                </button>
+            </div>
         </div>
         
         <!-- Pantalla de resultados -->
@@ -418,7 +518,9 @@
             </div>
             
             <button id="restart-btn">Jugar de Nuevo</button>
-            <button id="watch-video-btn" style="background: rgba(255, 255, 255, 0.2);">Volver a Ver Video</button>
+            <button id="watch-video-btn" style="background: rgba(255, 255, 255, 0.2);">
+                <i class="fas fa-video"></i> Volver a Ver Video
+            </button>
         </div>
         
         <!-- Pantalla de jugador existente -->
@@ -434,7 +536,9 @@
             
             <button id="play-again-btn">Jugar de Nuevo</button>
             <button id="view-score-btn" style="background: rgba(255, 255, 255, 0.1);">Ver Mis Resultados</button>
-            <button id="watch-video-existing-btn" style="background: rgba(255, 255, 255, 0.2); margin-top: 10px;">Volver a Ver Video</button>
+            <button id="watch-video-existing-btn" style="background: rgba(255, 255, 255, 0.2); margin-top: 10px;">
+                <i class="fas fa-video"></i> Volver a Ver Video
+            </button>
         </div>
     </div>
 
@@ -450,6 +554,7 @@
         let videoTimer;
         let videoTimeLeft = 180; // 3 minutos en segundos
         let questions = [];
+        let youtubePlayer;
         
         // Elementos del DOM
         const startScreen = document.getElementById('start-screen');
@@ -478,6 +583,10 @@
         const watchVideoExistingBtn = document.getElementById('watch-video-existing-btn');
         const notification = document.getElementById('notification');
         const youtubeVideo = document.getElementById('youtube-video');
+        const exitQuizBtn = document.getElementById('exit-quiz-btn');
+        const videoContainer = document.getElementById('video-container');
+        const exitVideoBtn = document.getElementById('exit-video-btn');
+        const videoPlayerName = document.getElementById('video-player-name');
         
         // 30 preguntas con 3 opciones cada una
         const defaultQuestions = [
@@ -517,7 +626,7 @@
                 correct: 0
             },
             {
-                question: "¿Qué lenguaje se usa para desarrollo web frontend?",
+                question: "¿Qué lenguaje se usado para desarrollo web frontend?",
                 options: ["Python", "Java", "JavaScript"],
                 correct: 2
             },
@@ -777,6 +886,35 @@
             countdownElement.textContent = "Video completo. ¡Ya puedes comenzar el quiz!";
         }
         
+        // Detener la reproducción del video y ocultarlo
+        function stopAndHideVideo() {
+            // Eliminar el iframe del video completamente
+            videoContainer.innerHTML = '<div class="video-placeholder" style="text-align: center; padding: 40px; background: rgba(0,0,0,0.1); border-radius: 10px;"><i class="fas fa-video" style="font-size: 48px; margin-bottom: 15px;"></i><p>El video se ha ocultado</p></div>';
+        }
+        
+        // Restaurar el video
+        function restoreVideo() {
+            videoContainer.innerHTML = '<iframe id="youtube-video" src="https://www.youtube.com/embed/RpxiptFOg5k?rel=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        }
+        
+        // Volver al inicio desde el video
+        function exitToStartFromVideo() {
+            // Detener el temporizador del video
+            clearInterval(videoTimer);
+            
+            // Restaurar el tiempo del video
+            videoTimeLeft = 180;
+            
+            // Restaurar el video
+            restoreVideo();
+            
+            // Limpiar el estado guardado
+            localStorage.removeItem('quizAppState');
+            
+            // Mostrar pantalla de inicio
+            showScreen(startScreen);
+        }
+        
         // Inicializar el quiz
         function init() {
             loadQuestions();
@@ -800,15 +938,35 @@
             viewScoreBtn.addEventListener('click', showResults);
             watchVideoBtn.addEventListener('click', watchVideoAgain);
             watchVideoExistingBtn.addEventListener('click', watchVideoAgain);
+            exitQuizBtn.addEventListener('click', exitToVideo);
+            exitVideoBtn.addEventListener('click', exitToStartFromVideo);
             
             // Guardar estado periódicamente y antes de cerrar la página
             setInterval(saveAppState, 2000);
             window.addEventListener('beforeunload', saveAppState);
         }
         
+        // Función para salir del quiz y volver al video
+        function exitToVideo() {
+            // Detener el temporizador de la pregunta actual
+            clearInterval(timer);
+            
+            // Restaurar el video
+            restoreVideo();
+            
+            // Guardar el progreso actual
+            saveAppState();
+            
+            // Mostrar pantalla de video
+            showScreen(videoScreen);
+            startVideoTimer();
+        }
+        
         // Función para ver video nuevamente
         function watchVideoAgain() {
             videoTimeLeft = 180; // Reiniciar contador de video
+            // Restaurar el video
+            restoreVideo();
             showScreen(videoScreen);
             startVideoTimer();
         }
@@ -821,6 +979,9 @@
                 showNotification('Por favor, ingresa tu nombre');
                 return;
             }
+            
+            // Actualizar el nombre del usuario en la pantalla de video
+            videoPlayerName.textContent = playerName;
             
             // Verificar si el jugador ya existe
             const existingPlayer = localStorage.getItem(playerName);
@@ -843,6 +1004,10 @@
         
         // Función para iniciar el quiz después del video
         function startQuizAfterVideo() {
+            // Detener y ocultar el video antes de comenzar el quiz
+            stopAndHideVideo();
+            clearInterval(videoTimer);
+            
             showScreen(quizScreen);
             loadQuestion();
             saveAppState();
@@ -1008,6 +1173,8 @@
             currentQuestion = 0;
             score = 0;
             videoTimeLeft = 180;
+            // Restaurar el video
+            restoreVideo();
             localStorage.removeItem('quizAppState');
             showScreen(startScreen);
         }

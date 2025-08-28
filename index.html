@@ -3,87 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Interactivo | 30 Preguntas</title>
+    <title>Quiz Interactivo | Diviértete y Aprende</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        :root {
-            --primary: #6a11cb;
-            --secondary: #2575fc;
-            --success: #4CAF50;
-            --danger: #f44336;
-            --warning: #FF9800;
-            --info: #2196F3;
-            --light: #f8f9fa;
-            --dark: #212529;
+            font-family: 'Poppins', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: var(--light);
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            width: 100%;
             max-width: 800px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
             overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .header {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 30px;
             position: relative;
         }
         
-        .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #ff8a00, #da1b60);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: 3px solid white;
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 8s infinite linear;
         }
         
-        .logo i {
-            font-size: 50px;
-            color: white;
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
         }
         
         h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #ff8a00, #da1b60);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff8a00, #e52e71, #ff8a00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .screen {
             display: none;
-            padding: 25px;
             animation: fadeIn 0.5s ease;
+        }
+        
+        .active {
+            display: block;
         }
         
         @keyframes fadeIn {
@@ -91,177 +81,246 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .screen.active {
-            display: block;
+        .welcome-screen {
+            text-align: center;
         }
         
-        input, button {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            transition: all 0.3s;
+        .logo-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #e52e71;
+            box-shadow: 0 0 30px rgba(229, 46, 113, 0.7);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .welcome-screen p {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            color: #ddd;
         }
         
         input {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 80%;
+            padding: 15px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-        }
-        
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
         }
         
         input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(229, 46, 113, 0.5);
         }
         
-        button {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
             color: white;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
-        }
-        
-        button:active {
-            transform: translateY(-1px);
-        }
-        
-        .question-container {
-            margin-bottom: 20px;
-        }
-        
-        .question-text {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        
-        .options-container {
-            display: grid;
-            grid-gap: 12px;
-        }
-        
-        .option {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: left;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .option:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
         
-        .option-number {
-            background: rgba(255, 255, 255, 0.2);
-            min-width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 15px;
-            font-weight: bold;
+        .btn:active {
+            transform: translateY(1px);
         }
         
-        .option.correct {
-            background: rgba(76, 175, 80, 0.3);
-            border-color: var(--success);
-        }
-        
-        .option.incorrect {
-            background: rgba(244, 67, 54, 0.3);
-            border-color: var(--danger);
-        }
-        
-        .timer-container {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .timer-bar {
-            height: 100%;
-            background: linear-gradient(to right, var(--info), var(--secondary));
-            border-radius: 5px;
-            width: 100%;
-            transition: width 0.1s linear;
-        }
-        
-        .progress-container {
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         
-        .progress-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin: 5px 0;
+        .player-info {
+            font-size: 1.2rem;
+            color: #ff8a00;
         }
         
-        .score-display {
-            font-size: 1.8rem;
-            font-weight: bold;
+        .question-count {
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .question {
+            font-size: 1.4rem;
+            margin: 30px 0;
             text-align: center;
+            min-height: 80px;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .option.selected {
+            border-color: #e52e71;
+            background: rgba(229, 46, 113, 0.2);
+        }
+        
+        .option.correct {
+            border-color: #00c853;
+            background: rgba(0, 200, 83, 0.2);
+        }
+        
+        .option.incorrect {
+            border-color: #ff1744;
+            background: rgba(255, 23, 68, 0.2);
+        }
+        
+        .progress-container {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
             margin: 20px 0;
-            background: linear-gradient(to right, #ff8a00, #da1b60);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .timer {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #ff8a00;
+            display: none;
+        }
+        
+        .results-screen {
+            text-align: center;
+        }
+        
+        .trophy {
+            font-size: 5rem;
+            color: gold;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        
+        .score-text {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+        
+        .score {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .floating-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.5s;
-            z-index: 1000;
-            font-size: 0.9rem;
+        .message {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #ddd;
         }
         
-        .floating-notification.show {
-            transform: translateX(0);
-            opacity: 1;
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .telegram {
+            background: #0088cc;
+        }
+        
+        .whatsapp {
+            background: #25D366;
+        }
+        
+        .youtube {
+            background: #FF0000;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
         
         .video-container {
+            margin: 30px 0;
             position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
-            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
         
         .video-container iframe {
@@ -270,928 +329,437 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 10px;
             border: none;
         }
         
-        .countdown {
-            font-size: 1.5rem;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        
-        .video-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .quiz-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .quiz-controls button {
-            flex: 1;
-        }
-        
-        .exit-btn {
-            background: linear-gradient(to right, #f44336, #ff9800) !important;
-        }
-        
-        .video-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #6a11cb, #2575fc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            border: 2px solid white;
-        }
-        
-        .user-avatar i {
-            font-size: 24px;
-            color: white;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .exit-video-btn {
-            background: linear-gradient(to right, #f44336, #ff9800);
-            padding: 10px 20px;
-            width: auto;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* Responsive para móviles */
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-                border-radius: 15px;
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
             }
             
             h1 {
-                font-size: 1.7rem;
-            }
-            
-            .screen {
-                padding: 20px 15px;
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
+                font-size: 2rem;
             }
             
             .logo {
-                width: 80px;
-                height: 80px;
+                width: 150px;
+                height: 150px;
             }
             
-            .logo i {
-                font-size: 40px;
-            }
-            
-            input, button {
-                padding: 12px;
-                font-size: 15px;
-            }
-            
-            .option {
-                padding: 12px;
-            }
-            
-            .option-number {
-                min-width: 25px;
-                height: 25px;
-                margin-right: 12px;
-            }
-            
-            .score-display {
-                font-size: 1.5rem;
-            }
-            
-            .countdown {
-                font-size: 1.2rem;
-            }
-            
-            .quiz-controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .video-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .user-info {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .exit-video-btn {
-                width: 100%;
-            }
-        }
-        
-        /* Responsive para tablets */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                width: 90%;
-                max-width: 600px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .question-text {
-                font-size: 1.2rem;
+            .trophy {
+                font-size: 4rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-brain"></i>
-            </div>
+        <!-- Pantalla de Bienvenida -->
+        <div class="screen welcome-screen active">
             <h1>Quiz Interactivo</h1>
-            <p>Demuestra tus conocimientos</p>
-        </div>
-        
-        <!-- Pantalla de inicio -->
-        <div id="start-screen" class="screen active">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2>Bienvenido al Desafío</h2>
-                <p>Solo tienes 5 segundos por pregunta. ¿Estás listo?</p>
+            <div class="logo-container">
+                <img src="https://cdn.pixabay.com/photo/2016/12/27/13/10/logo-1933884_1280.png" alt="Logo del Quiz" class="logo" id="logo-image">
             </div>
+            <p>Demuestra tus conocimientos y diviértete con nuestro desafío de preguntas</p>
             <input type="text" id="player-name" placeholder="Ingresa tu nombre">
-            <button id="start-btn">Comenzar Quiz</button>
+            <button class="btn" id="start-btn">Comenzar Quiz</button>
         </div>
         
-        <!-- Pantalla de video -->
-        <div id="video-screen" class="screen">
-            <div class="video-header">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <div class="user-name" id="video-player-name">Usuario</div>
-                        <div class="user-status">Viendo video introductorio</div>
-                    </div>
-                </div>
-                <button id="exit-video-btn" class="exit-video-btn">
-                    <i class="fas fa-sign-out-alt"></i> Salir al Inicio
-                </button>
+        <!-- Pantalla del Quiz -->
+        <div class="screen quiz-screen">
+            <div class="quiz-header">
+                <div class="player-info">Jugador: <span id="player-display">Nombre</span></div>
+                <div class="question-count">Pregunta <span id="current">1</span>/<span id="total">30</span></div>
             </div>
             
-            <div class="video-info">
-                <h2>Antes de comenzar...</h2>
-                <p>Por favor, mira este video introductorio de 3 minutos</p>
-            </div>
-            
-            <div class="video-container" id="video-container">
-                <iframe id="youtube-video" src="https://www.youtube.com/embed/RpxiptFOg5k?rel=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            
-            <div class="countdown" id="countdown">Tiempo restante: 3:00</div>
-            
-            <button id="start-quiz-btn" style="display: none;">Iniciar Quiz</button>
-        </div>
-        
-        <!-- Pantalla de quiz -->
-        <div id="quiz-screen" class="screen">
             <div class="progress-container">
-                <div class="progress-text">Pregunta <span id="current-question">1</span> de <span id="total-questions">30</span></div>
-                <div class="progress-text"><i class="fas fa-star" style="color: gold;"></i> <span id="score">0</span></div>
+                <div class="progress-bar" id="progress"></div>
             </div>
             
-            <div class="timer-container">
-                <div class="timer-bar" id="timer-bar"></div>
+            <div class="timer" id="timer">Siguiente pregunta en: <span id="countdown">3</span>s</div>
+            
+            <div class="question" id="question">
+                ¿Cuál es la capital de Francia?
             </div>
             
-            <div class="question-container">
-                <div class="question-text" id="question-text">¿Pregunta?</div>
-                <div class="options-container" id="options-container"></div>
-            </div>
-            
-            <div class="quiz-controls">
-                <button id="exit-quiz-btn" class="exit-btn">
-                    <i class="fas fa-video"></i> Salir al Video
-                </button>
+            <div class="options" id="options">
+                <div class="option">Londres</div>
+                <div class="option">Berlín</div>
+                <div class="option">París</div>
             </div>
         </div>
         
-        <!-- Pantalla de resultados -->
-        <div id="results-screen" class="screen">
-            <div style="text-align: center;">
-                <i class="fas fa-trophy" style="font-size: 3.5rem; margin-bottom: 15px; color: gold;"></i>
-                <h2>¡Quiz Completado!</h2>
-                <div class="score-display" id="final-score">0/30</div>
-                <p id="result-message">¡Buen trabajo!</p>
+        <!-- Pantalla de Resultados -->
+        <div class="screen results-screen">
+            <h1>¡Felicidades!</h1>
+            <div class="trophy">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="score-text">Tu puntuación final:</div>
+            <div class="score"><span id="final-score">0</span>/<span id="max-score">30</span></div>
+            <div class="message" id="result-message">¡Eres un genio!</div>
+            
+            <div class="social-buttons">
+                <a href="#" class="social-btn telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="#" class="social-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="#" class="social-btn youtube">
+                    <i class="fab fa-youtube"></i>
+                </a>
             </div>
             
-            <button id="restart-btn">Jugar de Nuevo</button>
-            <button id="watch-video-btn" style="background: rgba(255, 255, 255, 0.2);">
-                <i class="fas fa-video"></i> Volver a Ver Video
-            </button>
-        </div>
-        
-        <!-- Pantalla de jugador existente -->
-        <div id="existing-player-screen" class="screen">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-user-circle" style="font-size: 3.5rem; margin-bottom: 15px;"></i>
-                <h2>Hola de nuevo, <span id="existing-player-name"></span>!</h2>
-                <p>Ya tienes un puntaje registrado.</p>
+            <div class="video-container">
+                <iframe id="yt-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
             </div>
             
-            <div class="score-display" id="previous-score">0/30</div>
-            <p style="text-align: center; margin-bottom: 20px;">¿Quieres intentarlo de nuevo?</p>
-            
-            <button id="play-again-btn">Jugar de Nuevo</button>
-            <button id="view-score-btn" style="background: rgba(255, 255, 255, 0.1);">Ver Mis Resultados</button>
-            <button id="watch-video-existing-btn" style="background: rgba(255, 255, 255, 0.2); margin-top: 10px;">
-                <i class="fas fa-video"></i> Volver a Ver Video
-            </button>
+            <button class="btn" id="restart-btn">Jugar de Nuevo</button>
         </div>
     </div>
 
-    <div class="floating-notification" id="notification"></div>
-
     <script>
         // Variables globales
-        let playerName = '';
+        let playerName = "";
         let currentQuestion = 0;
         let score = 0;
-        let timer;
-        let timeLeft;
-        let videoTimer;
-        let videoTimeLeft = 180; // 3 minutos en segundos
         let questions = [];
+        let countdownInterval;
+        let answerSelected = false;
         
-        // Elementos del DOM
-        const startScreen = document.getElementById('start-screen');
-        const videoScreen = document.getElementById('video-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultsScreen = document.getElementById('results-screen');
-        const existingPlayerScreen = document.getElementById('existing-player-screen');
+        // Elementos DOM
+        const welcomeScreen = document.querySelector('.welcome-screen');
+        const quizScreen = document.querySelector('.quiz-screen');
+        const resultsScreen = document.querySelector('.results-screen');
         const playerNameInput = document.getElementById('player-name');
+        const playerDisplay = document.getElementById('player-display');
         const startBtn = document.getElementById('start-btn');
-        const startQuizBtn = document.getElementById('start-quiz-btn');
-        const countdownElement = document.getElementById('countdown');
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const timerBar = document.getElementById('timer-bar');
-        const currentQuestionElement = document.getElementById('current-question');
-        const totalQuestionsElement = document.getElementById('total-questions');
-        const scoreElement = document.getElementById('score');
-        const finalScore = document.getElementById('final-score');
-        const resultMessage = document.getElementById('result-message');
         const restartBtn = document.getElementById('restart-btn');
-        const existingPlayerName = document.getElementById('existing-player-name');
-        const previousScore = document.getElementById('previous-score');
-        const playAgainBtn = document.getElementById('play-again-btn');
-        const viewScoreBtn = document.getElementById('view-score-btn');
-        const watchVideoBtn = document.getElementById('watch-video-btn');
-        const watchVideoExistingBtn = document.getElementById('watch-video-existing-btn');
-        const notification = document.getElementById('notification');
-        const youtubeVideo = document.getElementById('youtube-video');
-        const exitQuizBtn = document.getElementById('exit-quiz-btn');
-        const videoContainer = document.getElementById('video-container');
-        const exitVideoBtn = document.getElementById('exit-video-btn');
-        const videoPlayerName = document.getElementById('video-player-name');
+        const currentQuestionElement = document.getElementById('current');
+        const totalQuestionsElement = document.getElementById('total');
+        const progressBar = document.getElementById('progress');
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options');
+        const finalScoreElement = document.getElementById('final-score');
+        const maxScoreElement = document.getElementById('max-score');
+        const resultMessageElement = document.getElementById('result-message');
+        const ytVideo = document.getElementById('yt-video');
+        const timerElement = document.getElementById('timer');
+        const countdownElement = document.getElementById('countdown');
+        const logoImage = document.getElementById('logo-image');
         
-        // 30 preguntas con 3 opciones cada una
-        const defaultQuestions = [
+        // 30 Preguntas del quiz con 3 opciones cada una
+        questions = [
             {
                 question: "¿Cuál es la capital de Francia?",
-                options: ["Londres", "París", "Berlín"],
-                correct: 1
+                options: ["Londres", "Berlín", "París"],
+                answer: 2
             },
             {
-                question: "¿En qué año llegó el hombre a la luna?",
-                options: ["1965", "1969", "1972"],
-                correct: 1
+                question: "¿Qué planeta es conocido como el planeta rojo?",
+                options: ["Venus", "Marte", "Júpiter"],
+                answer: 1
+            },
+            {
+                question: "¿Quién pintó la Mona Lisa?",
+                options: ["Pablo Picasso", "Leonardo da Vinci", "Vincent van Gogh"],
+                answer: 1
             },
             {
                 question: "¿Cuál es el río más largo del mundo?",
                 options: ["Nilo", "Amazonas", "Misisipi"],
-                correct: 0
+                answer: 1
             },
             {
-                question: "¿Qué elemento químico tiene el símbolo 'Au'?",
-                options: ["Plata", "Oro", "Argón"],
-                correct: 1
-            },
-            {
-                question: "¿Quién pintó la Mona Lisa?",
-                options: ["Van Gogh", "Picasso", "Da Vinci"],
-                correct: 2
-            },
-            {
-                question: "¿Cuál es el planeta más grande del sistema solar?",
-                options: ["Tierra", "Marte", "Júpiter"],
-                correct: 2
-            },
-            {
-                question: "¿En qué año comenzó la Segunda Guerra Mundial?",
-                options: ["1939", "1941", "1945"],
-                correct: 0
-            },
-            {
-                question: "¿Qué lenguaje se usado para desarrollo web frontend?",
-                options: ["Python", "Java", "JavaScript"],
-                correct: 2
-            },
-            {
-                question: "¿Cuál es el animal más rápido del mundo?",
-                options: ["Guepardo", "Leopardo", "Halcon peregrino"],
-                correct: 2
-            },
-            {
-                question: "¿Quién escribió 'Cien años de soledad'?",
-                options: ["Vargas Llosa", "García Márquez", "Cortázar"],
-                correct: 1
+                question: "¿En qué año llegó el hombre a la luna?",
+                options: ["1965", "1969", "1972"],
+                answer: 1
             },
             {
                 question: "¿Cuál es el océano más grande del mundo?",
                 options: ["Atlántico", "Índico", "Pacífico"],
-                correct: 2
+                answer: 2
             },
             {
-                question: "¿Qué instrumento musical tiene 88 teclas?",
-                options: ["Guitarra", "Violín", "Piano"],
-                correct: 2
+                question: "¿Qué elemento químico tiene el símbolo 'Au'?",
+                options: ["Plata", "Oro", "Aluminio"],
+                answer: 1
             },
             {
-                question: "¿En qué país se encuentra la Torre Eiffel?",
-                options: ["Italia", "Francia", "España"],
-                correct: 1
+                question: "¿Cuántos lados tiene un heptágono?",
+                options: ["5", "6", "7"],
+                answer: 2
             },
             {
-                question: "¿Cuál es el hueso más largo del cuerpo humano?",
-                options: ["Tibia", "Peroné", "Fémur"],
-                correct: 2
+                question: "¿Quién escribió 'Cien años de soledad'?",
+                options: ["Mario Vargas Llosa", "Gabriel García Márquez", "Julio Cortázar"],
+                answer: 1
             },
             {
-                question: "¿Qué gas es esencial para la fotosíntesis?",
-                options: ["Oxígeno", "Nitrógeno", "Dióxido de carbono"],
-                correct: 2
+                question: "¿Cuál es el animal más grande del mundo?",
+                options: ["Elefante africano", "Ballena azul", "Tiburón ballena"],
+                answer: 1
             },
             {
-                question: "¿Quién fue el primer presidente de los Estados Unidos?",
-                options: ["Jefferson", "Washington", "Lincoln"],
-                correct: 1
-            },
-            {
-                question: "¿Cuál es el país más grande del mundo por área?",
-                options: ["Canadá", "China", "Rusia"],
-                correct: 2
-            },
-            {
-                question: "¿Qué artista pintó 'La noche estrellada'?",
-                options: ["Picasso", "Van Gogh", "Monet"],
-                correct: 1
-            },
-            {
-                question: "¿Cuál es el libro más vendido de todos los tiempos?",
-                options: ["Don Quijote", "La Biblia", "Harry Potter"],
-                correct: 1
-            },
-            {
-                question: "¿En qué año se fundó Google?",
-                options: ["1996", "1998", "2000"],
-                correct: 1
-            },
-            {
-                question: "¿Qué planeta es conocido como el planeta rojo?",
-                options: ["Venus", "Júpiter", "Marte"],
-                correct: 2
-            },
-            {
-                question: "¿Quién descubrió la penicilina?",
-                options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur"],
-                correct: 1
-            },
-            {
-                question: "¿Cuál es el idioma más hablado del mundo?",
-                options: ["Inglés", "Español", "Mandarín"],
-                correct: 2
-            },
-            {
-                question: "¿Qué elemento tiene el símbolo químico 'O'?",
-                options: ["Oro", "Osmio", "Oxígeno"],
-                correct: 2
-            },
-            {
-                question: "¿En qué deporte se utiliza un puck?",
-                options: ["Fútbol", "Hockey", "Béisbol"],
-                correct: 1
-            },
-            {
-                question: "¿Cuál es la montaña más alta del mundo?",
-                options: ["K2", "Monte Everest", "Kilimanjaro"],
-                correct: 1
-            },
-            {
-                question: "¿Quién escribió 'Romeo y Julieta'?",
-                options: ["Dickens", "Shakespeare", "Austen"],
-                correct: 1
+                question: "¿En qué continente se encuentra Egipto?",
+                options: ["Asia", "África", "Europa"],
+                answer: 1
             },
             {
                 question: "¿Cuál es la capital de Australia?",
                 options: ["Sídney", "Melbourne", "Canberra"],
-                correct: 2
+                answer: 2
+            },
+            {
+                question: "¿Qué instrumento musical tiene 88 teclas?",
+                options: ["Guitarra", "Violín", "Piano"],
+                answer: 2
+            },
+            {
+                question: "¿Quién fue el primer presidente de los Estados Unidos?",
+                options: ["Thomas Jefferson", "George Washington", "Abraham Lincoln"],
+                answer: 1
+            },
+            {
+                question: "¿Cuál es el hueso más largo del cuerpo humano?",
+                options: ["Tibia", "Peroné", "Fémur"],
+                answer: 2
+            },
+            {
+                question: "¿En qué año comenzó la Segunda Guerra Mundial?",
+                options: ["1937", "1939", "1941"],
+                answer: 1
             },
             {
                 question: "¿Qué planeta tiene anillos?",
                 options: ["Júpiter", "Saturno", "Urano"],
-                correct: 1
+                answer: 1
+            },
+            {
+                question: "¿Cuál es el país más grande del mundo?",
+                options: ["Canadá", "China", "Rusia"],
+                answer: 2
+            },
+            {
+                question: "¿Qué artista pintó 'La noche estrellada'?",
+                options: ["Pablo Picasso", "Vincent van Gogh", "Claude Monet"],
+                answer: 1
+            },
+            {
+                question: "¿Cuál es el idioma más hablado del mundo?",
+                options: ["Inglés", "Español", "Mandarín"],
+                answer: 2
+            },
+            {
+                question: "¿Qué deporte se juega en Wimbledon?",
+                options: ["Golf", "Tenis", "Críquet"],
+                answer: 1
+            },
+            {
+                question: "¿Cuántos elementos hay en la tabla periódica?",
+                options: ["108", "118", "128"],
+                answer: 1
+            },
+            {
+                question: "¿Quién escribió 'Romeo y Julieta'?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen"],
+                answer: 1
+            },
+            {
+                question: "¿Cuál es el desierto más grande del mundo?",
+                options: ["Desierto de Gobi", "Desierto del Sahara", "Desierto de Arabia"],
+                answer: 1
             },
             {
                 question: "¿En qué año cayó el Muro de Berlín?",
                 options: ["1987", "1989", "1991"],
-                correct: 1
+                answer: 1
+            },
+            {
+                question: "¿Qué planeta está más cerca del Sol?",
+                options: ["Venus", "Tierra", "Mercurio"],
+                answer: 2
+            },
+            {
+                question: "¿Cuál es la moneda oficial de Japón?",
+                options: ["Yuan", "Won", "Yen"],
+                answer: 2
+            },
+            {
+                question: "¿Quién descubió la penicilina?",
+                options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur"],
+                answer: 1
+            },
+            {
+                question: "¿Cuál es el animal nacional de Australia?",
+                options: ["Canguro", "Koala", "Emú"],
+                answer: 0
+            },
+            {
+                question: "¿En qué ciudad se encuentra la Torre Eiffel?",
+                options: ["Londres", "Roma", "París"],
+                answer: 2
             }
         ];
         
-        // Cargar preguntas desde localStorage o usar las predeterminadas
-        function loadQuestions() {
-            const savedQuestions = localStorage.getItem('quizQuestions');
-            if (savedQuestions) {
-                questions = JSON.parse(savedQuestions);
-            } else {
-                questions = defaultQuestions;
-            }
-        }
-        
-        // Guardar estado de la aplicación
-        function saveAppState() {
-            const state = {
-                currentScreen: getCurrentScreen(),
-                playerName: playerName,
-                currentQuestion: currentQuestion,
-                score: score,
-                videoTimeLeft: videoTimeLeft
-            };
-            localStorage.setItem('quizAppState', JSON.stringify(state));
-        }
-        
-        // Cargar estado de la aplicación
-        function loadAppState() {
-            const savedState = localStorage.getItem('quizAppState');
-            if (savedState) {
-                const state = JSON.parse(savedState);
-                playerName = state.playerName || '';
-                currentQuestion = state.currentQuestion || 0;
-                score = state.score || 0;
-                videoTimeLeft = state.videoTimeLeft || 180;
-                
-                // Restaurar la pantalla actual
-                if (state.currentScreen) {
-                    showScreenByKey(state.currentScreen);
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        // Obtener clave de la pantalla actual
-        function getCurrentScreen() {
-            if (startScreen.classList.contains('active')) return 'start';
-            if (videoScreen.classList.contains('active')) return 'video';
-            if (quizScreen.classList.contains('active')) return 'quiz';
-            if (resultsScreen.classList.contains('active')) return 'results';
-            if (existingPlayerScreen.classList.contains('active')) return 'existing';
-            return 'start';
-        }
-        
-        // Mostrar pantalla por clave
-        function showScreenByKey(key) {
-            hideAllScreens();
-            
-            switch(key) {
-                case 'start':
-                    startScreen.classList.add('active');
-                    break;
-                case 'video':
-                    videoScreen.classList.add('active');
-                    startVideoTimer();
-                    break;
-                case 'quiz':
-                    quizScreen.classList.add('active');
-                    loadQuestion();
-                    break;
-                case 'results':
-                    resultsScreen.classList.add('active');
-                    showResults();
-                    break;
-                case 'existing':
-                    existingPlayerScreen.classList.add('active');
-                    const playerData = JSON.parse(localStorage.getItem(playerName));
-                    existingPlayerName.textContent = playerName;
-                    previousScore.textContent = `${playerData.score}/${playerData.totalQuestions}`;
-                    break;
-                default:
-                    startScreen.classList.add('active');
-            }
-        }
-        
-        // Ocultar todas las pantallas
-        function hideAllScreens() {
-            startScreen.classList.remove('active');
-            videoScreen.classList.remove('active');
-            quizScreen.classList.remove('active');
-            resultsScreen.classList.remove('active');
-            existingPlayerScreen.classList.remove('active');
-        }
-        
-        // Mostrar notificación flotante
-        function showNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Formatear tiempo en minutos:segundos
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-        
-        // Iniciar temporizador del video
-        function startVideoTimer() {
-            updateCountdown();
-            
-            // Si el tiempo restante es menor al tiempo completo, continuar desde ahí
-            if (videoTimeLeft < 180) {
-                if (videoTimeLeft <= 0) {
-                    enableQuizButton();
-                    return;
-                }
-            }
-            
-            videoTimer = setInterval(() => {
-                videoTimeLeft--;
-                updateCountdown();
-                
-                if (videoTimeLeft <= 0) {
-                    clearInterval(videoTimer);
-                    enableQuizButton();
-                }
-                
-                saveAppState(); // Guardar estado continuamente
-            }, 1000);
-        }
-        
-        // Actualizar contador de video
-        function updateCountdown() {
-            countdownElement.textContent = `Tiempo restante: ${formatTime(videoTimeLeft)}`;
-        }
-        
-        // Habilitar botón de iniciar quiz
-        function enableQuizButton() {
-            startQuizBtn.style.display = 'block';
-            countdownElement.textContent = "Video completo. ¡Ya puedes comenzar el quiz!";
-        }
-        
-        // Detener la reproducción del video y ocultarlo
-        function stopAndHideVideo() {
-            // Eliminar el iframe del video completamente
-            videoContainer.innerHTML = '<div class="video-placeholder" style="text-align: center; padding: 40px; background: rgba(0,0,0,0.1); border-radius: 10px;"><i class="fas fa-video" style="font-size: 48px; margin-bottom: 15px;"></i><p>El video se ha ocultado</p></div>';
-        }
-        
-        // Restaurar el video
-        function restoreVideo() {
-            videoContainer.innerHTML = '<iframe id="youtube-video" src="https://www.youtube.com/embed/RpxiptFOg5k?rel=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-        }
-        
-        // Volver al inicio desde el video
-        function exitToStartFromVideo() {
-            // Detener el temporizador del video
-            clearInterval(videoTimer);
-            
-            // Restaurar el tiempo del video
-            videoTimeLeft = 180;
-            
-            // Restaurar el video
-            restoreVideo();
-            
-            // Limpiar el estado guardado
-            localStorage.removeItem('quizAppState');
-            
-            // Mostrar pantalla de inicio
-            showScreen(startScreen);
-        }
+        // Event Listeners
+        startBtn.addEventListener('click', startQuiz);
+        restartBtn.addEventListener('click', restartQuiz);
         
         // Inicializar el quiz
         function init() {
-            loadQuestions();
             totalQuestionsElement.textContent = questions.length;
+            maxScoreElement.textContent = questions.length;
             
-            // Intentar cargar estado previo
-            const hasState = loadAppState();
-            
-            // Si no había estado previo, establecer valores iniciales
-            if (!hasState) {
-                playerNameInput.value = '';
-            } else {
-                playerNameInput.value = playerName;
-            }
-            
-            // Event Listeners
-            startBtn.addEventListener('click', startQuiz);
-            startQuizBtn.addEventListener('click', startQuizAfterVideo);
-            restartBtn.addEventListener('click', resetQuiz);
-            playAgainBtn.addEventListener('click', resetQuiz);
-            viewScoreBtn.addEventListener('click', showResults);
-            watchVideoBtn.addEventListener('click', watchVideoAgain);
-            watchVideoExistingBtn.addEventListener('click', watchVideoAgain);
-            exitQuizBtn.addEventListener('click', exitToVideo);
-            exitVideoBtn.addEventListener('click', exitToStartFromVideo);
-            
-            // Guardar estado periódicamente y antes de cerrar la página
-            setInterval(saveAppState, 2000);
-            window.addEventListener('beforeunload', saveAppState);
+            // Configurar enlaces sociales
+            document.querySelector('.telegram').href = "https://t.me/joinchat/AAAAAEQbO5uayR2xOGJ8wA";
+            document.querySelector('.whatsapp').href = "https://chat.whatsapp.com/InviteCode";
+            document.querySelector('.youtube').href = "https://www.youtube.com/channel/UC_x5XG1OV2M6u3gjEExaUsw";
         }
         
-        // Función para salir del quiz y volver al video
-        function exitToVideo() {
-            // Detener el temporizador de la pregunta actual
-            clearInterval(timer);
-            
-            // Restaurar el video
-            restoreVideo();
-            
-            // Guardar el progreso actual
-            saveAppState();
-            
-            // Mostrar pantalla de video
-            showScreen(videoScreen);
-            startVideoTimer();
-        }
-        
-        // Función para ver video nuevamente
-        function watchVideoAgain() {
-            videoTimeLeft = 180; // Reiniciar contador de video
-            // Restaurar el video
-            restoreVideo();
-            showScreen(videoScreen);
-            startVideoTimer();
-        }
-        
-        // Función para iniciar el proceso del quiz (mostrar video primero)
+        // Función para iniciar el quiz
         function startQuiz() {
             playerName = playerNameInput.value.trim();
             
-            if (!playerName) {
-                showNotification('Por favor, ingresa tu nombre');
+            if (playerName === "") {
+                alert("Por favor, ingresa tu nombre");
                 return;
             }
             
-            // Actualizar el nombre del usuario en la pantalla de video
-            videoPlayerName.textContent = playerName;
+            // Cambiar a la pantalla del quiz
+            welcomeScreen.classList.remove('active');
+            quizScreen.classList.add('active');
             
-            // Verificar si el jugador ya existe
-            const existingPlayer = localStorage.getItem(playerName);
+            // Inicializar el quiz
+            currentQuestion = 0;
+            score = 0;
+            playerDisplay.textContent = playerName;
             
-            if (existingPlayer) {
-                // Si existe, mostrar pantalla de jugador existente
-                const playerData = JSON.parse(existingPlayer);
-                existingPlayerName.textContent = playerName;
-                previousScore.textContent = `${playerData.score}/${playerData.totalQuestions}`;
-                showScreen(existingPlayerScreen);
-                saveAppState();
-            } else {
-                // Si no existe, mostrar pantalla de video
-                videoTimeLeft = 180; // Asegurar tiempo completo
-                showScreen(videoScreen);
-                startVideoTimer();
-                saveAppState();
-            }
+            // Mostrar la primera pregunta
+            showQuestion();
         }
         
-        // Función para iniciar el quiz después del video
-        function startQuizAfterVideo() {
-            // Detener y ocultar el video antes de comenzar el quiz
-            stopAndHideVideo();
-            clearInterval(videoTimer);
+        // Función para mostrar una pregunta
+        function showQuestion() {
+            // Ocultar temporizador inicialmente
+            timerElement.style.display = 'none';
+            answerSelected = false;
             
-            showScreen(quizScreen);
-            loadQuestion();
-            saveAppState();
-        }
-        
-        // Función para cargar una pregunta
-        function loadQuestion() {
-            // Actualizar contador de preguntas
+            // Actualizar barra de progreso
+            const progressPercentage = ((currentQuestion) / questions.length) * 100;
+            progressBar.style.width = progressPercentage + '%';
+            
+            // Actualizar número de pregunta
             currentQuestionElement.textContent = currentQuestion + 1;
-            scoreElement.textContent = score;
             
-            // Mostrar pregunta actual
+            // Mostrar pregunta y opciones
             const question = questions[currentQuestion];
-            questionText.textContent = question.question;
+            questionElement.textContent = question.question;
             
             // Limpiar opciones anteriores
             optionsContainer.innerHTML = '';
             
-            // Crear botones de opciones (solo 3)
+            // Crear botones de opciones
             question.options.forEach((option, index) => {
                 const optionElement = document.createElement('div');
+                optionElement.textContent = option;
                 optionElement.classList.add('option');
-                optionElement.innerHTML = `
-                    <div class="option-number">${index + 1}</div>
-                    <div class="option-text">${option}</div>
-                `;
-                optionElement.addEventListener('click', () => checkAnswer(index));
+                optionElement.addEventListener('click', () => selectOption(index));
                 optionsContainer.appendChild(optionElement);
             });
-            
-            // Iniciar temporizador
-            startTimer();
-            saveAppState();
         }
         
-        // Iniciar temporizador
-        function startTimer() {
-            timeLeft = 5; // 5 segundos por pregunta
-            timerBar.style.width = '100%';
-            timerBar.style.background = 'linear-gradient(to right, var(--info), var(--secondary))';
+        // Función para seleccionar una opción
+        function selectOption(optionIndex) {
+            // Evitar múltiples selecciones
+            if (answerSelected) return;
+            answerSelected = true;
             
-            timer = setInterval(() => {
-                timeLeft -= 0.1;
-                timerBar.style.width = `${(timeLeft / 5) * 100}%`;
-                
-                // Cambiar color cuando el tiempo se acaba
-                if (timeLeft < 1) {
-                    timerBar.style.background = 'linear-gradient(to right, var(--danger), var(--warning))';
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    timeUp();
-                }
-                
-                saveAppState();
-            }, 100);
-        }
-        
-        // Tiempo agotado
-        function timeUp() {
-            const correctIndex = questions[currentQuestion].correct;
-            highlightCorrectAnswer(correctIndex);
-            
-            // Esperar un momento y pasar a la siguiente pregunta
-            setTimeout(() => {
-                currentQuestion++;
-                
-                if (currentQuestion < questions.length) {
-                    loadQuestion();
-                } else {
-                    finishQuiz();
-                }
-                
-                saveAppState();
-            }, 1500);
-        }
-        
-        // Función para verificar respuesta
-        function checkAnswer(selectedIndex) {
-            // Detener el temporizador
-            clearInterval(timer);
-            
+            const options = document.querySelectorAll('.option');
             const question = questions[currentQuestion];
-            const options = optionsContainer.querySelectorAll('.option');
             
-            // Deshabilitar todos los botones
+            // Deshabilitar todas las opciones después de seleccionar una
             options.forEach(option => {
                 option.style.pointerEvents = 'none';
             });
             
-            // Marcar respuesta correcta e incorrecta
-            if (selectedIndex === question.correct) {
-                options[selectedIndex].classList.add('correct');
+            // Marcar la opción seleccionada
+            options[optionIndex].classList.add('selected');
+            
+            // Comprobar si la respuesta es correcta
+            if (optionIndex === question.answer) {
+                options[optionIndex].classList.add('correct');
                 score++;
-                scoreElement.textContent = score;
             } else {
-                options[selectedIndex].classList.add('incorrect');
-                highlightCorrectAnswer(question.correct);
+                options[optionIndex].classList.add('incorrect');
+                // Mostrar la respuesta correcta
+                options[question.answer].classList.add('correct');
             }
             
-            // Esperar un momento y pasar a la siguiente pregunta
-            setTimeout(() => {
-                currentQuestion++;
-                
-                if (currentQuestion < questions.length) {
-                    loadQuestion();
-                } else {
-                    finishQuiz();
-                }
-                
-                saveAppState();
-            }, 1500);
-        }
-        
-        // Resaltar respuesta correcta
-        function highlightCorrectAnswer(correctIndex) {
-            const options = optionsContainer.querySelectorAll('.option');
-            options[correctIndex].classList.add('correct');
-        }
-        
-        // Función para finalizar el quiz
-        function finishQuiz() {
-            // Guardar resultados en localStorage
-            const playerData = {
-                name: playerName,
-                score: score,
-                totalQuestions: questions.length,
-                date: new Date().toLocaleDateString()
-            };
+            // Mostrar temporizador para la siguiente pregunta
+            timerElement.style.display = 'block';
+            let countdown = 3;
+            countdownElement.textContent = countdown;
             
-            localStorage.setItem(playerName, JSON.stringify(playerData));
+            // Iniciar cuenta regresiva para la siguiente pregunta
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+        
+        // Función para pasar a la siguiente pregunta
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        // Función para mostrar los resultados
+        function showResults() {
+            // Cambiar a la pantalla de resultados
+            quizScreen.classList.remove('active');
+            resultsScreen.classList.add('active');
             
             // Mostrar resultados
-            showResults();
-            saveAppState();
-        }
-        
-        // Función para mostrar resultados
-        function showResults() {
-            const playerData = JSON.parse(localStorage.getItem(playerName));
-            finalScore.textContent = `${playerData.score}/${playerData.totalQuestions}`;
+            finalScoreElement.textContent = score;
             
-            // Mensaje personalizado según el puntaje
-            const percentage = (playerData.score / playerData.totalQuestions) * 100;
-            if (percentage >= 80) {
-                resultMessage.textContent = "¡Excelente! Eres un genio del quiz.";
-            } else if (percentage >= 60) {
-                resultMessage.textContent = "¡Buen trabajo! Sigue practicando.";
-            } else if (percentage >= 40) {
-                resultMessage.textContent = "¡No está mal! Puedes mejorar.";
+            // Mostrar mensaje según el puntaje
+            const percentage = (score / questions.length) * 100;
+            if (percentage >= 90) {
+                resultMessageElement.textContent = "¡Excelente trabajo! Eres un genio del conocimiento.";
+                ytVideo.src = "https://www.youtube.com/embed/0Z3pF38vLxo";
+            } else if (percentage >= 70) {
+                resultMessageElement.textContent = "¡Buen trabajo! Sigue practicando para mejorar.";
+                ytVideo.src = "https://www.youtube.com/embed/0Z3pF38vLxo";
+            } else if (percentage >= 50) {
+                resultMessageElement.textContent = "No está mal, pero hay mucho por aprender aún.";
+                ytVideo.src = "https://www.youtube.com/embed/0Z3pF38vLxo";
             } else {
-                resultMessage.textContent = "¡Sigue intentándolo! La práctica hace al maestro.";
+                resultMessageElement.textContent = "Sigue estudiando y vuelve a intentarlo. ¡Tú puedes!";
+                ytVideo.src = "https://www.youtube.com/embed/0Z3pF38vLxo";
             }
-            
-            showScreen(resultsScreen);
-            saveAppState();
         }
         
         // Función para reiniciar el quiz
-        function resetQuiz() {
-            playerNameInput.value = playerName;
-            currentQuestion = 0;
-            score = 0;
-            videoTimeLeft = 180;
-            // Restaurar el video
-            restoreVideo();
-            localStorage.removeItem('quizAppState');
-            showScreen(startScreen);
+        function restartQuiz() {
+            resultsScreen.classList.remove('active');
+            welcomeScreen.classList.add('active');
         }
         
-        // Función auxiliar para mostrar una pantalla específica
-        function showScreen(screen) {
-            // Ocultar todas las pantallas
-            hideAllScreens();
-            
-            // Mostrar la pantalla solicitada
-            screen.classList.add('active');
-            
-            // Guardar estado
-            saveAppState();
-        }
-        
-        // Inicializar la aplicación cuando se carga la página
-        window.onload = init;
+        // Inicializar la aplicación
+        init();
     </script>
 </body>
 </html>

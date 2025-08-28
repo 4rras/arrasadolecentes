@@ -158,6 +158,43 @@
             transform: translateY(1px);
         }
         
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-share {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-telegram {
+            background: linear-gradient(45deg, #0088cc, #005888);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .share-buttons-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .share-buttons-container .btn {
+            flex: 1;
+            margin: 0;
+        }
+        
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -245,7 +282,7 @@
             display: none;
         }
         
-        .results-screen {
+        .results-screen, .scores-screen {
             text-align: center;
         }
         
@@ -332,6 +369,49 @@
             border: none;
         }
         
+        .scores-table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+        }
+        
+        .scores-table th, .scores-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .scores-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+        }
+        
+        .scores-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .rank {
+            font-weight: bold;
+            color: #ff8a00;
+        }
+        
+        .top-score {
+            background: rgba(255, 215, 0, 0.1) !important;
+        }
+        
+        .share-instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .share-instructions h3 {
+            margin-bottom: 15px;
+            color: #ff8a00;
+        }
+        
         @media (max-width: 768px) {
             .options {
                 grid-template-columns: 1fr;
@@ -349,6 +429,19 @@
             .trophy {
                 font-size: 4rem;
             }
+            
+            .scores-table {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .share-buttons-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -362,7 +455,10 @@
             </div>
             <p>Demuestra tus conocimientos y diviértete con nuestro desafío de preguntas</p>
             <input type="text" id="player-name" placeholder="Ingresa tu nombre">
-            <button class="btn" id="start-btn">Comenzar Quiz</button>
+            <div>
+                <button class="btn" id="start-btn">Comenzar Quiz</button>
+                <button class="btn btn-secondary" id="scores-btn">Ver Puntos</button>
+            </div>
         </div>
         
         <!-- Pantalla del Quiz -->
@@ -399,6 +495,19 @@
             <div class="score"><span id="final-score">0</span>/<span id="max-score">30</span></div>
             <div class="message" id="result-message">¡Eres un genio!</div>
             
+            <div class="share-instructions">
+                <h3>¡Comparte tu resultado!</h3>
+                <p>Toma una captura de pantalla y compártela en nuestros grupos:</p>
+                <div class="share-buttons-container">
+                    <a href="#" class="btn btn-telegram" id="telegram-share-btn" target="_blank">
+                        <i class="fab fa-telegram"></i> Compartir en Telegram
+                    </a>
+                    <a href="#" class="btn btn-share" id="whatsapp-share-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Compartir en WhatsApp
+                    </a>
+                </div>
+            </div>
+            
             <div class="social-buttons">
                 <a href="#" class="social-btn telegram">
                     <i class="fab fa-telegram"></i>
@@ -416,6 +525,30 @@
             </div>
             
             <button class="btn" id="restart-btn">Jugar de Nuevo</button>
+            <button class="btn btn-secondary" id="results-scores-btn">Ver Puntos</button>
+        </div>
+        
+        <!-- Pantalla de Puntajes -->
+        <div class="screen scores-screen">
+            <h1>Mejores Puntajes</h1>
+            <div class="trophy">
+                <i class="fas fa-medal"></i>
+            </div>
+            
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Posición</th>
+                        <th>Jugador</th>
+                        <th>Puntaje</th>
+                    </tr>
+                </thead>
+                <tbody id="scores-table-body">
+                    <!-- Los puntajes se generarán dinámicamente -->
+                </tbody>
+            </table>
+            
+            <button class="btn" id="back-btn">Volver al Inicio</button>
         </div>
     </div>
 
@@ -432,10 +565,14 @@
         const welcomeScreen = document.querySelector('.welcome-screen');
         const quizScreen = document.querySelector('.quiz-screen');
         const resultsScreen = document.querySelector('.results-screen');
+        const scoresScreen = document.querySelector('.scores-screen');
         const playerNameInput = document.getElementById('player-name');
         const playerDisplay = document.getElementById('player-display');
         const startBtn = document.getElementById('start-btn');
+        const scoresBtn = document.getElementById('scores-btn');
+        const resultsScoresBtn = document.getElementById('results-scores-btn');
         const restartBtn = document.getElementById('restart-btn');
+        const backBtn = document.getElementById('back-btn');
         const currentQuestionElement = document.getElementById('current');
         const totalQuestionsElement = document.getElementById('total');
         const progressBar = document.getElementById('progress');
@@ -448,8 +585,15 @@
         const timerElement = document.getElementById('timer');
         const countdownElement = document.getElementById('countdown');
         const logoImage = document.getElementById('logo-image');
+        const scoresTableBody = document.getElementById('scores-table-body');
+        const telegramShareBtn = document.getElementById('telegram-share-btn');
+        const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
         
-        // 30 Preguntas del quiz con 3 opciones cada una
+        // ====================================================================
+        // CONFIGURACIÓN FÁCIL - MODIFICA ESTAS VARIABLES SEGÚN TUS NECESIDADES
+        // ====================================================================
+        
+        // 1. Configuración de preguntas (30 preguntas con 3 opciones cada una)
         questions = [
             {
                 question: "¿Cuál es la capital de Francia?",
@@ -587,7 +731,7 @@
                 answer: 2
             },
             {
-                question: "¿Quién descubió la penicilina?",
+                question: "¿Quién descubrió la penicilina?",
                 options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur"],
                 answer: 1
             },
@@ -603,19 +747,92 @@
             }
         ];
         
+        // 2. Configuración de participantes (puedes agregar o modificar los participantes aquí)
+        const exampleScores = [
+            { name: "Ana", score: 28 },
+            { name: "Carlos", score: 27 },
+            { name: "María", score: 26 },
+            { name: "Juan", score: 25 },
+            { name: "Laura", score: 24 },
+            { name: "Pedro", score: 23 },
+            { name: "Sofía", score: 22 },
+            { name: "Diego", score: 21 },
+            { name: "Elena", score: 20 },
+            { name: "Miguel", score: 19 }
+        ];
+        
+        // 3. Configuración de enlaces a redes sociales
+        const socialLinks = {
+            telegram: "https://t.me/quizinteractivo",
+            whatsapp: "https://chat.whatsapp.com/DcEL5H9lpb2FdHA3S4s93N",
+            youtube: "https://youtube.com/@quiz_interactivo?si=I_Jj2s3hHXEWu8SN",
+            // ENLACES PARA COMPARTIR CAPTURAS (MODIFICA ESTOS ENLACES)
+            telegramShare: "@Quizinteractivo123",
+            whatsappShare: "https://chat.whatsapp.com/K0wriAsz0B92K5Y5C9vHSL"
+        };
+        
+        // 4. Configuración del logo (cambia la URL por la de tu logo)
+        const logoUrl = "INTERACTVOS.png";
+        
+        // ====================================================================
+        // FIN DE LA CONFIGURACIÓN - NO MODIFICAR EL RESTO DEL CÓDIGO
+        // ====================================================================
+        
         // Event Listeners
         startBtn.addEventListener('click', startQuiz);
+        scoresBtn.addEventListener('click', showScores);
+        resultsScoresBtn.addEventListener('click', showScores);
         restartBtn.addEventListener('click', restartQuiz);
+        backBtn.addEventListener('click', backToWelcome);
         
         // Inicializar el quiz
         function init() {
             totalQuestionsElement.textContent = questions.length;
             maxScoreElement.textContent = questions.length;
+            logoImage.src = logoUrl;
             
             // Configurar enlaces sociales
-            document.querySelector('.telegram').href = "https://t.me/joinchat/AAAAAEQbO5uayR2xOGJ8wA";
-            document.querySelector('.whatsapp').href = "https://chat.whatsapp.com/InviteCode";
-            document.querySelector('.youtube').href = "https://www.youtube.com/channel/UC_x5XG1OV2M6u3gjEExaUsw";
+            document.querySelector('.telegram').href = socialLinks.telegram;
+            document.querySelector('.whatsapp').href = socialLinks.whatsapp;
+            document.querySelector('.youtube').href = socialLinks.youtube;
+            
+            // Configurar enlaces para compartir
+            telegramShareBtn.href = socialLinks.telegramShare;
+            whatsappShareBtn.href = socialLinks.whatsappShare;
+        }
+        
+        // Función para mostrar puntajes
+        function showScores() {
+            // Ir a la pantalla de puntajes
+            if (welcomeScreen.classList.contains('active')) {
+                welcomeScreen.classList.remove('active');
+            } else if (resultsScreen.classList.contains('active')) {
+                resultsScreen.classList.remove('active');
+            }
+            scoresScreen.classList.add('active');
+            
+            // Generar tabla de puntajes
+            scoresTableBody.innerHTML = '';
+            exampleScores.forEach((scoreData, index) => {
+                const row = document.createElement('tr');
+                if (index === 0) {
+                    row.classList.add('top-score');
+                }
+                
+                row.innerHTML = `
+                    <td class="rank">${index + 1}°</td>
+                    <td>${scoreData.name}</td>
+                    <td>${scoreData.score}/${questions.length}</td>
+                `;
+                
+                scoresTableBody.appendChild(row);
+            });
+        }
+        
+        // Función para volver a la pantalla de inicio
+        function backToWelcome() {
+            scoresScreen.classList.remove('active');
+            welcomeScreen.classList.add('active');
         }
         
         // Función para iniciar el quiz
@@ -728,7 +945,7 @@
         
         // Función para mostrar los resultados
         function showResults() {
-            // Cambiar a la pantalla de resultados
+            // Cambiar to the results screen
             quizScreen.classList.remove('active');
             resultsScreen.classList.add('active');
             

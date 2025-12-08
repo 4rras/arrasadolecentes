@@ -414,6 +414,16 @@
             to { opacity: 1; }
         }
         
+        /* Botón para continuar juego */
+        .continue-game {
+            background-color: #FF9800;
+            margin-top: 15px;
+        }
+        
+        .continue-game:hover, .continue-game:active {
+            background-color: #F57C00;
+        }
+        
         /* Mejoras específicas para móviles */
         @media (max-width: 480px) {
             body {
@@ -691,6 +701,16 @@
                         Por favor, usa un nombre diferente.
                     </div>
                 </div>
+                
+                <!-- Botón para continuar juego guardado -->
+                <div id="continueGameSection" style="display: none; margin-top: 20px;">
+                    <button id="continueGame" class="btn continue-game">
+                        ⏯️ Continuar Juego Guardado
+                    </button>
+                    <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
+                        Tienes un juego en progreso. Puedes continuar donde lo dejaste.
+                    </p>
+                </div>
             </div>
         </div>
         
@@ -890,6 +910,8 @@
         const previousScoreText = document.getElementById('previousScoreText');
         const previousDateText = document.getElementById('previousDateText');
         const startQuizButton = document.getElementById('startQuiz');
+        const continueGameButton = document.getElementById('continueGame');
+        const continueGameSection = document.getElementById('continueGameSection');
         const currentUserElement = document.getElementById('currentUser');
         const progressElement = document.getElementById('progress');
         const questionNumberElement = document.getElementById('questionNumber');
@@ -908,6 +930,9 @@
         function initializePlayersStorage() {
             if (!localStorage.getItem('triviaPlayers')) {
                 localStorage.setItem('triviaPlayers', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('currentGame')) {
+                localStorage.setItem('currentGame', JSON.stringify(null));
             }
         }
 
@@ -934,7 +959,6 @@
                 lastPlayed: new Date().toISOString()
             };
             
-            // Siempre guarda/actualiza
             const existingIndex = players.findIndex(p => 
                 p.name.toLowerCase() === cleanName.toLowerCase()
             );
@@ -946,6 +970,31 @@
             }
             
             localStorage.setItem('triviaPlayers', JSON.stringify(players));
+        }
+
+        // Guardar estado actual del juego
+        function saveCurrentGame() {
+            if (currentUser && currentQuestionIndex > 0) {
+                const gameState = {
+                    user: currentUser,
+                    currentQuestionIndex: currentQuestionIndex,
+                    score: score,
+                    userAnswers: userAnswers,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem('currentGame', JSON.stringify(gameState));
+            }
+        }
+
+        // Cargar estado guardado del juego
+        function loadCurrentGame() {
+            const savedGame = JSON.parse(localStorage.getItem('currentGame') || 'null');
+            return savedGame;
+        }
+
+        // Limpiar juego guardado
+        function clearCurrentGame() {
+            localStorage.setItem('currentGame', JSON.stringify(null));
         }
 
         // Mostrar resultados anteriores si el jugador ya existe
@@ -974,8 +1023,20 @@
             return false;
         }
 
+        // Verificar si hay juego en progreso
+        function checkForSavedGame() {
+            const savedGame = loadCurrentGame();
+            if (savedGame && savedGame.user) {
+                continueGameSection.style.display = 'block';
+                return savedGame;
+            }
+            continueGameSection.style.display = 'none';
+            return null;
+        }
+
         // Event Listeners
         startQuizButton.addEventListener('click', startQuiz);
+        continueGameButton.addEventListener('click', continueSavedGame);
         captureScreenButton.addEventListener('click', takeScreenshot);
         logoutButton.addEventListener('click', logout);
 
@@ -997,6 +1058,38 @@
                 startQuiz();
             }
         });
+
+        // Guardar estado antes de que se cierre la página
+        window.addEventListener('beforeunload', function() {
+            saveCurrentGame();
+        });
+
+        // Función para continuar juego guardado
+        function continueSavedGame() {
+            const savedGame = loadCurrentGame();
+            if (!savedGame) {
+                alert("No hay juego guardado para continuar.");
+                return;
+            }
+            
+            currentUser = savedGame.user;
+            currentQuestionIndex = savedGame.currentQuestionIndex;
+            score = savedGame.score;
+            userAnswers = savedGame.userAnswers || [];
+            
+            currentUserElement.textContent = currentUser;
+            resultsUserElement.textContent = `${currentUser}, aquí están tus resultados:`;
+            
+            // Cambiar a la pantalla del quiz
+            loginScreen.classList.remove('visible');
+            loginScreen.classList.add('hidden');
+            
+            quizScreen.classList.remove('hidden');
+            quizScreen.classList.add('visible');
+            
+            // Mostrar la pregunta actual
+            showQuestion();
+        }
 
         // Función para iniciar el quiz
         function startQuiz() {
@@ -1025,6 +1118,9 @@
             score = 0;
             userAnswers = [];
             canAnswer = true;
+            
+            // Limpiar juego guardado anterior
+            clearCurrentGame();
             
             // Cambiar a la pantalla del quiz
             loginScreen.classList.remove('visible');
@@ -1075,6 +1171,9 @@
             }, 400);
             
             canAnswer = true;
+            
+            // Guardar estado después de mostrar la pregunta
+            saveCurrentGame();
         }
 
         // Función para seleccionar una opción
@@ -1121,6 +1220,8 @@
             // Avanzar a la siguiente pregunta después de un breve retraso
             setTimeout(() => {
                 currentQuestionIndex++;
+                // Guardar estado antes de mostrar siguiente pregunta
+                saveCurrentGame();
                 showQuestion();
             }, 2000);
         }
@@ -1129,6 +1230,9 @@
         function showResults() {
             // Guardar resultados del jugador
             savePlayerResults(currentUser, score);
+            
+            // Limpiar juego guardado
+            clearCurrentGame();
             
             // Cambiar a la pantalla de resultados
             quizScreen.classList.remove('visible');
@@ -1210,6 +1314,11 @@
 
         // Función para salir
         function logout() {
+            // Guardar estado actual antes de salir
+            if (currentUser && currentQuestionIndex > 0 && currentQuestionIndex < bibleQuestions.length) {
+                saveCurrentGame();
+            }
+            
             // Regresar a la pantalla de inicio
             resultsScreen.classList.remove('visible');
             resultsScreen.classList.add('hidden');
@@ -1227,6 +1336,9 @@
             startQuizButton.style.cursor = '';
             isExistingPlayer = false;
             
+            // Verificar si hay juego guardado
+            checkForSavedGame();
+            
             // Para móviles, enfocar el input después de un pequeño delay
             setTimeout(() => {
                 userNameInput.focus();
@@ -1237,6 +1349,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             initializePlayersStorage();
             userNameInput.focus();
+            
+            // Verificar si hay juego guardado
+            const savedGame = checkForSavedGame();
             
             // Asegurar centrado en carga inicial
             setTimeout(() => {

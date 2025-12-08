@@ -1,204 +1,562 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Bíblico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trivia Bíblica</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-
+        
+        html {
+            font-size: 16px;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #8B0000 0%, #2F4F4F 100%);
+            background: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 15px;
+            overflow-x: hidden;
         }
-
-        .quiz-container {
-            width: 100%;
-            max-width: 420px;
-            height: auto;
-            min-height: 520px;
-            background: #1a1a1a;
+        
+        .container {
+            background-color: white;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            overflow: hidden;
-            animation: slideIn 0.6s ease-out;
-            display: flex;
-            flex-direction: column;
-            border: 2px solid #8B0000;
-        }
-
-        .quiz-header {
-            background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
-            color: white;
-            padding: 20px 15px;
-            text-align: center;
-            flex-shrink: 0;
-            border-bottom: 2px solid #8B0000;
-        }
-
-        .quiz-header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            animation: bounce 1s ease-in-out;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .quiz-header p {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        .pregunta-container {
-            padding: 15px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .pregunta-box {
-            background: linear-gradient(135deg, #2F4F4F 0%, #1E3A3A 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            animation: fadeInUp 0.6s ease-out;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #8B0000;
-        }
-
-        .pregunta-texto {
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 1.4;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .opciones-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .opcion {
-            background: #2d2d2d;
-            border: 2px solid;
-            border-radius: 12px;
-            padding: 16px 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 600;
-            animation: fadeInUp 0.6s ease-out;
-            text-align: center;
-            min-height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .opcion:nth-child(1) { border-color: #8B0000; background: #3d1a1a; }
-        .opcion:nth-child(2) { border-color: #2F4F4F; background: #1a2d2d; }
-        .opcion:nth-child(3) { border-color: #8B4513; background: #3d2a1a; }
-
-        .opcion:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
-            filter: brightness(1.2);
-        }
-
-        .opcion.correcta {
-            background: #006400;
-            border-color: #008000;
-            color: white;
-            animation: pulseCorrect 0.6s ease-out;
-        }
-
-        .opcion.incorrecta {
-            background: #8B0000;
-            border-color: #B22222;
-            color: white;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        .temporizador-container {
-            flex-shrink: 0;
-        }
-
-        .temporizador-bar {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
-            height: 12px;
-            background: #2d2d2d;
-            border-radius: 10px;
+            max-width: 800px;
+            padding: 25px;
+            position: relative;
             overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-            border: 1px solid #006400;
+            margin: 0 auto;
         }
-
-        .temporizador-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #32CD32, #006400);
-            border-radius: 10px;
-            transition: width 0.1s linear;
-            animation: progressBar 10s linear forwards;
-            box-shadow: 0 2px 8px rgba(0, 100, 0, 0.6);
-        }
-
-        .versiculo-container {
-            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-            border-radius: 12px;
-            padding: 18px;
+        
+        h1 {
+            color: #1a237e;
             text-align: center;
+            margin-bottom: 8px;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            line-height: 1.2;
+        }
+        
+        h2 {
+            color: #4a148c;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 400;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            line-height: 1.3;
+        }
+        
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+        }
+        
+        .screen {
+            transition: opacity 0.3s ease;
+            width: 100%;
+        }
+        
+        .hidden {
             display: none;
-            animation: fadeIn 0.5s ease-out;
-            flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
-            min-height: 70px;
+            opacity: 0;
+        }
+        
+        .visible {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Estilos para la pantalla de inicio de sesión */
+        .login-screen {
+            text-align: center;
+        }
+        
+        .login-screen h1 {
+            margin-bottom: 20px;
+        }
+        
+        .user-input {
+            margin-bottom: 25px;
+        }
+        
+        .user-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: 500;
+        }
+        
+        .user-input input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            transition: all 0.3s;
+        }
+        
+        .user-input input:focus {
+            outline: none;
+            border-color: #4a148c;
+            box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.1);
+        }
+        
+        .error-message {
+            color: #f44336;
+            margin-top: 8px;
+            font-size: clamp(0.85rem, 3.5vw, 0.9rem);
+            display: none;
+            text-align: left;
+            padding-left: 5px;
+        }
+        
+        /* Estilos para mostrar resultados anteriores */
+        .previous-results {
+            background-color: #f0f4ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #4a148c;
+            display: none;
+        }
+        
+        .previous-results h3 {
+            color: #4a148c;
+            margin-bottom: 12px;
+        }
+        
+        .previous-score {
+            font-size: clamp(2rem, 8vw, 2.5rem);
+            color: #1a237e;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .previous-date {
+            color: #666;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            margin-bottom: 15px;
+        }
+        
+        .cannot-play-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #f44336;
+            font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+            line-height: 1.4;
+        }
+        
+        /* Estilos para la pantalla del quiz */
+        .quiz-screen {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .user-info {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: #4a148c;
+            font-weight: 600;
+            word-break: break-word;
+        }
+        
+        .progress {
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            color: #666;
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            color: #4a237e;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .question-text {
+            font-size: clamp(1.2rem, 5vw, 1.5rem);
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            padding: 0 5px;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            min-height: 60px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: 1px solid #8B4513;
         }
-
-        .versiculo-texto {
-            font-size: 14px;
-            color: #FFEBCD;
-            font-style: italic;
+        
+        .option:hover, .option:active {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #e8eaf6;
+            border-color: #3f51b5;
+            color: #3f51b5;
+        }
+        
+        .option.correct {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            display: none;
             line-height: 1.4;
+        }
+        
+        .feedback.correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+        
+        /* Estilos para la pantalla de resultados */
+        .results-screen {
+            text-align: center;
+        }
+        
+        .results-screen h1 {
+            margin-bottom: 15px;
+        }
+        
+        .score-container {
+            margin: 30px 0;
+        }
+        
+        .score-number {
+            font-size: clamp(3.5rem, 15vw, 5rem);
+            color: #4a148c;
+            font-weight: bold;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        
+        .score-text {
+            font-size: clamp(1.1rem, 5vw, 1.5rem);
+            color: #333;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            line-height: 1.4;
+        }
+        
+        .btn {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: clamp(14px, 4vw, 16px) clamp(30px, 8vw, 40px);
+            border-radius: 12px;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px;
+            min-height: 50px;
             font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 250px;
         }
-
-        /* Animaciones */
+        
+        .btn:hover, .btn:active {
+            background-color: #1a237e;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+        
+        .btn-capture {
+            background-color: #2196F3;
+        }
+        
+        .btn-capture:hover, .btn-capture:active {
+            background-color: #1976D2;
+        }
+        
+        .btn-logout {
+            background-color: #f44336;
+        }
+        
+        .btn-logout:hover, .btn-logout:active {
+            background-color: #d32f2f;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        /* Estilo para indicar que se tomó captura */
+        .capture-notice {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
+            line-height: 1.4;
+        }
+        
+        .capture-notice.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Mejoras específicas para móviles */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+            
+            body {
+                padding: 10px;
+                align-items: flex-start;
+                min-height: 100vh;
+                min-height: -webkit-fill-available;
+            }
+            
+            .question-text {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+            }
+            
+            .option {
+                padding: 14px;
+                min-height: 55px;
+            }
+            
+            .btn {
+                min-height: 48px;
+                padding: 14px 20px;
+            }
+            
+            .score-number {
+                margin-bottom: 5px;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .progress {
+                align-self: flex-end;
+            }
+        }
+        
+        /* Para tablets y pantallas más grandes */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                max-width: 200px;
+            }
+        }
+        
+        /* Para pantallas grandes (desktop) */
+        @media (min-width: 769px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                max-width: 220px;
+            }
+            
+            .options-container {
+                gap: 15px;
+            }
+        }
+        
+        /* Ajustes para iPhone y dispositivos iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+            
+            .option {
+                cursor: pointer;
+            }
+        }
+        
+        /* Prevenir zoom en inputs en iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Mejorar visibilidad en modo oscuro */
+        @media (prefers-color-scheme: dark) {
+            .container {
+                background-color: #1e1e1e;
+                color: #ffffff;
+            }
+            
+            .question-text, .user-input label, .previous-results h3,
+            .score-text, h3, .previous-date {
+                color: #e0e0e0;
+            }
+            
+            .user-input input {
+                background-color: #2d2d2d;
+                border-color: #444;
+                color: #ffffff;
+            }
+            
+            .previous-results, .cannot-play-message {
+                background-color: #2d2d2d;
+            }
+            
+            .option {
+                background-color: #2d2d2d;
+                border-color: #444;
+                color: #e0e0e0;
+            }
+            
+            .option:hover, .option:active {
+                background-color: #3d3d3d;
+            }
+            
+            .feedback.correct, .feedback.incorrect,
+            .capture-notice, .cannot-play-message {
+                color: inherit;
+            }
+        }
+        
+        /* Para pantallas muy pequeñas (iPhone SE, etc) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 0.95rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 12px;
+                font-size: 0.95rem;
+                min-height: 50px;
+            }
+            
+            .btn {
+                padding: 12px 16px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Animación suave para las preguntas */
+        .question-transition {
+            animation: slideIn 0.4s ease;
+        }
+        
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -208,850 +566,600 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes progressBar {
-            0% { width: 100%; }
-            100% { width: 0%; }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-5px);
-            }
-            60% {
-                transform: translateY(-2px);
-            }
-        }
-
-        @keyframes pulseCorrect {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 100, 0, 0.7);
-            }
-            50% {
-                transform: scale(1.03);
-                box-shadow: 0 0 0 8px rgba(0, 100, 0, 0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 100, 0, 0);
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        @media (max-height: 600px) {
-            .quiz-container {
-                max-width: 380px;
-            }
-            
-            .pregunta-container {
-                gap: 12px;
-                padding: 12px;
-            }
-            
-            .pregunta-box {
-                padding: 20px 15px;
-                min-height: 100px;
-            }
-            
-            .opcion {
-                padding: 12px 10px;
-                min-height: 50px;
-            }
-        }
     </style>
+    <!-- Biblioteca html2canvas para capturas -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="quiz-header">
-            <h1>📖 Quiz Bíblico</h1>
-            <p>¡Responde antes de que se acabe el tiempo! ⏱️</p>
-            <p>¡Unete ala comunidad,organizare una competencia😎🫵! ⏱️</p>
-        </div>
-
-        <div class="pregunta-container">
-            <div class="pregunta-box">
-                <div class="pregunta-texto" id="preguntaTexto">¿Quién construyó el arca?</div>
-            </div>
-
-            <div class="opciones-container" id="opcionesContainer">
-                <!-- Las opciones se generan dinámicamente -->
-            </div>
-
-            <div class="temporizador-container">
-                <div class="temporizador-bar">
-                    <div class="temporizador-progress" id="temporizadorProgress"></div>
+    <div class="container">
+        <!-- Pantalla de inicio de sesión -->
+        <div id="loginScreen" class="screen visible">
+            <div class="login-screen">
+                <h1>📖 Trivia Bíblica</h1>
+                <h2>25 preguntas para poner a prueba tu conocimiento</h2>
+                
+                <div class="user-input">
+                    <label for="userName">Ingresa tu nombre:</label>
+                    <input type="text" id="userName" placeholder="Tu nombre aquí" autocomplete="off" inputmode="text">
+                    <div class="error-message" id="nameError">Este nombre ya jugó. Elige otro nombre.</div>
+                </div>
+                
+                <button id="startQuiz" class="btn">Comenzar Quiz</button>
+                
+                <!-- Mostrar resultados anteriores si el nombre ya existe -->
+                <div id="previousResults" class="previous-results">
+                    <h3>🎯 Resultado Anterior</h3>
+                    <div class="previous-score" id="previousScoreText">0/25</div>
+                    <div class="previous-date" id="previousDateText"></div>
+                    
+                    <div class="cannot-play-message">
+                        ⚠️ Este nombre ya jugó y no puede volver a jugar.<br>
+                        Por favor, usa un nombre diferente.
+                    </div>
                 </div>
             </div>
-
-            <div class="versiculo-container" id="versiculoContainer">
-                <div class="versiculo-texto" id="versiculoTexto"></div>
+        </div>
+        
+        <!-- Pantalla del quiz -->
+        <div id="quizScreen" class="screen hidden">
+            <div class="quiz-screen">
+                <div class="quiz-header">
+                    <div class="user-info" id="currentUser">Jugador</div>
+                    <div class="progress" id="progress">Pregunta 1/25</div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number" id="questionNumber">Pregunta #1</div>
+                    <div class="question-text" id="questionText">¿Cuál es la pregunta?</div>
+                </div>
+                
+                <div class="options-container" id="optionsContainer">
+                    <!-- Las opciones se generarán aquí con JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+        </div>
+        
+        <!-- Pantalla de resultados -->
+        <div id="resultsScreen" class="screen hidden">
+            <div class="results-screen" id="resultsContent">
+                <h1>📊 Resultados</h1>
+                <h2 id="resultsUser">Jugador, aquí están tus resultados:</h2>
+                
+                <div class="score-container">
+                    <div class="score-number" id="finalScore">0/25</div>
+                    <div class="score-text" id="scoreMessage">¡Sigue estudiando la Biblia!</div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="captureScreen" class="btn btn-capture">
+                        📸 Capturar Pantalla
+                    </button>
+                    <button id="logout" class="btn btn-logout">
+                        🚪 Salir
+                    </button>
+                </div>
+                
+                <div class="capture-notice" id="captureNotice">
+                    ✅ Captura realizada. ¡Ahora puedes compartirla en tu grupo!
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const preguntas = [
+        // Base de datos de 25 preguntas bíblicas (igual que antes)
+        const bibleQuestions = [
             {
-                pregunta: "¿Quién construyó el arca?",
-                opciones: ["Moisés", "Noé", "Abraham"],
-                correcta: 1,
-                versiculo: "Génesis 6:14 - 'Hazte un arca de madera de gofer...'"
+                question: "¿Quién construyó el arca?",
+                options: ["Moisés", "Noé", "Abraham", "David"],
+                answer: "Noé"
             },
             {
-                pregunta: "¿Quién fue vendido por sus hermanos?",
-                opciones: ["David", "José", "Jacob"],
-                correcta: 1,
-                versiculo: "Génesis 37:28 - 'Y vendieron a José a los ismaelitas...'"
+                question: "¿Cuántos discípulos tuvo Jesús?",
+                options: ["7", "10", "12", "15"],
+                answer: "12"
             },
             {
-                pregunta: "¿Quién derrotó a Goliat?",
-                opciones: ["Sansón", "David", "Saúl"],
-                correcta: 1,
-                versiculo: "1 Samuel 17:50 - 'Así venció David al filisteo...'"
+                question: "¿Quién traicionó a Jesús?",
+                options: ["Pedro", "Juan", "Judas", "Tomás"],
+                answer: "Judas"
             },
             {
-                pregunta: "¿Quién caminó sobre el agua?",
-                opciones: ["Pedro", "Pablo", "Juan"],
-                correcta: 0,
-                versiculo: "Mateo 14:29 - 'Y descendió Pedro de la barca y andaba sobre las aguas...'"
+                question: "¿En qué día descansó Dios después de la creación?",
+                options: ["Primero", "Séptimo", "Quinto", "Tercero"],
+                answer: "Séptimo"
             },
             {
-                pregunta: "¿Quién fue traicionado con un beso?",
-                opciones: ["Pedro", "Judas", "Jesús"],
-                correcta: 2,
-                versiculo: "Lucas 22:48 - '¿Con un beso entregas al Hijo del Hombre?'"
+                question: "¿Quién fue arrojado al foso de los leones?",
+                options: ["José", "Daniel", "Jonás", "Jeremías"],
+                answer: "Daniel"
             },
             {
-                pregunta: "¿Quién negó a Jesús tres veces?",
-                opciones: ["Juan", "Pedro", "Andrés"],
-                correcta: 1,
-                versiculo: "Mateo 26:75 - 'Y saliendo fuera, lloró amargamente.'"
+                question: "¿Cuál es el primer libro de la Biblia?",
+                options: ["Éxodo", "Génesis", "Levítico", "Números"],
+                answer: "Génesis"
             },
             {
-                pregunta: "¿Quién fue el primer mártir cristiano?",
-                opciones: ["Esteban", "Pablo", "Pedro"],
-                correcta: 0,
-                versiculo: "Hechos 7:59 - 'Y apedrearon a Esteban...'"
+                question: "¿Quién fue la madre de Jesús?",
+                options: ["María", "Marta", "Ester", "Rut"],
+                answer: "María"
             },
             {
-                pregunta: "¿Quién fue llevado al cielo en un carro de fuego?",
-                opciones: ["Enoc", "Elías", "Ezequiel"],
-                correcta: 1,
-                versiculo: "2 Reyes 2:11 - 'Subió Elías al cielo en un torbellino...'"
+                question: "¿Qué apóstol negó a Jesús tres veces?",
+                options: ["Pedro", "Juan", "Andrés", "Mateo"],
+                answer: "Pedro"
             },
             {
-                pregunta: "¿Quién interpretó los sueños de Faraón?",
-                opciones: ["Daniel", "José", "Moisés"],
-                correcta: 1,
-                versiculo: "Génesis 41:25 - 'El sueño de Faraón es uno mismo...'"
+                question: "¿Quién fue el primer rey de Israel?",
+                options: ["David", "Salomón", "Saúl", "Josué"],
+                answer: "Saúl"
             },
             {
-                pregunta: "¿Quién escribió el Apocalipsis?",
-                opciones: ["Pablo", "Juan", "Pedro"],
-                correcta: 1,
-                versiculo: "Apocalipsis 1:1 - 'Revelación de Jesucristo... a su siervo Juan'"
+                question: "¿Cuántos mandamientos recibió Moisés?",
+                options: ["5", "7", "10", "12"],
+                answer: "10"
             },
             {
-                pregunta: "¿Quién fue la madre de Jesús?",
-                opciones: ["María", "Elizabeth", "Ana"],
-                correcta: 0,
-                versiculo: "Mateo 1:18 - 'María su madre estaba desposada con José...'"
+                question: "¿Quién fue vendido por sus hermanos?",
+                options: ["José", "Benjamín", "Rubén", "Judá"],
+                answer: "José"
             },
             {
-                pregunta: "¿Quién bautizó a Jesús?",
-                opciones: ["Juan el Bautista", "Pedro", "Andrés"],
-                correcta: 0,
-                versiculo: "Mateo 3:13 - 'Jesús vino de Galilea a Juan al Jordán...'"
+                question: "¿Qué apóstol era pescador antes de seguir a Jesús?",
+                options: ["Pedro", "Mateo", "Pablo", "Judas"],
+                answer: "Pedro"
             },
             {
-                pregunta: "¿Quién fue el hombre más fuerte de la Biblia?",
-                opciones: ["Goliat", "Sansón", "David"],
-                correcta: 1,
-                versiculo: "Jueces 16:17 - 'Si fuere rapada, mi fuerza se apartará de mí...'"
+                question: "¿En qué lugar nació Jesús?",
+                options: ["Nazaret", "Belén", "Jerusalén", "Galilea"],
+                answer: "Belén"
             },
             {
-                pregunta: "¿Quién fue el primer apóstol en ser martirizado?",
-                opciones: ["Pedro", "Juan", "Jacobo"],
-                correcta: 2,
-                versiculo: "Hechos 12:2 - 'Y mató a espada a Jacobo, hermano de Juan.'"
+                question: "¿Quién fue el hombre más fuerte de la Biblia?",
+                options: ["Goliat", "Sansón", "David", "Josué"],
+                answer: "Sansón"
             },
             {
-                pregunta: "¿Quién fue el rey más sabio?",
-                opciones: ["David", "Salomón", "Saúl"],
-                correcta: 1,
-                versiculo: "1 Reyes 4:29 - 'Dios dio a Salomón sabiduría...'"
+                question: "¿Qué apóstol escribió la mayoría de las epístolas del Nuevo Testamento?",
+                options: ["Pedro", "Juan", "Pablo", "Santiago"],
+                answer: "Pablo"
             },
             {
-                pregunta: "¿Quién fue arrojado al foso de los leones?",
-                opciones: ["Daniel", "Jeremías", "Isaías"],
-                correcta: 0,
-                versiculo: "Daniel 6:16 - 'Entonces el rey mandó traer a Daniel...'"
+                question: "¿Quién fue la primera mujer según la Biblia?",
+                options: ["Sara", "Eva", "Rebeca", "Raquel"],
+                answer: "Eva"
             },
             {
-                pregunta: "¿Quién fue la primera mujer?",
-                opciones: ["Sara", "Eva", "Rebeca"],
-                correcta: 1,
-                versiculo: "Génesis 3:20 - 'Y llamó el hombre el nombre de su mujer, Eva...'"
+                question: "¿Qué personaje pasó 40 días en el desierto siendo tentado?",
+                options: ["Moisés", "Elías", "Jesús", "Juan el Bautista"],
+                answer: "Jesús"
             },
             {
-                pregunta: "¿Quién fue el padre de la fe?",
-                opciones: ["Abraham", "Isaac", "Jacob"],
-                correcta: 0,
-                versiculo: "Romanos 4:16 - 'Por tanto, es por fe, para que sea por gracia...'"
+                question: "¿Quién fue el profeta que enfrentó a los profetas de Baal?",
+                options: ["Isaías", "Elías", "Jeremías", "Ezequiel"],
+                answer: "Elías"
             },
             {
-                pregunta: "¿Quién fue el hermano de María y Marta?",
-                opciones: ["Lázaro", "Simón", "Bartimeo"],
-                correcta: 0,
-                versiculo: "Juan 11:1 - 'Estaba entonces enfermo uno llamado Lázaro...'"
+                question: "¿Qué personaje interpretó los sueños del faraón?",
+                options: ["Moisés", "José", "Daniel", "Salomón"],
+                answer: "José"
             },
             {
-                pregunta: "¿Quién fue el discípulo amado?",
-                opciones: ["Pedro", "Juan", "Andrés"],
-                correcta: 1,
-                versiculo: "Juan 13:23 - 'Y uno de sus discípulos, el cual Jesús amaba...'"
+                question: "¿Quién fue el padre de Juan el Bautista?",
+                options: ["Zacarías", "José", "Joaquín", "Elí"],
+                answer: "Zacarías"
             },
             {
-                pregunta: "¿Quién traicionó a Jesús por 30 monedas?",
-                opciones: ["Judas Iscariote", "Pedro", "Tomás"],
-                correcta: 0,
-                versiculo: "Mateo 26:15 - 'Y les dijo: ¿Qué me queréis dar...?'"
+                question: "¿Qué libro de la Biblia narra la historia de la iglesia primitiva?",
+                options: ["Hechos", "Romanos", "Apocalipsis", "Santiago"],
+                answer: "Hechos"
             },
             {
-                pregunta: "¿Quién fue el primer asesino según la Biblia?",
-                opciones: ["Caín", "Abel", "Adán"],
-                correcta: 0,
-                versiculo: "Génesis 4:8 - 'Y aconteció que estando ellos en el campo...'"
+                question: "¿Quién fue la mujer que ayudó a espiar la tierra de Canaán?",
+                options: ["Rahab", "Rut", "Ester", "María"],
+                answer: "Rahab"
             },
             {
-                pregunta: "¿Quién construyó el templo de Jerusalén?",
-                opciones: ["David", "Salomón", "Josué"],
-                correcta: 1,
-                versiculo: "1 Reyes 6:1 - 'Salomón edificó la casa de Jehová...'"
+                question: "¿Cuántos libros tiene el Nuevo Testamento?",
+                options: ["27", "39", "66", "46"],
+                answer: "27"
             },
             {
-                pregunta: "¿Quién fue la mujer de Abraham?",
-                opciones: ["Sara", "Rebeca", "Raquel"],
-                correcta: 0,
-                versiculo: "Génesis 17:15 - 'Y dijo Dios a Abraham: A Sarai tu mujer...'"
+                question: "¿Quién fue el sucesor de Moisés?",
+                options: ["Josué", "Caleb", "Aarón", "Elías"],
+                answer: "Josué"
             },
             {
-                pregunta: "¿Quién fue el padre de Juan el Bautista?",
-                opciones: ["Zacarías", "José", "Joacim"],
-                correcta: 0,
-                versiculo: "Lucas 1:13 - 'El ángel le dijo: Zacarías, tu oración ha sido oída...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que enfrentó a los profetas de Baal?",
-                opciones: ["Elías", "Isaías", "Jeremías"],
-                correcta: 0,
-                versiculo: "1 Reyes 18:21 - '¿Hasta cuándo claudicaréis vosotros entre dos pensamientos?'"
-            },
-            {
-                pregunta: "¿Quién fue el rey que escribió muchos salmos?",
-                opciones: ["Salomón", "David", "Saúl"],
-                correcta: 1,
-                versiculo: "Salmos 23:1 - 'Jehová es mi pastor; nada me faltará.'"
-            },
-            {
-                pregunta: "¿Quién fue la madre de Samuel?",
-                opciones: ["Ana", "Elizabeth", "Débora"],
-                correcta: 0,
-                versiculo: "1 Samuel 1:20 - 'Y concibió Ana, y dio a luz un hijo...'"
-            },
-            {
-                pregunta: "¿Quién fue el apóstol de los gentiles?",
-                opciones: ["Pedro", "Pablo", "Juan"],
-                correcta: 1,
-                versiculo: "Hechos 9:15 - 'Instrumento escogido me es éste...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que escondió a los espías en Jericó?",
-                opciones: ["Rahab", "Rut", "Ester"],
-                correcta: 0,
-                versiculo: "Josué 2:1 - 'Josué hijo de Nun envió desde Sitim dos espías...'"
-            },
-            {
-                pregunta: "¿Quién fue el sucesor de Moisés?",
-                opciones: ["Josué", "Caleb", "Aarón"],
-                correcta: 0,
-                versiculo: "Josué 1:1 - 'Aconteció después de la muerte de Moisés...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue arrojado al pozo?",
-                opciones: ["Jeremías", "Isaías", "Ezequiel"],
-                correcta: 0,
-                versiculo: "Jeremías 38:6 - 'Entonces tomaron a Jeremías y lo echaron en la cisterna...'"
-            },
-            {
-                pregunta: "¿Quién fue la reina que salvó a su pueblo?",
-                opciones: ["Ester", "Jezabel", "Atalía"],
-                correcta: 0,
-                versiculo: "Ester 4:14 - '¿Y quién sabe si para esta hora has llegado al reino?'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que no vio muerte?",
-                opciones: ["Enoc", "Elías", "Moisés"],
-                correcta: 0,
-                versiculo: "Génesis 5:24 - 'Caminó, pues, Enoc con Dios, y desapareció...'"
-            },
-            {
-                pregunta: "¿Quién fue el fariseo que visitó a Jesús de noche?",
-                opciones: ["Nicodemo", "Gamaliel", "Saulo"],
-                correcta: 0,
-                versiculo: "Juan 3:1 - 'Había un hombre de los fariseos que se llamaba Nicodemo...'"
-            },
-            {
-                pregunta: "¿Quién fue el discípulo incrédulo?",
-                opciones: ["Tomás", "Felipe", "Bartolomé"],
-                correcta: 0,
-                versiculo: "Juan 20:25 - 'Si no viere en sus manos la señal de los clavos...'"
-            },
-            {
-                pregunta: "¿Quién fue el sumo sacerdote que condenó a Jesús?",
-                opciones: ["Caifás", "Anás", "Herodes"],
-                correcta: 0,
-                versiculo: "Mateo 26:57 - 'Y los que prendieron a Jesús le llevaron al sumo sacerdote Caifás...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre más manso de la tierra?",
-                opciones: ["Moisés", "David", "Josué"],
-                correcta: 0,
-                versiculo: "Números 12:3 - 'Y aquel varón Moisés era muy manso...'"
-            },
-            {
-                pregunta: "¿Quién fue la suegra de Pedro?",
-                opciones: ["La madre de su esposa", "María", "Marta"],
-                correcta: 0,
-                versiculo: "Mateo 8:14 - 'Vino Jesús a casa de Pedro, y vio a la suegra de éste...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que corrió delante del carro de Acab?",
-                opciones: ["Elías", "Eliseo", "Abdías"],
-                correcta: 0,
-                versiculo: "1 Reyes 18:46 - 'Y la mano de Jehová vino sobre Elías...'"
-            },
-            {
-                pregunta: "¿Quién fue el rey que perdió su reino por orgullo?",
-                opciones: ["Nabucodonosor", "Belsasar", "Darío"],
-                correcta: 0,
-                versiculo: "Daniel 4:30 - '¿No es ésta la gran Babilonia que yo edifiqué...?'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer samaritana que habló con Jesús?",
-                opciones: ["La mujer del pozo", "María Magdalena", "Marta"],
-                correcta: 0,
-                versiculo: "Juan 4:7 - 'Vino una mujer de Samaria a sacar agua...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que se casó con una prostituta?",
-                opciones: ["Oseas", "Amós", "Miqueas"],
-                correcta: 0,
-                versiculo: "Oseas 1:2 - 'Ve, tómate una mujer fornicaria...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que vio un carro de fuego?",
-                opciones: ["Eliseo", "Elías", "Isaías"],
-                correcta: 0,
-                versiculo: "2 Reyes 2:11 - 'Y he aquí un carro de fuego con caballos de fuego...'"
-            },
-            {
-                pregunta: "¿Quién fue el rey niño?",
-                opciones: ["Joás", "Josías", "Ocozías"],
-                correcta: 0,
-                versiculo: "2 Reyes 11:21 - 'De siete años era Joás cuando comenzó a reinar.'"
-            },
-            {
-                pregunta: "¿Quién fue la madre de Salomón?",
-                opciones: ["Betsabé", "Abigail", "Jerusa"],
-                correcta: 0,
-                versiculo: "2 Samuel 12:24 - 'Y consoló David a Betsabé su mujer...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que vio a Dios cara a cara?",
-                opciones: ["Jacob", "Moisés", "Abraham"],
-                correcta: 0,
-                versiculo: "Génesis 32:30 - 'Y llamó Jacob el nombre de aquel lugar, Peniel...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que profetizó en Nínive?",
-                opciones: ["Jonás", "Nahúm", "Sofonías"],
-                correcta: 0,
-                versiculo: "Jonás 1:1 - 'Vino palabra de Jehová a Jonás...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue transportado por el Espíritu?",
-                opciones: ["Ezequiel", "Daniel", "Isaías"],
-                correcta: 0,
-                versiculo: "Ezequiel 3:12 - 'Y el Espíritu me levantó...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que ungió los pies de Jesús?",
-                opciones: ["María hermana de Marta", "María Magdalena", "La mujer pecadora"],
-                correcta: 2,
-                versiculo: "Lucas 7:37 - 'Y una mujer de la ciudad, que era pecadora...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue sanado de la ceguera en el estanque?",
-                opciones: ["El ciego de nacimiento", "Bartimeo", "El siervo de Elíseo"],
-                correcta: 0,
-                versiculo: "Juan 9:1 - 'Al pasar Jesús, vio a un hombre ciego de nacimiento.'"
-            },
-            {
-                pregunta: "¿Quién fue el apóstol que era pescador?",
-                opciones: ["Pedro", "Mateo", "Simón"],
-                correcta: 0,
-                versiculo: "Mateo 4:18 - 'Andando Jesús junto al mar de Galilea, vio a dos hermanos...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue resucitado al tocar los huesos de Eliseo?",
-                opciones: ["Un hombre muerto", "El hijo de la sunamita", "Lázaro"],
-                correcta: 0,
-                versiculo: "2 Reyes 13:21 - 'Y aconteció que al sepultar unos un hombre...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que juzgó a Israel?",
-                opciones: ["Débora", "Jael", "Asera"],
-                correcta: 0,
-                versiculo: "Jueces 4:4 - 'Gobernaba en aquel tiempo a Israel una mujer...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue librado de la horca?",
-                opciones: ["Mardoqueo", "Daniel", "José"],
-                correcta: 0,
-                versiculo: "Ester 7:10 - 'Así colgaron a Amán en la horca que él había hecho para Mardoqueo...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue comisionado en el año que murió el rey?",
-                opciones: ["Isaías", "Jeremías", "Ezequiel"],
-                correcta: 0,
-                versiculo: "Isaías 6:1 - 'En el año que murió el rey Uzías vi yo al Señor...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue transformado en estatua de sal?",
-                opciones: ["La mujer de Lot", "Lot", "Abimelec"],
-                correcta: 0,
-                versiculo: "Génesis 19:26 - 'Entonces la mujer de Lot miró atrás...'"
-            },
-            {
-                pregunta: "¿Quién fue el rey que encontró el libro de la ley?",
-                opciones: ["Josías", "Ezequías", "Joás"],
-                correcta: 0,
-                versiculo: "2 Reyes 22:8 - 'Entonces dijo el sumo sacerdote Hilcías...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue arrebatado al paraíso?",
-                opciones: ["Pablo", "Juan", "Pedro"],
-                correcta: 0,
-                versiculo: "2 Corintios 12:2 - 'Conozco a un hombre en Cristo...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue madre en su vejez?",
-                opciones: ["Sara", "Elizabeth", "Ana"],
-                correcta: 0,
-                versiculo: "Génesis 21:2 - 'Y Sara concibió y dio a Abraham un hijo...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado amigo de Dios?",
-                opciones: ["Abraham", "David", "Moisés"],
-                correcta: 0,
-                versiculo: "Santiago 2:23 - 'Y se cumplió la Escritura que dice: Abraham creyó a Dios...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue alimentado por cuervos?",
-                opciones: ["Elías", "Eliseo", "Abdías"],
-                correcta: 0,
-                versiculo: "1 Reyes 17:4 - 'Y beberás del arroyo; y yo he mandado a los cuervos que te den allí de comer.'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el padre de muchos?",
-                opciones: ["Abraham", "Jacob", "José"],
-                correcta: 0,
-                versiculo: "Génesis 17:5 - 'Y no se llamará más tu nombre Abram, sino que será tu nombre Abraham...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue reina de Saba?",
-                opciones: ["La reina del Sur", "Jezabel", "Atalía"],
-                correcta: 0,
-                versiculo: "1 Reyes 10:1 - 'Oyendo la reina de Sabá la fama de Salomón...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el profeta llorón?",
-                opciones: ["Jeremías", "Isaías", "Ezequiel"],
-                correcta: 0,
-                versiculo: "Jeremías 9:1 - '¡Oh, si mi cabeza se hiciese aguas...!'"
-            },
-            {
-                pregunta: "¿Quién fue el apóstol que era recaudador de impuestos?",
-                opciones: ["Mateo", "Simón", "Judas"],
-                correcta: 0,
-                versiculo: "Mateo 9:9 - 'Pasando Jesús de allí, vio a un hombre llamado Mateo...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el apóstol de la circuncisión?",
-                opciones: ["Pedro", "Pablo", "Jacobo"],
-                correcta: 0,
-                versiculo: "Gálatas 2:8 - 'Pues el que actuó en Pedro para el apostolado...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada madre de todos los vivientes?",
-                opciones: ["Eva", "Sara", "María"],
-                correcta: 0,
-                versiculo: "Génesis 3:20 - 'Y llamó Adán el nombre de su mujer, Eva, por cuanto ella era madre de todos los vivientes.'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el levita de Chipre?",
-                opciones: ["Bernabé", "Silas", "Timoteo"],
-                correcta: 0,
-                versiculo: "Hechos 4:36 - 'Entonces José, a quien los apóstoles pusieron por sobrenombre Bernabé...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el visionario?",
-                opciones: ["Amós", "Oseas", "Joel"],
-                correcta: 0,
-                versiculo: "Amós 7:12 - 'Y dijo Amasías a Amós: Vidente, vete...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el evangelista?",
-                opciones: ["Felipe", "Esteban", "Bernabé"],
-                correcta: 0,
-                versiculo: "Hechos 21:8 - 'Al otro día, saliendo Pablo y los que con nosotros estábamos, fuimos a Cesarea...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada profetisa?",
-                opciones: ["Ana", "Débora", "Hulda"],
-                correcta: 2,
-                versiculo: "2 Reyes 22:14 - 'Entonces fue el sacerdote Hilcías... a la profetisa Hulda...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el intérprete de sueños?",
-                opciones: ["Daniel", "José", "Salomón"],
-                correcta: 0,
-                versiculo: "Daniel 5:12 - 'Por cuanto fue hallado en Daniel mayor espíritu...'"
-            },
-            {
-                pregunta: "¿Quién fue el rey que fue llamado el doliente?",
-                opciones: ["David", "Saúl", "Salomón"],
-                correcta: 0,
-                versiculo: "2 Samuel 12:16 - 'Entonces David rogó a Dios por el niño...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la madre de los macabeos?",
-                opciones: ["La madre de los siete hijos", "Judit", "Ester"],
-                correcta: 0,
-                versiculo: "2 Macabeos 7:1 - 'Capturaron también a siete hermanos...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el apóstol de los incrédulos?",
-                opciones: ["Tomás", "Felipe", "Bartolomé"],
-                correcta: 0,
-                versiculo: "Juan 20:27 - 'Luego dijo a Tomás: Pon aquí tu dedo...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el hijo de Hilcías?",
-                opciones: ["Jeremías", "Isaías", "Ezequiel"],
-                correcta: 0,
-                versiculo: "Jeremías 1:1 - 'Las palabras de Jeremías hijo de Hilcías...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el amado médico?",
-                opciones: ["Lucas", "Marcos", "Timoteo"],
-                correcta: 0,
-                versiculo: "Colosenses 4:14 - 'Os saluda Lucas, el médico amado...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la sierva del Señor?",
-                opciones: ["María", "Elizabeth", "Ana"],
-                correcta: 0,
-                versiculo: "Lucas 1:38 - 'Entonces María dijo: He aquí la sierva del Señor...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el hijo del trueno?",
-                opciones: ["Juan", "Jacobo", "Pedro"],
-                correcta: 1,
-                versiculo: "Marcos 3:17 - 'A Jacobo hijo de Zebedeo, y a Juan hermano de Jacobo... Boanerges, que significa, Hijos del trueno.'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el tishbita?",
-                opciones: ["Elías", "Eliseo", "Amós"],
-                correcta: 0,
-                versiculo: "1 Reyes 17:1 - 'Entonces Elías tisbita...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el publicano?",
-                opciones: ["Zaqueo", "Mateo", "Leví"],
-                correcta: 0,
-                versiculo: "Lucas 19:2 - 'Y sucedió que un varón llamado Zaqueo...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la sunamita?",
-                opciones: ["La mujer que hospedó a Eliseo", "Rut", "Noemí"],
-                correcta: 0,
-                versiculo: "2 Reyes 4:8 - 'Aconteció también que un día pasaba Eliseo por Sunem...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el madianita?",
-                opciones: ["Jetro", "Moisés", "Gedeón"],
-                correcta: 0,
-                versiculo: "Éxodo 2:16 - 'Tenía el sacerdote de Madián siete hijas...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el hijo de Beeri?",
-                opciones: ["Oseas", "Joel", "Amós"],
-                correcta: 0,
-                versiculo: "Oseas 1:1 - 'Palabra de Jehová que vino a Oseas hijo de Beeri...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el etíope?",
-                opciones: ["El eunuco de Candace", "Simón de Cirene", "Lucas"],
-                correcta: 0,
-                versiculo: "Hechos 8:27 - 'Entonces él se levantó y se fue. Y sucedió que un etíope...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la cananea?",
-                opciones: ["La mujer sirofenicia", "Rahab", "Rut"],
-                correcta: 0,
-                versiculo: "Mateo 15:22 - 'Y he aquí una mujer cananea...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el cireneo?",
-                opciones: ["Simón de Cirene", "José de Arimatea", "Nicodemo"],
-                correcta: 0,
-                versiculo: "Mateo 27:32 - 'Cuando salían, hallaron a un hombre de Cirene que se llamaba Simón...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el hijo de Cusi?",
-                opciones: ["Sofonías", "Habacuc", "Ageo"],
-                correcta: 0,
-                versiculo: "Sofonías 1:1 - 'Palabra de Jehová que vino a Sofonías hijo de Cusi...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el areopagita?",
-                opciones: ["Dionisio", "Dámaris", "Apolos"],
-                correcta: 0,
-                versiculo: "Hechos 17:34 - 'Mas algunos creyeron, juntándose con él; entre los cuales estaba Dionisio el areopagita...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la griega?",
-                opciones: ["Febe", "Priscila", "Lidia"],
-                correcta: 0,
-                versiculo: "Hechos 16:14 - 'Entonces una mujer llamada Lidia...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el colosense?",
-                opciones: ["Epafras", "Filemón", "Onésimo"],
-                correcta: 0,
-                versiculo: "Colosenses 1:7 - 'Como lo habéis aprendido de Epafras...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el hijo de Buzi?",
-                opciones: ["Ezequiel", "Daniel", "Jeremías"],
-                correcta: 0,
-                versiculo: "Ezequiel 1:3 - 'Vino palabra de Jehová al sacerdote Ezequiel hijo de Buzi...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el chipriota?",
-                opciones: ["Bernabé", "Marcos", "Lucas"],
-                correcta: 0,
-                versiculo: "Hechos 4:36 - 'Entonces José, a quien los apóstoles pusieron por sobrenombre Bernabé...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la de Tiatira?",
-                opciones: ["Lidia", "Febe", "Priscila"],
-                correcta: 0,
-                versiculo: "Hechos 16:14 - 'Entonces una mujer llamada Lidia, vendedora de púrpura, de la ciudad de Tiatira...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el de Listra?",
-                opciones: ["Timoteo", "Tito", "Silas"],
-                correcta: 0,
-                versiculo: "Hechos 16:1 - 'Después llegó a Derbe y a Listra; y he aquí, había allí un discípulo llamado Timoteo...'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el de Moreset?",
-                opciones: ["Miqueas", "Amós", "Oseas"],
-                correcta: 0,
-                versiculo: "Miqueas 1:1 - 'Palabra de Jehová que vino a Miqueas de Moreset...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el de Tarso?",
-                opciones: ["Pablo", "Saulo", "Bernabé"],
-                correcta: 0,
-                versiculo: "Hechos 9:11 - 'Y el Señor le dijo: Levántate, y ve a la calle que se llama Derecha...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la de Joppa?",
-                opciones: ["Tabita", "Lidia", "Priscila"],
-                correcta: 0,
-                versiculo: "Hechos 9:36 - 'Había entonces en Jope una discípula llamada Tabita...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el de Galilea?",
-                opciones: ["Pedro", "Andrés", "Felipe"],
-                correcta: 0,
-                versiculo: "Mateo 26:69 - 'Y tú también estabas con Jesús el galileo.'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el de Judá?",
-                opciones: ["Amós", "Miqueas", "Oseas"],
-                correcta: 0,
-                versiculo: "Amós 1:1 - 'Las palabras de Amós... que fue entre los pastores de Tecoa.'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el de Arimatea?",
-                opciones: ["José de Arimatea", "Nicodemo", "Simón"],
-                correcta: 0,
-                versiculo: "Mateo 27:57 - 'Cuando llegó la noche, vino un hombre rico de Arimatea...'"
-            },
-            {
-                pregunta: "¿Quién fue la mujer que fue llamada la de Cesarea?",
-                opciones: ["Drusila", "Berenice", "Lidia"],
-                correcta: 0,
-                versiculo: "Hechos 24:24 - 'Algunos días después, vino Félix con Drusila, su mujer, que era judía...'"
-            },
-            {
-                pregunta: "¿Quién fue el hombre que fue llamado el de Antioquía?",
-                opciones: ["Nicolás", "Esteban", "Felipe"],
-                correcta: 0,
-                versiculo: "Hechos 6:5 - 'Y agradó la propuesta a toda la multitud; y eligieron a Esteban... y a Nicolás, prosélito de Antioquía.'"
-            },
-            {
-                pregunta: "¿Quién fue el profeta que fue llamado el de Bet-el?",
-                opciones: ["El profeta anciano", "Elías", "Eliseo"],
-                correcta: 0,
-                versiculo: "1 Reyes 13:11 - 'Moraba entonces en Bet-el un profeta anciano...'"
+                question: "¿Qué fruto comieron Adán y Eva en el jardín del Edén?",
+                options: ["Manzana", "Higo", "Fruto prohibido", "Uva"],
+                answer: "Fruto prohibido"
             }
         ];
 
-        let preguntaActual = 0;
-        let temporizador;
-        let tiempoRestante = 10;
-        let temporizadorVersiculo;
+        // Variables del juego
+        let currentUser = "";
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let canAnswer = true;
+        let isExistingPlayer = false;
 
-        function cargarPregunta() {
-            const pregunta = preguntas[preguntaActual];
-            
-            // Cargar pregunta
-            document.getElementById('preguntaTexto').textContent = pregunta.pregunta;
-            
-            // Cargar opciones
-            const opcionesContainer = document.getElementById('opcionesContainer');
-            opcionesContainer.innerHTML = '';
-            
-            pregunta.opciones.forEach((opcion, index) => {
-                const opcionElement = document.createElement('div');
-                opcionElement.className = 'opcion';
-                opcionElement.textContent = opcion;
-                opcionElement.onclick = () => seleccionarOpcion(index);
-                opcionesContainer.appendChild(opcionElement);
-            });
-            
-            // Ocultar versículo
-            document.getElementById('versiculoContainer').style.display = 'none';
-            
-            // Reiniciar temporizador
-            iniciarTemporizador();
-        }
+        // Elementos del DOM
+        const loginScreen = document.getElementById('loginScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const userNameInput = document.getElementById('userName');
+        const nameError = document.getElementById('nameError');
+        const previousResults = document.getElementById('previousResults');
+        const previousScoreText = document.getElementById('previousScoreText');
+        const previousDateText = document.getElementById('previousDateText');
+        const startQuizButton = document.getElementById('startQuiz');
+        const currentUserElement = document.getElementById('currentUser');
+        const progressElement = document.getElementById('progress');
+        const questionNumberElement = document.getElementById('questionNumber');
+        const questionTextElement = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackElement = document.getElementById('feedback');
+        const resultsUserElement = document.getElementById('resultsUser');
+        const finalScoreElement = document.getElementById('finalScore');
+        const scoreMessageElement = document.getElementById('scoreMessage');
+        const captureScreenButton = document.getElementById('captureScreen');
+        const logoutButton = document.getElementById('logout');
+        const captureNotice = document.getElementById('captureNotice');
+        const resultsContent = document.getElementById('resultsContent');
 
-        function iniciarTemporizador() {
-            tiempoRestante = 10;
-            const progressBar = document.getElementById('temporizadorProgress');
-            progressBar.style.animation = 'none';
-            void progressBar.offsetWidth; // Reiniciar animación
-            progressBar.style.animation = 'progressBar 10s linear forwards';
-            
-            clearInterval(temporizador);
-            temporizador = setInterval(() => {
-                tiempoRestante--;
-                if (tiempoRestante <= 0) {
-                    clearInterval(temporizador);
-                    tiempoAgotado();
-                }
-            }, 1000);
-        }
-
-        function seleccionarOpcion(opcionIndex) {
-            clearInterval(temporizador);
-            const pregunta = preguntas[preguntaActual];
-            const opciones = document.querySelectorAll('.opcion');
-            
-            // Mostrar resultado
-            opciones.forEach((opcion, index) => {
-                if (index === pregunta.correcta) {
-                    opcion.classList.add('correcta');
-                } else if (index === opcionIndex && index !== pregunta.correcta) {
-                    opcion.classList.add('incorrecta');
-                }
-                opcion.style.pointerEvents = 'none';
-            });
-            
-            // Mostrar versículo y programar siguiente pregunta
-            mostrarVersiculo(pregunta.versiculo);
-        }
-
-        function tiempoAgotado() {
-            const pregunta = preguntas[preguntaActual];
-            const opciones = document.querySelectorAll('.opcion');
-            
-            // Mostrar respuesta correcta
-            opciones.forEach((opcion, index) => {
-                if (index === pregunta.correcta) {
-                    opcion.classList.add('correcta');
-                }
-                opcion.style.pointerEvents = 'none';
-            });
-            
-            // Mostrar versículo y programar siguiente pregunta
-            mostrarVersiculo(pregunta.versiculo);
-        }
-
-        function mostrarVersiculo(versiculo) {
-            const versiculoContainer = document.getElementById('versiculoContainer');
-            const versiculoTexto = document.getElementById('versiculoTexto');
-            
-            versiculoTexto.textContent = versiculo;
-            versiculoContainer.style.display = 'flex';
-            
-            // Programar siguiente pregunta después de 10 segundos
-            clearTimeout(temporizadorVersiculo);
-            temporizadorVersiculo = setTimeout(siguientePregunta, 10000);
-        }
-
-        function siguientePregunta() {
-            preguntaActual++;
-            
-            if (preguntaActual < preguntas.length) {
-                cargarPregunta();
-            } else {
-                // Quiz completado
-                document.querySelector('.pregunta-container').innerHTML = `
-                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center; gap: 20px;">
-                        <div class="pregunta-box" style="animation: fadeInUp 0.6s ease-out;">
-                            <h2 style="font-size: 20px;">¡Quiz Completado! 🎉</h2>
-                            <p style="margin-top: 10px; font-size: 16px;">Has terminado las 100 preguntas</p>
-                        </div>
-                        <div style="font-size: 48px; color: #32CD32;">📖✨</div>
-                    </div>
-                `;
+        // Inicializar almacenamiento de jugadores
+        function initializePlayersStorage() {
+            if (!localStorage.getItem('triviaPlayers')) {
+                localStorage.setItem('triviaPlayers', JSON.stringify([]));
             }
         }
 
-        // Iniciar el quiz
-        cargarPregunta();
+        // Buscar jugador por nombre
+        function findPlayerByName(name) {
+            const players = JSON.parse(localStorage.getItem('triviaPlayers') || '[]');
+            const cleanName = name.toLowerCase().trim();
+            return players.find(player => 
+                player.name.toLowerCase() === cleanName
+            );
+        }
+
+        // Guardar resultados del jugador
+        function savePlayerResults(name, playerScore) {
+            const players = JSON.parse(localStorage.getItem('triviaPlayers') || '[]');
+            const cleanName = name.trim();
+            
+            const playerData = {
+                name: cleanName,
+                score: playerScore,
+                totalQuestions: bibleQuestions.length,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString(),
+                lastPlayed: new Date().toISOString()
+            };
+            
+            // Siempre guarda/actualiza
+            const existingIndex = players.findIndex(p => 
+                p.name.toLowerCase() === cleanName.toLowerCase()
+            );
+            
+            if (existingIndex !== -1) {
+                players[existingIndex] = playerData;
+            } else {
+                players.push(playerData);
+            }
+            
+            localStorage.setItem('triviaPlayers', JSON.stringify(players));
+        }
+
+        // Mostrar resultados anteriores si el jugador ya existe
+        function showPreviousResults(name) {
+            const player = findPlayerByName(name);
+            
+            if (player) {
+                const total = player.totalQuestions || bibleQuestions.length;
+                previousScoreText.textContent = `${player.score}/${total}`;
+                previousDateText.textContent = `Jugado el ${player.date} a las ${player.time}`;
+                previousResults.style.display = 'block';
+                nameError.style.display = 'block';
+                startQuizButton.disabled = true;
+                startQuizButton.style.backgroundColor = '#cccccc';
+                startQuizButton.style.cursor = 'not-allowed';
+                isExistingPlayer = true;
+                return true;
+            }
+            
+            previousResults.style.display = 'none';
+            nameError.style.display = 'none';
+            startQuizButton.disabled = false;
+            startQuizButton.style.backgroundColor = '';
+            startQuizButton.style.cursor = '';
+            isExistingPlayer = false;
+            return false;
+        }
+
+        // Event Listeners
+        startQuizButton.addEventListener('click', startQuiz);
+        captureScreenButton.addEventListener('click', takeScreenshot);
+        logoutButton.addEventListener('click', logout);
+
+        userNameInput.addEventListener('input', function() {
+            const name = this.value.trim();
+            if (name.length > 0) {
+                showPreviousResults(name);
+            } else {
+                previousResults.style.display = 'none';
+                nameError.style.display = 'none';
+                startQuizButton.disabled = false;
+                startQuizButton.style.backgroundColor = '';
+                startQuizButton.style.cursor = '';
+            }
+        });
+
+        userNameInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                startQuiz();
+            }
+        });
+
+        // Función para iniciar el quiz
+        function startQuiz() {
+            const name = userNameInput.value.trim();
+            
+            if (name === "") {
+                alert("Por favor, ingresa tu nombre para comenzar.");
+                userNameInput.focus();
+                return;
+            }
+            
+            // Verificar si el jugador ya existe
+            if (isExistingPlayer) {
+                alert("Este nombre ya jugó. Por favor, elige un nombre diferente.");
+                userNameInput.focus();
+                userNameInput.select();
+                return;
+            }
+            
+            currentUser = name;
+            currentUserElement.textContent = name;
+            resultsUserElement.textContent = `${name}, aquí están tus resultados:`;
+            
+            // Reiniciar variables del juego
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            canAnswer = true;
+            
+            // Cambiar a la pantalla del quiz
+            loginScreen.classList.remove('visible');
+            loginScreen.classList.add('hidden');
+            
+            quizScreen.classList.remove('hidden');
+            quizScreen.classList.add('visible');
+            
+            // Mostrar la primera pregunta
+            showQuestion();
+        }
+
+        // Función para mostrar la pregunta actual
+        function showQuestion() {
+            if (currentQuestionIndex >= bibleQuestions.length) {
+                showResults();
+                return;
+            }
+            
+            const question = bibleQuestions[currentQuestionIndex];
+            
+            // Actualizar elementos de la interfaz
+            questionNumberElement.textContent = `Pregunta #${currentQuestionIndex + 1}`;
+            questionTextElement.textContent = question.question;
+            progressElement.textContent = `Pregunta ${currentQuestionIndex + 1}/${bibleQuestions.length}`;
+            
+            // Limpiar opciones anteriores
+            optionsContainer.innerHTML = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+            
+            // Crear las opciones de respuesta
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option question-transition';
+                optionElement.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
+                optionElement.dataset.option = option;
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, option));
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Añadir animación al texto de la pregunta
+            questionTextElement.classList.add('question-transition');
+            setTimeout(() => {
+                questionTextElement.classList.remove('question-transition');
+            }, 400);
+            
+            canAnswer = true;
+        }
+
+        // Función para seleccionar una opción
+        function selectOption(optionElement, selectedOption) {
+            if (!canAnswer) return;
+            
+            canAnswer = false;
+            const question = bibleQuestions[currentQuestionIndex];
+            const isCorrect = selectedOption === question.answer;
+            
+            // Marcar la opción seleccionada
+            optionElement.classList.add('selected');
+            
+            // Marcar la respuesta correcta
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => {
+                if (opt.dataset.option === question.answer) {
+                    opt.classList.add('correct');
+                }
+                
+                if (opt.dataset.option === selectedOption && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Actualizar puntuación si es correcta
+            if (isCorrect) {
+                score++;
+                feedbackElement.textContent = "¡Correcto!";
+                feedbackElement.className = 'feedback correct';
+            } else {
+                feedbackElement.textContent = `Incorrecto. La respuesta correcta es: ${question.answer}`;
+                feedbackElement.className = 'feedback incorrect';
+            }
+            
+            // Guardar la respuesta del usuario
+            userAnswers.push({
+                question: question.question,
+                userAnswer: selectedOption,
+                correctAnswer: question.answer,
+                isCorrect: isCorrect
+            });
+            
+            // Avanzar a la siguiente pregunta después de un breve retraso
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 2000);
+        }
+
+        // Función para mostrar los resultados
+        function showResults() {
+            // Guardar resultados del jugador
+            savePlayerResults(currentUser, score);
+            
+            // Cambiar a la pantalla de resultados
+            quizScreen.classList.remove('visible');
+            quizScreen.classList.add('hidden');
+            
+            resultsScreen.classList.remove('hidden');
+            resultsScreen.classList.add('visible');
+            
+            // Mostrar puntuación final
+            finalScoreElement.textContent = `${score}/${bibleQuestions.length}`;
+            
+            // Mostrar mensaje según la puntuación
+            let message = "";
+            const totalQuestions = bibleQuestions.length;
+            
+            if (score === totalQuestions) {
+                message = "¡Perfecto! Eres un experto en la Biblia. 🎉";
+            } else if (score >= totalQuestions * 0.8) {
+                message = "¡Excelente! Tu conocimiento bíblico es muy bueno. 👍";
+            } else if (score >= totalQuestions * 0.7) {
+                message = "¡Muy bien! Tienes buen conocimiento bíblico. 📖";
+            } else if (score >= totalQuestions * 0.5) {
+                message = "¡Bien hecho! Sigue estudiando la Biblia. 🙏";
+            } else {
+                message = "¡Sigue estudiando la Biblia! Cada día aprenderás más. 💪";
+            }
+            
+            scoreMessageElement.textContent = message;
+            
+            // Ocultar notificación de captura si estaba visible
+            captureNotice.classList.remove('show');
+        }
+
+        // Función para tomar captura de pantalla
+        function takeScreenshot() {
+            // Deshabilitar botón temporalmente para evitar múltiples clics
+            captureScreenButton.disabled = true;
+            captureScreenButton.textContent = 'Capturando...';
+            
+            html2canvas(resultsContent, {
+                backgroundColor: '#ffffff',
+                scale: window.devicePixelRatio > 1 ? 2 : 1.5,
+                useCORS: true,
+                logging: false,
+                width: resultsContent.offsetWidth,
+                height: resultsContent.offsetHeight,
+                windowWidth: resultsContent.scrollWidth,
+                windowHeight: resultsContent.scrollHeight
+            }).then(canvas => {
+                // Convertir canvas a imagen
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Crear un enlace para descargar
+                const link = document.createElement('a');
+                link.download = `Trivia-Biblica-${currentUser}-${score}-de-${bibleQuestions.length}.png`;
+                link.href = imgData;
+                
+                // Simular clic para descargar
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Mostrar notificación
+                captureNotice.classList.add('show');
+                
+                // Restaurar botón
+                setTimeout(() => {
+                    captureScreenButton.disabled = false;
+                    captureScreenButton.textContent = '📸 Capturar Pantalla';
+                }, 2000);
+                
+            }).catch(error => {
+                console.error('Error al capturar:', error);
+                alert('Error al capturar la pantalla. Intenta nuevamente.');
+                captureScreenButton.disabled = false;
+                captureScreenButton.textContent = '📸 Capturar Pantalla';
+            });
+        }
+
+        // Función para salir
+        function logout() {
+            // Regresar a la pantalla de inicio
+            resultsScreen.classList.remove('visible');
+            resultsScreen.classList.add('hidden');
+            
+            loginScreen.classList.remove('hidden');
+            loginScreen.classList.add('visible');
+            
+            // Limpiar y resetear
+            userNameInput.value = '';
+            userNameInput.focus();
+            previousResults.style.display = 'none';
+            nameError.style.display = 'none';
+            startQuizButton.disabled = false;
+            startQuizButton.style.backgroundColor = '';
+            startQuizButton.style.cursor = '';
+            isExistingPlayer = false;
+            
+            // Para móviles, enfocar el input después de un pequeño delay
+            setTimeout(() => {
+                userNameInput.focus();
+            }, 300);
+        }
+
+        // Inicializar cuando carga la página
+        window.addEventListener('DOMContentLoaded', () => {
+            initializePlayersStorage();
+            userNameInput.focus();
+            
+            // Prevenir zoom en móviles
+            document.addEventListener('touchstart', function(event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            }, { passive: false });
+            
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        });
     </script>
 </body>
 </html>

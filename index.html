@@ -13,19 +13,20 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        html {
-            font-size: 16px;
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
         }
         
         body {
             background: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 15px;
-            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
         }
         
         .container {
@@ -37,7 +38,11 @@
             padding: 25px;
             position: relative;
             overflow: hidden;
-            margin: 0 auto;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: auto;
         }
         
         h1 {
@@ -67,6 +72,10 @@
         .screen {
             transition: opacity 0.3s ease;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100%;
         }
         
         .hidden {
@@ -75,13 +84,21 @@
         }
         
         .visible {
-            display: block;
+            display: flex;
             opacity: 1;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
         }
         
         /* Estilos para la pantalla de inicio de sesión */
         .login-screen {
             text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
         }
         
         .login-screen h1 {
@@ -167,6 +184,10 @@
         .quiz-screen {
             text-align: center;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
         }
         
         .quiz-header {
@@ -283,6 +304,11 @@
         /* Estilos para la pantalla de resultados */
         .results-screen {
             text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
         }
         
         .results-screen h1 {
@@ -390,16 +416,21 @@
         
         /* Mejoras específicas para móviles */
         @media (max-width: 480px) {
-            .container {
-                padding: 20px 15px;
-                border-radius: 15px;
-            }
-            
             body {
                 padding: 10px;
-                align-items: flex-start;
+                align-items: center;
+                justify-content: center;
                 min-height: 100vh;
                 min-height: -webkit-fill-available;
+                display: flex;
+            }
+            
+            .container {
+                padding: 20px;
+                border-radius: 15px;
+                margin: 0;
+                max-height: 90vh;
+                overflow-y: auto;
             }
             
             .question-text {
@@ -429,6 +460,76 @@
             
             .progress {
                 align-self: flex-end;
+            }
+            
+            /* Asegurar que todo el contenido sea visible */
+            .login-screen, .quiz-screen, .results-screen {
+                min-height: auto;
+            }
+        }
+        
+        /* Para pantallas muy pequeñas (iPhone SE, etc) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 0.95rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 12px;
+                font-size: 0.95rem;
+                min-height: 50px;
+            }
+            
+            .btn {
+                padding: 12px 16px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Ajustes específicos para centrado vertical */
+        @media (max-height: 700px) {
+            .container {
+                max-height: 95vh;
+                overflow-y: auto;
+                margin: 10px 0;
+            }
+            
+            .login-screen, .quiz-screen, .results-screen {
+                padding: 5px 0;
+            }
+            
+            h1 {
+                margin-bottom: 10px;
+            }
+            
+            h2 {
+                margin-bottom: 15px;
+            }
+            
+            .question-container {
+                margin-bottom: 20px;
+            }
+            
+            .options-container {
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+            
+            .option {
+                padding: 12px;
+                min-height: 50px;
             }
         }
         
@@ -473,6 +574,10 @@
             
             .option {
                 cursor: pointer;
+            }
+            
+            .container {
+                max-height: 90vh;
             }
         }
         
@@ -521,36 +626,6 @@
             }
         }
         
-        /* Para pantallas muy pequeñas (iPhone SE, etc) */
-        @media (max-width: 320px) {
-            .container {
-                padding: 15px 10px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
-            h2 {
-                font-size: 0.95rem;
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
-            }
-            
-            .option {
-                padding: 12px;
-                font-size: 0.95rem;
-                min-height: 50px;
-            }
-            
-            .btn {
-                padding: 12px 16px;
-                font-size: 0.95rem;
-            }
-        }
-        
         /* Animación suave para las preguntas */
         .question-transition {
             animation: slideIn 0.4s ease;
@@ -565,6 +640,25 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+        
+        /* Scroll suave en móviles */
+        .container::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        
+        .container::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
     <!-- Biblioteca html2canvas para capturas -->
@@ -649,7 +743,7 @@
     </div>
 
     <script>
-        // Base de datos de 25 preguntas bíblicas (igual que antes)
+        // Base de datos de 25 preguntas bíblicas
         const bibleQuestions = [
             {
                 question: "¿Quién construyó el arca?",
@@ -1143,6 +1237,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             initializePlayersStorage();
             userNameInput.focus();
+            
+            // Asegurar centrado en carga inicial
+            setTimeout(() => {
+                document.body.style.display = 'flex';
+                document.body.style.justifyContent = 'center';
+                document.body.style.alignItems = 'center';
+            }, 100);
             
             // Prevenir zoom en móviles
             document.addEventListener('touchstart', function(event) {

@@ -1,1381 +1,265 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trivia Bíblica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-        }
-        
-        .container {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 800px;
-            padding: 25px;
-            position: relative;
-            overflow: hidden;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: auto;
-        }
-        
-        h1 {
-            color: #1a237e;
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            line-height: 1.2;
-        }
-        
-        h2 {
-            color: #4a148c;
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 400;
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            line-height: 1.3;
-        }
-        
-        h3 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: clamp(1.1rem, 4vw, 1.3rem);
-        }
-        
-        .screen {
-            transition: opacity 0.3s ease;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 100%;
-        }
-        
-        .hidden {
-            display: none;
-            opacity: 0;
-        }
-        
-        .visible {
-            display: flex;
-            opacity: 1;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-        
-        /* Estilos para la pantalla de inicio de sesión */
-        .login-screen {
-            text-align: center;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-        
-        .login-screen h1 {
-            margin-bottom: 20px;
-        }
-        
-        .user-input {
-            margin-bottom: 25px;
-        }
-        
-        .user-input label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            font-weight: 500;
-        }
-        
-        .user-input input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: clamp(1rem, 4vw, 1.1rem);
-            transition: all 0.3s;
-        }
-        
-        .user-input input:focus {
-            outline: none;
-            border-color: #4a148c;
-            box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.1);
-        }
-        
-        .error-message {
-            color: #f44336;
-            margin-top: 8px;
-            font-size: clamp(0.85rem, 3.5vw, 0.9rem);
-            display: none;
-            text-align: left;
-            padding-left: 5px;
-        }
-        
-        /* Estilos para mostrar resultados anteriores */
-        .previous-results {
-            background-color: #f0f4ff;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 4px solid #4a148c;
-            display: none;
-        }
-        
-        .previous-results h3 {
-            color: #4a148c;
-            margin-bottom: 12px;
-        }
-        
-        .previous-score {
-            font-size: clamp(2rem, 8vw, 2.5rem);
-            color: #1a237e;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .previous-date {
-            color: #666;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
-            margin-bottom: 15px;
-        }
-        
-        .cannot-play-message {
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 14px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border-left: 4px solid #f44336;
-            font-size: clamp(0.9rem, 3.8vw, 1.1rem);
-            line-height: 1.4;
-        }
-        
-        /* Estilos para la pantalla del quiz */
-        .quiz-screen {
-            text-align: center;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-        
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #eee;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .user-info {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: #4a148c;
-            font-weight: 600;
-            word-break: break-word;
-        }
-        
-        .progress {
-            font-size: clamp(0.9rem, 3.5vw, 1rem);
-            color: #666;
-            background: #f5f5f5;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-        
-        .question-container {
-            margin-bottom: 30px;
-        }
-        
-        .question-number {
-            color: #4a237e;
-            font-size: clamp(0.95rem, 4vw, 1.1rem);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .question-text {
-            font-size: clamp(1.2rem, 5vw, 1.5rem);
-            color: #333;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            padding: 0 5px;
-        }
-        
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        
-        .option {
-            padding: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: clamp(1rem, 4vw, 1.1rem);
-            color: #333;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: left;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .option:hover, .option:active {
-            background-color: #f5f5f5;
-            transform: translateY(-2px);
-        }
-        
-        .option.selected {
-            background-color: #e8eaf6;
-            border-color: #3f51b5;
-            color: #3f51b5;
-        }
-        
-        .option.correct {
-            background-color: #e8f5e9;
-            border-color: #4caf50;
-            color: #2e7d32;
-        }
-        
-        .option.incorrect {
-            background-color: #ffebee;
-            border-color: #f44336;
-            color: #c62828;
-        }
-        
-        .feedback {
-            margin-top: 20px;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: clamp(1rem, 4vw, 1.1rem);
-            display: none;
-            line-height: 1.4;
-        }
-        
-        .feedback.correct {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            display: block;
-        }
-        
-        .feedback.incorrect {
-            background-color: #ffebee;
-            color: #c62828;
-            display: block;
-        }
-        
-        /* Estilos para la pantalla de resultados */
-        .results-screen {
-            text-align: center;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-        
-        .results-screen h1 {
-            margin-bottom: 15px;
-        }
-        
-        .score-container {
-            margin: 30px 0;
-        }
-        
-        .score-number {
-            font-size: clamp(3.5rem, 15vw, 5rem);
-            color: #4a148c;
-            font-weight: bold;
-            margin-bottom: 8px;
-            line-height: 1;
-        }
-        
-        .score-text {
-            font-size: clamp(1.1rem, 5vw, 1.5rem);
-            color: #333;
-            margin-bottom: 20px;
-            padding: 0 10px;
-            line-height: 1.4;
-        }
-        
-        .btn {
-            background-color: #4a148c;
-            color: white;
-            border: none;
-            padding: clamp(14px, 4vw, 16px) clamp(30px, 8vw, 40px);
-            border-radius: 12px;
-            font-size: clamp(1rem, 4vw, 1.1rem);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 8px;
-            min-height: 50px;
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            max-width: 250px;
-        }
-        
-        .btn:hover, .btn:active {
-            background-color: #1a237e;
-            transform: translateY(-2px);
-        }
-        
-        .btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            opacity: 0.7;
-        }
-        
-        .btn-capture {
-            background-color: #2196F3;
-        }
-        
-        .btn-capture:hover, .btn-capture:active {
-            background-color: #1976D2;
-        }
-        
-        .btn-logout {
-            background-color: #f44336;
-        }
-        
-        .btn-logout:hover, .btn-logout:active {
-            background-color: #d32f2f;
-        }
-        
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-            width: 100%;
-        }
-        
-        /* Estilo para indicar que se tomó captura */
-        .capture-notice {
-            background-color: #e3f2fd;
-            color: #1976d2;
-            padding: 14px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-            font-size: clamp(0.95rem, 4vw, 1.1rem);
-            line-height: 1.4;
-        }
-        
-        .capture-notice.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Botón para continuar juego */
-        .continue-game {
-            background-color: #FF9800;
-            margin-top: 15px;
-        }
-        
-        .continue-game:hover, .continue-game:active {
-            background-color: #F57C00;
-        }
-        
-        /* Mejoras específicas para móviles */
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                min-height: -webkit-fill-available;
-                display: flex;
-            }
-            
-            .container {
-                padding: 20px;
-                border-radius: 15px;
-                margin: 0;
-                max-height: 90vh;
-                overflow-y: auto;
-            }
-            
-            .question-text {
-                font-size: 1.3rem;
-                margin-bottom: 20px;
-            }
-            
-            .option {
-                padding: 14px;
-                min-height: 55px;
-            }
-            
-            .btn {
-                min-height: 48px;
-                padding: 14px 20px;
-            }
-            
-            .score-number {
-                margin-bottom: 5px;
-            }
-            
-            .quiz-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .progress {
-                align-self: flex-end;
-            }
-            
-            /* Asegurar que todo el contenido sea visible */
-            .login-screen, .quiz-screen, .results-screen {
-                min-height: auto;
-            }
-        }
-        
-        /* Para pantallas muy pequeñas (iPhone SE, etc) */
-        @media (max-width: 320px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
-            h2 {
-                font-size: 0.95rem;
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
-            }
-            
-            .option {
-                padding: 12px;
-                font-size: 0.95rem;
-                min-height: 50px;
-            }
-            
-            .btn {
-                padding: 12px 16px;
-                font-size: 0.95rem;
-            }
-        }
-        
-        /* Ajustes específicos para centrado vertical */
-        @media (max-height: 700px) {
-            .container {
-                max-height: 95vh;
-                overflow-y: auto;
-                margin: 10px 0;
-            }
-            
-            .login-screen, .quiz-screen, .results-screen {
-                padding: 5px 0;
-            }
-            
-            h1 {
-                margin-bottom: 10px;
-            }
-            
-            h2 {
-                margin-bottom: 15px;
-            }
-            
-            .question-container {
-                margin-bottom: 20px;
-            }
-            
-            .options-container {
-                margin-bottom: 20px;
-                gap: 10px;
-            }
-            
-            .option {
-                padding: 12px;
-                min-height: 50px;
-            }
-        }
-        
-        /* Para tablets y pantallas más grandes */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                padding: 30px;
-            }
-            
-            .button-group {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .btn {
-                max-width: 200px;
-            }
-        }
-        
-        /* Para pantallas grandes (desktop) */
-        @media (min-width: 769px) {
-            .button-group {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .btn {
-                max-width: 220px;
-            }
-            
-            .options-container {
-                gap: 15px;
-            }
-        }
-        
-        /* Ajustes para iPhone y dispositivos iOS */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                min-height: -webkit-fill-available;
-            }
-            
-            .option {
-                cursor: pointer;
-            }
-            
-            .container {
-                max-height: 90vh;
-            }
-        }
-        
-        /* Prevenir zoom en inputs en iOS */
-        @media screen and (max-width: 768px) {
-            input, select, textarea {
-                font-size: 16px !important;
-            }
-        }
-        
-        /* Mejorar visibilidad en modo oscuro */
-        @media (prefers-color-scheme: dark) {
-            .container {
-                background-color: #1e1e1e;
-                color: #ffffff;
-            }
-            
-            .question-text, .user-input label, .previous-results h3,
-            .score-text, h3, .previous-date {
-                color: #e0e0e0;
-            }
-            
-            .user-input input {
-                background-color: #2d2d2d;
-                border-color: #444;
-                color: #ffffff;
-            }
-            
-            .previous-results, .cannot-play-message {
-                background-color: #2d2d2d;
-            }
-            
-            .option {
-                background-color: #2d2d2d;
-                border-color: #444;
-                color: #e0e0e0;
-            }
-            
-            .option:hover, .option:active {
-                background-color: #3d3d3d;
-            }
-            
-            .feedback.correct, .feedback.incorrect,
-            .capture-notice, .cannot-play-message {
-                color: inherit;
-            }
-        }
-        
-        /* Animación suave para las preguntas */
-        .question-transition {
-            animation: slideIn 0.4s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Scroll suave en móviles */
-        .container::-webkit-scrollbar {
-            width: 5px;
-        }
-        
-        .container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        .container::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-        
-        .container::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
-    <!-- Biblioteca html2canvas para capturas -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Express ⚡</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#1d2671,#c33764);
+  font-family:Arial, sans-serif;
+  color:#fff;
+}
+
+.card{
+  background:#111;
+  width:100%;
+  max-width:460px;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(0,0,0,.6);
+}
+
+h1,h2,h3{margin:10px 0;}
+
+.question{
+  font-size:22px;
+  font-weight:bold;
+  margin:20px 0;
+}
+
+input,button{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:14px;
+  border:none;
+  font-size:16px;
+}
+
+button{
+  background:#ffcc00;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.option{
+  background:#222;
+  color:#fff;
+  border:2px solid #444;
+}
+
+.option:hover{
+  background:#ffcc00;
+  color:#000;
+}
+
+.correct{background:#2ecc71!important;color:#000;}
+.wrong{background:#e74c3c!important;}
+
+.progress-container{
+  width:100%;
+  height:12px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.progress-bar{
+  height:100%;
+  width:100%;
+  background:linear-gradient(90deg,#ffcc00,#ff6b00);
+  transition:width 1s linear;
+}
+
+.hidden{display:none;}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Pantalla de inicio de sesión -->
-        <div id="loginScreen" class="screen visible">
-            <div class="login-screen">
-                <h1>📖 Trivia Bíblica</h1>
-                <h2>25 preguntas para poner a prueba tu conocimiento</h2>
-                
-                <div class="user-input">
-                    <label for="userName">Ingresa tu nombre:</label>
-                    <input type="text" id="userName" placeholder="Tu nombre aquí" autocomplete="off" inputmode="text">
-                    <div class="error-message" id="nameError">Este nombre ya jugó. Elige otro nombre.</div>
-                </div>
-                
-                <button id="startQuiz" class="btn">Comenzar Quiz</button>
-                
-                <!-- Mostrar resultados anteriores si el nombre ya existe -->
-                <div id="previousResults" class="previous-results">
-                    <h3>🎯 Resultado Anterior</h3>
-                    <div class="previous-score" id="previousScoreText">0/25</div>
-                    <div class="previous-date" id="previousDateText"></div>
-                    
-                    <div class="cannot-play-message">
-                        ⚠️ Este nombre ya jugó y no puede volver a jugar.<br>
-                        Por favor, usa un nombre diferente.
-                    </div>
-                </div>
-                
-                <!-- Botón para continuar juego guardado -->
-                <div id="continueGameSection" style="display: none; margin-top: 20px;">
-                    <button id="continueGame" class="btn continue-game">
-                        ⏯️ Continuar Juego Guardado
-                    </button>
-                    <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
-                        Tienes un juego en progreso. Puedes continuar donde lo dejaste.
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Pantalla del quiz -->
-        <div id="quizScreen" class="screen hidden">
-            <div class="quiz-screen">
-                <div class="quiz-header">
-                    <div class="user-info" id="currentUser">Jugador</div>
-                    <div class="progress" id="progress">Pregunta 1/25</div>
-                </div>
-                
-                <div class="question-container">
-                    <div class="question-number" id="questionNumber">Pregunta #1</div>
-                    <div class="question-text" id="questionText">¿Cuál es la pregunta?</div>
-                </div>
-                
-                <div class="options-container" id="optionsContainer">
-                    <!-- Las opciones se generarán aquí con JavaScript -->
-                </div>
-                
-                <div class="feedback" id="feedback"></div>
-            </div>
-        </div>
-        
-        <!-- Pantalla de resultados -->
-        <div id="resultsScreen" class="screen hidden">
-            <div class="results-screen" id="resultsContent">
-                <h1>📊 Resultados</h1>
-                <h2 id="resultsUser">Jugador, aquí están tus resultados:</h2>
-                
-                <div class="score-container">
-                    <div class="score-number" id="finalScore">0/25</div>
-                    <div class="score-text" id="scoreMessage">¡Sigue estudiando la Biblia!</div>
-                </div>
-                
-                <div class="button-group">
-                    <button id="captureScreen" class="btn btn-capture">
-                        📸 Capturar Pantalla
-                    </button>
-                    <button id="logout" class="btn btn-logout">
-                        🚪 Salir
-                    </button>
-                </div>
-                
-                <div class="capture-notice" id="captureNotice">
-                    ✅ Captura realizada. ¡Ahora puedes compartirla en tu grupo!
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        // Base de datos de 25 preguntas bíblicas
-        const bibleQuestions = [
-            {
-                question: "¿Quién construyó el arca?",
-                options: ["Moisés", "Noé", "Abraham", "David"],
-                answer: "Noé"
-            },
-            {
-                question: "¿Cuántos discípulos tuvo Jesús?",
-                options: ["7", "10", "12", "15"],
-                answer: "12"
-            },
-            {
-                question: "¿Quién traicionó a Jesús?",
-                options: ["Pedro", "Juan", "Judas", "Tomás"],
-                answer: "Judas"
-            },
-            {
-                question: "¿En qué día descansó Dios después de la creación?",
-                options: ["Primero", "Séptimo", "Quinto", "Tercero"],
-                answer: "Séptimo"
-            },
-            {
-                question: "¿Quién fue arrojado al foso de los leones?",
-                options: ["José", "Daniel", "Jonás", "Jeremías"],
-                answer: "Daniel"
-            },
-            {
-                question: "¿Cuál es el primer libro de la Biblia?",
-                options: ["Éxodo", "Génesis", "Levítico", "Números"],
-                answer: "Génesis"
-            },
-            {
-                question: "¿Quién fue la madre de Jesús?",
-                options: ["María", "Marta", "Ester", "Rut"],
-                answer: "María"
-            },
-            {
-                question: "¿Qué apóstol negó a Jesús tres veces?",
-                options: ["Pedro", "Juan", "Andrés", "Mateo"],
-                answer: "Pedro"
-            },
-            {
-                question: "¿Quién fue el primer rey de Israel?",
-                options: ["David", "Salomón", "Saúl", "Josué"],
-                answer: "Saúl"
-            },
-            {
-                question: "¿Cuántos mandamientos recibió Moisés?",
-                options: ["5", "7", "10", "12"],
-                answer: "10"
-            },
-            {
-                question: "¿Quién fue vendido por sus hermanos?",
-                options: ["José", "Benjamín", "Rubén", "Judá"],
-                answer: "José"
-            },
-            {
-                question: "¿Qué apóstol era pescador antes de seguir a Jesús?",
-                options: ["Pedro", "Mateo", "Pablo", "Judas"],
-                answer: "Pedro"
-            },
-            {
-                question: "¿En qué lugar nació Jesús?",
-                options: ["Nazaret", "Belén", "Jerusalén", "Galilea"],
-                answer: "Belén"
-            },
-            {
-                question: "¿Quién fue el hombre más fuerte de la Biblia?",
-                options: ["Goliat", "Sansón", "David", "Josué"],
-                answer: "Sansón"
-            },
-            {
-                question: "¿Qué apóstol escribió la mayoría de las epístolas del Nuevo Testamento?",
-                options: ["Pedro", "Juan", "Pablo", "Santiago"],
-                answer: "Pablo"
-            },
-            {
-                question: "¿Quién fue la primera mujer según la Biblia?",
-                options: ["Sara", "Eva", "Rebeca", "Raquel"],
-                answer: "Eva"
-            },
-            {
-                question: "¿Qué personaje pasó 40 días en el desierto siendo tentado?",
-                options: ["Moisés", "Elías", "Jesús", "Juan el Bautista"],
-                answer: "Jesús"
-            },
-            {
-                question: "¿Quién fue el profeta que enfrentó a los profetas de Baal?",
-                options: ["Isaías", "Elías", "Jeremías", "Ezequiel"],
-                answer: "Elías"
-            },
-            {
-                question: "¿Qué personaje interpretó los sueños del faraón?",
-                options: ["Moisés", "José", "Daniel", "Salomón"],
-                answer: "José"
-            },
-            {
-                question: "¿Quién fue el padre de Juan el Bautista?",
-                options: ["Zacarías", "José", "Joaquín", "Elí"],
-                answer: "Zacarías"
-            },
-            {
-                question: "¿Qué libro de la Biblia narra la historia de la iglesia primitiva?",
-                options: ["Hechos", "Romanos", "Apocalipsis", "Santiago"],
-                answer: "Hechos"
-            },
-            {
-                question: "¿Quién fue la mujer que ayudó a espiar la tierra de Canaán?",
-                options: ["Rahab", "Rut", "Ester", "María"],
-                answer: "Rahab"
-            },
-            {
-                question: "¿Cuántos libros tiene el Nuevo Testamento?",
-                options: ["27", "39", "66", "46"],
-                answer: "27"
-            },
-            {
-                question: "¿Quién fue el sucesor de Moisés?",
-                options: ["Josué", "Caleb", "Aarón", "Elías"],
-                answer: "Josué"
-            },
-            {
-                question: "¿Qué fruto comieron Adán y Eva en el jardín del Edén?",
-                options: ["Manzana", "Higo", "Fruto prohibido", "Uva"],
-                answer: "Fruto prohibido"
-            }
-        ];
+<div class="card" id="captureArea">
 
-        // Variables del juego
-        let currentUser = "";
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let userAnswers = [];
-        let canAnswer = true;
-        let isExistingPlayer = false;
+<!-- INICIO -->
+<div id="start">
+  <h1>⚡ Quiz Express ⚡</h1>
+  <input id="nameInput" placeholder="Ingresá tu nombre">
+  <button onclick="startQuiz()">Comenzar</button>
+</div>
 
-        // Elementos del DOM
-        const loginScreen = document.getElementById('loginScreen');
-        const quizScreen = document.getElementById('quizScreen');
-        const resultsScreen = document.getElementById('resultsScreen');
-        const userNameInput = document.getElementById('userName');
-        const nameError = document.getElementById('nameError');
-        const previousResults = document.getElementById('previousResults');
-        const previousScoreText = document.getElementById('previousScoreText');
-        const previousDateText = document.getElementById('previousDateText');
-        const startQuizButton = document.getElementById('startQuiz');
-        const continueGameButton = document.getElementById('continueGame');
-        const continueGameSection = document.getElementById('continueGameSection');
-        const currentUserElement = document.getElementById('currentUser');
-        const progressElement = document.getElementById('progress');
-        const questionNumberElement = document.getElementById('questionNumber');
-        const questionTextElement = document.getElementById('questionText');
-        const optionsContainer = document.getElementById('optionsContainer');
-        const feedbackElement = document.getElementById('feedback');
-        const resultsUserElement = document.getElementById('resultsUser');
-        const finalScoreElement = document.getElementById('finalScore');
-        const scoreMessageElement = document.getElementById('scoreMessage');
-        const captureScreenButton = document.getElementById('captureScreen');
-        const logoutButton = document.getElementById('logout');
-        const captureNotice = document.getElementById('captureNotice');
-        const resultsContent = document.getElementById('resultsContent');
+<!-- QUIZ -->
+<div id="quiz" class="hidden">
+  <h3 id="playerName"></h3>
+  <div id="question" class="question"></div>
+  <div id="options"></div>
 
-        // Inicializar almacenamiento de jugadores
-        function initializePlayersStorage() {
-            if (!localStorage.getItem('triviaPlayers')) {
-                localStorage.setItem('triviaPlayers', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('currentGame')) {
-                localStorage.setItem('currentGame', JSON.stringify(null));
-            }
-        }
+  <!-- CRONÓMETRO -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress"></div>
+  </div>
+</div>
 
-        // Buscar jugador por nombre
-        function findPlayerByName(name) {
-            const players = JSON.parse(localStorage.getItem('triviaPlayers') || '[]');
-            const cleanName = name.toLowerCase().trim();
-            return players.find(player => 
-                player.name.toLowerCase() === cleanName
-            );
-        }
+<!-- RESULTADO -->
+<div id="result" class="hidden">
+  <h2>🎉 Resultado 🎉</h2>
+  <p id="finalScore"></p>
+  <button onclick="takeScreenshot()">📸 Hacer captura</button>
+  <button onclick="goHome()">🏠 Ir a inicio</button>
+</div>
 
-        // Guardar resultados del jugador
-        function savePlayerResults(name, playerScore) {
-            const players = JSON.parse(localStorage.getItem('triviaPlayers') || '[]');
-            const cleanName = name.trim();
-            
-            const playerData = {
-                name: cleanName,
-                score: playerScore,
-                totalQuestions: bibleQuestions.length,
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString(),
-                lastPlayed: new Date().toISOString()
-            };
-            
-            const existingIndex = players.findIndex(p => 
-                p.name.toLowerCase() === cleanName.toLowerCase()
-            );
-            
-            if (existingIndex !== -1) {
-                players[existingIndex] = playerData;
-            } else {
-                players.push(playerData);
-            }
-            
-            localStorage.setItem('triviaPlayers', JSON.stringify(players));
-        }
+</div>
 
-        // Guardar estado actual del juego
-        function saveCurrentGame() {
-            if (currentUser && currentQuestionIndex > 0) {
-                const gameState = {
-                    user: currentUser,
-                    currentQuestionIndex: currentQuestionIndex,
-                    score: score,
-                    userAnswers: userAnswers,
-                    timestamp: new Date().toISOString()
-                };
-                localStorage.setItem('currentGame', JSON.stringify(gameState));
-            }
-        }
+<script>
+const questions=[
+ {q:"¿Planeta más grande?",o:["Tierra","Marte","Júpiter"],a:2},
+ {q:"¿Animal más rápido?",o:["Caballo","Guepardo","Perro"],a:1},
+ {q:"¿Colores del arcoíris?",o:["5","6","7"],a:2},
+ {q:"¿Origen del tango?",o:["España","Argentina","México"],a:1},
+ {q:"¿Océano más grande?",o:["Atlántico","Índico","Pacífico"],a:2},
+ {q:"¿Metal más liviano?",o:["Hierro","Aluminio","Oro"],a:1}
+];
 
-        // Cargar estado guardado del juego
-        function loadCurrentGame() {
-            const savedGame = JSON.parse(localStorage.getItem('currentGame') || 'null');
-            return savedGame;
-        }
+let state=JSON.parse(localStorage.getItem("quiz_state"))||{
+  step:"start",
+  name:"",
+  index:0,
+  score:0
+};
 
-        // Limpiar juego guardado
-        function clearCurrentGame() {
-            localStorage.setItem('currentGame', JSON.stringify(null));
-        }
+let usedNames=JSON.parse(localStorage.getItem("used_names"))||[];
 
-        // Mostrar resultados anteriores si el jugador ya existe
-        function showPreviousResults(name) {
-            const player = findPlayerByName(name);
-            
-            if (player) {
-                const total = player.totalQuestions || bibleQuestions.length;
-                previousScoreText.textContent = `${player.score}/${total}`;
-                previousDateText.textContent = `Jugado el ${player.date} a las ${player.time}`;
-                previousResults.style.display = 'block';
-                nameError.style.display = 'block';
-                startQuizButton.disabled = true;
-                startQuizButton.style.backgroundColor = '#cccccc';
-                startQuizButton.style.cursor = 'not-allowed';
-                isExistingPlayer = true;
-                return true;
-            }
-            
-            previousResults.style.display = 'none';
-            nameError.style.display = 'none';
-            startQuizButton.disabled = false;
-            startQuizButton.style.backgroundColor = '';
-            startQuizButton.style.cursor = '';
-            isExistingPlayer = false;
-            return false;
-        }
+let time=10;
+let interval;
 
-        // Verificar si hay juego en progreso
-        function checkForSavedGame() {
-            const savedGame = loadCurrentGame();
-            if (savedGame && savedGame.user) {
-                continueGameSection.style.display = 'block';
-                return savedGame;
-            }
-            continueGameSection.style.display = 'none';
-            return null;
-        }
+const startDiv=document.getElementById("start");
+const quizDiv=document.getElementById("quiz");
+const resultDiv=document.getElementById("result");
+const progress=document.getElementById("progress");
 
-        // Event Listeners
-        startQuizButton.addEventListener('click', startQuiz);
-        continueGameButton.addEventListener('click', continueSavedGame);
-        captureScreenButton.addEventListener('click', takeScreenshot);
-        logoutButton.addEventListener('click', logout);
+function save(){
+  localStorage.setItem("quiz_state",JSON.stringify(state));
+  localStorage.setItem("used_names",JSON.stringify(usedNames));
+}
 
-        userNameInput.addEventListener('input', function() {
-            const name = this.value.trim();
-            if (name.length > 0) {
-                showPreviousResults(name);
-            } else {
-                previousResults.style.display = 'none';
-                nameError.style.display = 'none';
-                startQuizButton.disabled = false;
-                startQuizButton.style.backgroundColor = '';
-                startQuizButton.style.cursor = '';
-            }
-        });
+function show(step){
+  startDiv.classList.add("hidden");
+  quizDiv.classList.add("hidden");
+  resultDiv.classList.add("hidden");
 
-        userNameInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                startQuiz();
-            }
-        });
+  if(step==="start") startDiv.classList.remove("hidden");
+  if(step==="quiz") quizDiv.classList.remove("hidden");
+  if(step==="result") resultDiv.classList.remove("hidden");
+}
 
-        // Guardar estado antes de que se cierre la página
-        window.addEventListener('beforeunload', function() {
-            saveCurrentGame();
-        });
+function startQuiz(){
+  const name=document.getElementById("nameInput").value.trim();
+  if(!name) return alert("Ingresá tu nombre");
+  if(usedNames.includes(name.toLowerCase()))
+    return alert("❌ Ese nombre ya jugó");
 
-        // Función para continuar juego guardado
-        function continueSavedGame() {
-            const savedGame = loadCurrentGame();
-            if (!savedGame) {
-                alert("No hay juego guardado para continuar.");
-                return;
-            }
-            
-            currentUser = savedGame.user;
-            currentQuestionIndex = savedGame.currentQuestionIndex;
-            score = savedGame.score;
-            userAnswers = savedGame.userAnswers || [];
-            
-            currentUserElement.textContent = currentUser;
-            resultsUserElement.textContent = `${currentUser}, aquí están tus resultados:`;
-            
-            // Cambiar a la pantalla del quiz
-            loginScreen.classList.remove('visible');
-            loginScreen.classList.add('hidden');
-            
-            quizScreen.classList.remove('hidden');
-            quizScreen.classList.add('visible');
-            
-            // Mostrar la pregunta actual
-            showQuestion();
-        }
+  state={step:"quiz",name,index:0,score:0};
+  usedNames.push(name.toLowerCase());
+  save();
+  show("quiz");
+  loadQuestion();
+}
 
-        // Función para iniciar el quiz
-        function startQuiz() {
-            const name = userNameInput.value.trim();
-            
-            if (name === "") {
-                alert("Por favor, ingresa tu nombre para comenzar.");
-                userNameInput.focus();
-                return;
-            }
-            
-            // Verificar si el jugador ya existe
-            if (isExistingPlayer) {
-                alert("Este nombre ya jugó. Por favor, elige un nombre diferente.");
-                userNameInput.focus();
-                userNameInput.select();
-                return;
-            }
-            
-            currentUser = name;
-            currentUserElement.textContent = name;
-            resultsUserElement.textContent = `${name}, aquí están tus resultados:`;
-            
-            // Reiniciar variables del juego
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = [];
-            canAnswer = true;
-            
-            // Limpiar juego guardado anterior
-            clearCurrentGame();
-            
-            // Cambiar a la pantalla del quiz
-            loginScreen.classList.remove('visible');
-            loginScreen.classList.add('hidden');
-            
-            quizScreen.classList.remove('hidden');
-            quizScreen.classList.add('visible');
-            
-            // Mostrar la primera pregunta
-            showQuestion();
-        }
+function loadQuestion(){
+  clearInterval(interval);
 
-        // Función para mostrar la pregunta actual
-        function showQuestion() {
-            if (currentQuestionIndex >= bibleQuestions.length) {
-                showResults();
-                return;
-            }
-            
-            const question = bibleQuestions[currentQuestionIndex];
-            
-            // Actualizar elementos de la interfaz
-            questionNumberElement.textContent = `Pregunta #${currentQuestionIndex + 1}`;
-            questionTextElement.textContent = question.question;
-            progressElement.textContent = `Pregunta ${currentQuestionIndex + 1}/${bibleQuestions.length}`;
-            
-            // Limpiar opciones anteriores
-            optionsContainer.innerHTML = '';
-            feedbackElement.textContent = '';
-            feedbackElement.className = 'feedback';
-            
-            // Crear las opciones de respuesta
-            question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option question-transition';
-                optionElement.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
-                optionElement.dataset.option = option;
-                
-                optionElement.addEventListener('click', () => selectOption(optionElement, option));
-                
-                optionsContainer.appendChild(optionElement);
-            });
-            
-            // Añadir animación al texto de la pregunta
-            questionTextElement.classList.add('question-transition');
-            setTimeout(() => {
-                questionTextElement.classList.remove('question-transition');
-            }, 400);
-            
-            canAnswer = true;
-            
-            // Guardar estado después de mostrar la pregunta
-            saveCurrentGame();
-        }
+  if(state.index>=questions.length){
+    finish();
+    return;
+  }
 
-        // Función para seleccionar una opción
-        function selectOption(optionElement, selectedOption) {
-            if (!canAnswer) return;
-            
-            canAnswer = false;
-            const question = bibleQuestions[currentQuestionIndex];
-            const isCorrect = selectedOption === question.answer;
-            
-            // Marcar la opción seleccionada
-            optionElement.classList.add('selected');
-            
-            // Marcar la respuesta correcta
-            const options = document.querySelectorAll('.option');
-            options.forEach(opt => {
-                if (opt.dataset.option === question.answer) {
-                    opt.classList.add('correct');
-                }
-                
-                if (opt.dataset.option === selectedOption && !isCorrect) {
-                    opt.classList.add('incorrect');
-                }
-            });
-            
-            // Actualizar puntuación si es correcta
-            if (isCorrect) {
-                score++;
-                feedbackElement.textContent = "¡Correcto!";
-                feedbackElement.className = 'feedback correct';
-            } else {
-                feedbackElement.textContent = `Incorrecto. La respuesta correcta es: ${question.answer}`;
-                feedbackElement.className = 'feedback incorrect';
-            }
-            
-            // Guardar la respuesta del usuario
-            userAnswers.push({
-                question: question.question,
-                userAnswer: selectedOption,
-                correctAnswer: question.answer,
-                isCorrect: isCorrect
-            });
-            
-            // Avanzar a la siguiente pregunta después de un breve retraso
-            setTimeout(() => {
-                currentQuestionIndex++;
-                // Guardar estado antes de mostrar siguiente pregunta
-                saveCurrentGame();
-                showQuestion();
-            }, 2000);
-        }
+  document.getElementById("playerName").innerText="👤 "+state.name;
+  document.getElementById("question").innerText=
+    `${state.index+1}° ${questions[state.index].q}`;
 
-        // Función para mostrar los resultados
-        function showResults() {
-            // Guardar resultados del jugador
-            savePlayerResults(currentUser, score);
-            
-            // Limpiar juego guardado
-            clearCurrentGame();
-            
-            // Cambiar a la pantalla de resultados
-            quizScreen.classList.remove('visible');
-            quizScreen.classList.add('hidden');
-            
-            resultsScreen.classList.remove('hidden');
-            resultsScreen.classList.add('visible');
-            
-            // Mostrar puntuación final
-            finalScoreElement.textContent = `${score}/${bibleQuestions.length}`;
-            
-            // Mostrar mensaje según la puntuación
-            let message = "";
-            const totalQuestions = bibleQuestions.length;
-            
-            if (score === totalQuestions) {
-                message = "¡Perfecto! Eres un experto en la Biblia. 🎉";
-            } else if (score >= totalQuestions * 0.8) {
-                message = "¡Excelente! Tu conocimiento bíblico es muy bueno. 👍";
-            } else if (score >= totalQuestions * 0.7) {
-                message = "¡Muy bien! Tienes buen conocimiento bíblico. 📖";
-            } else if (score >= totalQuestions * 0.5) {
-                message = "¡Bien hecho! Sigue estudiando la Biblia. 🙏";
-            } else {
-                message = "¡Sigue estudiando la Biblia! Cada día aprenderás más. 💪";
-            }
-            
-            scoreMessageElement.textContent = message;
-            
-            // Ocultar notificación de captura si estaba visible
-            captureNotice.classList.remove('show');
-        }
+  document.getElementById("options").innerHTML="";
+  time=10;
+  progress.style.width="100%";
 
-        // Función para tomar captura de pantalla
-        function takeScreenshot() {
-            // Deshabilitar botón temporalmente para evitar múltiples clics
-            captureScreenButton.disabled = true;
-            captureScreenButton.textContent = 'Capturando...';
-            
-            html2canvas(resultsContent, {
-                backgroundColor: '#ffffff',
-                scale: window.devicePixelRatio > 1 ? 2 : 1.5,
-                useCORS: true,
-                logging: false,
-                width: resultsContent.offsetWidth,
-                height: resultsContent.offsetHeight,
-                windowWidth: resultsContent.scrollWidth,
-                windowHeight: resultsContent.scrollHeight
-            }).then(canvas => {
-                // Convertir canvas a imagen
-                const imgData = canvas.toDataURL('image/png');
-                
-                // Crear un enlace para descargar
-                const link = document.createElement('a');
-                link.download = `Trivia-Biblica-${currentUser}-${score}-de-${bibleQuestions.length}.png`;
-                link.href = imgData;
-                
-                // Simular clic para descargar
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Mostrar notificación
-                captureNotice.classList.add('show');
-                
-                // Restaurar botón
-                setTimeout(() => {
-                    captureScreenButton.disabled = false;
-                    captureScreenButton.textContent = '📸 Capturar Pantalla';
-                }, 2000);
-                
-            }).catch(error => {
-                console.error('Error al capturar:', error);
-                alert('Error al capturar la pantalla. Intenta nuevamente.');
-                captureScreenButton.disabled = false;
-                captureScreenButton.textContent = '📸 Capturar Pantalla';
-            });
-        }
+  questions[state.index].o.forEach((opt,i)=>{
+    const b=document.createElement("button");
+    b.className="option";
+    b.innerText=opt;
+    b.onclick=()=>answer(b,i);
+    document.getElementById("options").appendChild(b);
+  });
 
-        // Función para salir
-        function logout() {
-            // Guardar estado actual antes de salir
-            if (currentUser && currentQuestionIndex > 0 && currentQuestionIndex < bibleQuestions.length) {
-                saveCurrentGame();
-            }
-            
-            // Regresar a la pantalla de inicio
-            resultsScreen.classList.remove('visible');
-            resultsScreen.classList.add('hidden');
-            
-            loginScreen.classList.remove('hidden');
-            loginScreen.classList.add('visible');
-            
-            // Limpiar y resetear
-            userNameInput.value = '';
-            userNameInput.focus();
-            previousResults.style.display = 'none';
-            nameError.style.display = 'none';
-            startQuizButton.disabled = false;
-            startQuizButton.style.backgroundColor = '';
-            startQuizButton.style.cursor = '';
-            isExistingPlayer = false;
-            
-            // Verificar si hay juego guardado
-            checkForSavedGame();
-            
-            // Para móviles, enfocar el input después de un pequeño delay
-            setTimeout(() => {
-                userNameInput.focus();
-            }, 300);
-        }
+  interval=setInterval(()=>{
+    time--;
+    progress.style.width=(time/10*100)+"%";
+    if(time===0){
+      clearInterval(interval);
+      state.index++;
+      save();
+      loadQuestion();
+    }
+  },1000);
+}
 
-        // Inicializar cuando carga la página
-        window.addEventListener('DOMContentLoaded', () => {
-            initializePlayersStorage();
-            userNameInput.focus();
-            
-            // Verificar si hay juego guardado
-            const savedGame = checkForSavedGame();
-            
-            // Asegurar centrado en carga inicial
-            setTimeout(() => {
-                document.body.style.display = 'flex';
-                document.body.style.justifyContent = 'center';
-                document.body.style.alignItems = 'center';
-            }, 100);
-            
-            // Prevenir zoom en móviles
-            document.addEventListener('touchstart', function(event) {
-                if (event.touches.length > 1) {
-                    event.preventDefault();
-                }
-            }, { passive: false });
-            
-            let lastTouchEnd = 0;
-            document.addEventListener('touchend', function(event) {
-                const now = (new Date()).getTime();
-                if (now - lastTouchEnd <= 300) {
-                    event.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, false);
-        });
-    </script>
+function answer(btn,i){
+  clearInterval(interval);
+  const correct=questions[state.index].a;
+
+  if(i===correct){
+    btn.classList.add("correct");
+    state.score++;
+  }else{
+    btn.classList.add("wrong");
+    document.getElementsByClassName("option")[correct].classList.add("correct");
+  }
+
+  state.index++;
+  save();
+  setTimeout(loadQuestion,800);
+}
+
+function finish(){
+  state.step="result";
+  save();
+  show("result");
+  document.getElementById("finalScore").innerText=
+    `${state.name}, acertaste ${state.score} de ${questions.length}`;
+}
+
+function takeScreenshot(){
+  html2canvas(document.getElementById("captureArea")).then(canvas=>{
+    const a=document.createElement("a");
+    a.download="resultado-quiz.png";
+    a.href=canvas.toDataURL();
+    a.click();
+  });
+}
+
+function goHome(){
+  localStorage.removeItem("quiz_state");
+  show("start");
+  document.getElementById("nameInput").value="";
+}
+
+// REANUDAR
+show(state.step);
+if(state.step==="quiz") loadQuestion();
+if(state.step==="result"){
+  document.getElementById("finalScore").innerText=
+    `${state.name}, acertaste ${state.score} de ${questions.length}`;
+}
+</script>
+
 </body>
 </html>
+
+

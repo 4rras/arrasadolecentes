@@ -120,141 +120,180 @@ button{
 </div>
 
 <script>
-const questions=[
- {q:"¿Planeta más grande?",o:["Tierra","Marte","Júpiter"],a:2},
- {q:"¿Animal más rápido?",o:["Caballo","Guepardo","Perro"],a:1},
- {q:"¿Colores del arcoíris?",o:["5","6","7"],a:2},
- {q:"¿Origen del tango?",o:["España","Argentina","México"],a:1},
- {q:"¿Océano más grande?",o:["Atlántico","Índico","Pacífico"],a:2},
- {q:"¿Metal más liviano?",o:["Hierro","Aluminio","Oro"],a:1}
+// ============================================
+// 📝 EDITÁ LAS PREGUNTAS AQUÍ
+// ============================================
+// Formato:
+// {
+//   q: "Pregunta aquí",
+//   o: ["Opción 1", "Opción 2", "Opción 3"],
+//   a: índiceDeRespuestaCorrecta (0, 1 o 2)
+// }
+
+const questions = [
+  {
+    q: "¿Qué hombre fue sanado de la lepra al obedecer al profeta Eliseo?\?",
+    o: ["Uzías", "Naamán", "Giezi"],
+    a: 1  // Naamán es la opción 2 (índice 1)
+  },
+  {
+    q: "¿Qué profeta se casó con una mujer infiel por mandato de Dios?",
+    o: ["Amós", "Oseas", "Miqueas"],
+    a: 1  // Oseas es la opción 2 (índice 1)
+  },
+  {
+    q: "¿Quién interpretó el sueño del árbol cortado?",
+    o: ["Daniel", "José", "Natán"],
+    a: 0  // Daniel es la opción 1 (índice 0)
+  },
+  {
+    q: "¿Qué ciudad fue reconstruida con oposición constante?",
+    o: ["Jerusalén", "Samaria", "Jericó"],
+    a: 0  // Jerusalén es la opción 1(índice 0)
+  },
+  {
+    q: "¿Qué libro contiene la visión de los cuatro jinetes?",
+    o: ["Daniel", "Apocalipsis", "Zacarías"],
+    a: 1  // Apocalipsis es la opción 2 (índice 1)
+  },
+  {
+    q: "¿Qué mujer cantó un cántico tras el nacimiento de Samuel?",
+    o: ["Ana", "Rut", "Ester"],
+    a: 0  // Ana es la opción 1 (índice 0)
+  }
 ];
 
-let state=JSON.parse(localStorage.getItem("quiz_state"))||{
-  step:"start",
-  name:"",
-  index:0,
-  score:0
+// ============================================
+// 🚀 NO MODIFIQUES NADA DEBAJO DE ESTA LÍNEA
+// (A menos que sepas lo que estás haciendo)
+// ============================================
+
+let state = JSON.parse(localStorage.getItem("quiz_state")) || {
+  step: "start",
+  name: "",
+  index: 0,
+  score: 0
 };
 
-let usedNames=JSON.parse(localStorage.getItem("used_names"))||[];
+let usedNames = JSON.parse(localStorage.getItem("used_names")) || [];
 
-let time=10;
+let time = 10;
 let interval;
 
-const startDiv=document.getElementById("start");
-const quizDiv=document.getElementById("quiz");
-const resultDiv=document.getElementById("result");
-const progress=document.getElementById("progress");
+const startDiv = document.getElementById("start");
+const quizDiv = document.getElementById("quiz");
+const resultDiv = document.getElementById("result");
+const progress = document.getElementById("progress");
 
-function save(){
-  localStorage.setItem("quiz_state",JSON.stringify(state));
-  localStorage.setItem("used_names",JSON.stringify(usedNames));
+function save() {
+  localStorage.setItem("quiz_state", JSON.stringify(state));
+  localStorage.setItem("used_names", JSON.stringify(usedNames));
 }
 
-function show(step){
+function show(step) {
   startDiv.classList.add("hidden");
   quizDiv.classList.add("hidden");
   resultDiv.classList.add("hidden");
 
-  if(step==="start") startDiv.classList.remove("hidden");
-  if(step==="quiz") quizDiv.classList.remove("hidden");
-  if(step==="result") resultDiv.classList.remove("hidden");
+  if (step === "start") startDiv.classList.remove("hidden");
+  if (step === "quiz") quizDiv.classList.remove("hidden");
+  if (step === "result") resultDiv.classList.remove("hidden");
 }
 
-function startQuiz(){
-  const name=document.getElementById("nameInput").value.trim();
-  if(!name) return alert("Ingresá tu nombre");
-  if(usedNames.includes(name.toLowerCase()))
+function startQuiz() {
+  const name = document.getElementById("nameInput").value.trim();
+  if (!name) return alert("Ingresá tu nombre");
+  if (usedNames.includes(name.toLowerCase()))
     return alert("❌ Ese nombre ya jugó");
 
-  state={step:"quiz",name,index:0,score:0};
+  state = { step: "quiz", name, index: 0, score: 0 };
   usedNames.push(name.toLowerCase());
   save();
   show("quiz");
   loadQuestion();
 }
 
-function loadQuestion(){
+function loadQuestion() {
   clearInterval(interval);
 
-  if(state.index>=questions.length){
+  if (state.index >= questions.length) {
     finish();
     return;
   }
 
-  document.getElementById("playerName").innerText="👤 "+state.name;
-  document.getElementById("question").innerText=
-    `${state.index+1}° ${questions[state.index].q}`;
+  document.getElementById("playerName").innerText = "👤 " + state.name;
+  document.getElementById("question").innerText =
+    `${state.index + 1}° ${questions[state.index].q}`;
 
-  document.getElementById("options").innerHTML="";
-  time=10;
-  progress.style.width="100%";
+  document.getElementById("options").innerHTML = "";
+  time = 10;
+  progress.style.width = "100%";
 
-  questions[state.index].o.forEach((opt,i)=>{
-    const b=document.createElement("button");
-    b.className="option";
-    b.innerText=opt;
-    b.onclick=()=>answer(b,i);
+  questions[state.index].o.forEach((opt, i) => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.innerText = opt;
+    b.onclick = () => answer(b, i);
     document.getElementById("options").appendChild(b);
   });
 
-  interval=setInterval(()=>{
+  interval = setInterval(() => {
     time--;
-    progress.style.width=(time/10*100)+"%";
-    if(time===0){
+    progress.style.width = (time / 10 * 100) + "%";
+    if (time === 0) {
       clearInterval(interval);
       state.index++;
       save();
       loadQuestion();
     }
-  },1000);
+  }, 1000);
 }
 
-function answer(btn,i){
+function answer(btn, i) {
   clearInterval(interval);
-  const correct=questions[state.index].a;
+  const correct = questions[state.index].a;
 
-  if(i===correct){
+  if (i === correct) {
     btn.classList.add("correct");
     state.score++;
-  }else{
+  } else {
     btn.classList.add("wrong");
     document.getElementsByClassName("option")[correct].classList.add("correct");
   }
 
   state.index++;
   save();
-  setTimeout(loadQuestion,800);
+  setTimeout(loadQuestion, 800);
 }
 
-function finish(){
-  state.step="result";
+function finish() {
+  state.step = "result";
   save();
   show("result");
-  document.getElementById("finalScore").innerText=
+  document.getElementById("finalScore").innerText =
     `${state.name}, acertaste ${state.score} de ${questions.length}`;
 }
 
-function takeScreenshot(){
-  html2canvas(document.getElementById("captureArea")).then(canvas=>{
-    const a=document.createElement("a");
-    a.download="resultado-quiz.png";
-    a.href=canvas.toDataURL();
+function takeScreenshot() {
+  html2canvas(document.getElementById("captureArea")).then(canvas => {
+    const a = document.createElement("a");
+    a.download = "resultado-quiz.png";
+    a.href = canvas.toDataURL();
     a.click();
   });
 }
 
-function goHome(){
+function goHome() {
   localStorage.removeItem("quiz_state");
   show("start");
-  document.getElementById("nameInput").value="";
+  document.getElementById("nameInput").value = "";
 }
 
 // REANUDAR
 show(state.step);
-if(state.step==="quiz") loadQuestion();
-if(state.step==="result"){
-  document.getElementById("finalScore").innerText=
+if (state.step === "quiz") loadQuestion();
+if (state.step === "result") {
+  document.getElementById("finalScore").innerText =
     `${state.name}, acertaste ${state.score} de ${questions.length}`;
 }
 </script>

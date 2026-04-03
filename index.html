@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>HE Refrigeración | Catálogo con imágenes y copos de nieve</title>
-    <!-- Font Awesome 6 (gratuito) -->
+    <title>NE Refrigeración | Repuestos y Equipos</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Swiper JS para hero con efecto -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,14 +16,14 @@
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(145deg, #e2f0ff 0%, #cde4f5 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #eef5fc 0%, #dceaf2 100%);
             position: relative;
             overflow-x: hidden;
             color: #022b3b;
         }
 
-        /* ---------- FONDO DE COPOS DE NIEVE DINÁMICOS (canvas) ---------- */
+        /* CANVAS DE COPOS DE NIEVE */
         #snowCanvas {
             position: fixed;
             top: 0;
@@ -36,21 +34,20 @@
             z-index: 1;
         }
 
-        /* Contenido principal por encima del canvas */
         .main-content {
             position: relative;
             z-index: 2;
         }
 
-        /* Header Glassmorphism */
+        /* HEADER */
         header {
-            background: rgba(10, 44, 65, 0.85);
-            backdrop-filter: blur(14px);
+            background: rgba(8, 45, 65, 0.94);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 14px 0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            padding: 12px 0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
             border-bottom: 1px solid rgba(255,255,255,0.3);
         }
 
@@ -71,10 +68,20 @@
         .logo h1 {
             font-size: 1.9rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #FFFFFF, #c0edff);
+            background: linear-gradient(135deg, #FFFFFF, #b3e2ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        .logo span {
+            font-size: 0.75rem;
+            background: #128C7E;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            margin-left: 8px;
         }
 
         .btn-wa {
@@ -92,185 +99,104 @@
         }
 
         .btn-wa:hover {
-            transform: scale(1.03);
-            background: linear-gradient(95deg, #20b85f, #0e6e5e);
+            transform: scale(1.02);
         }
 
-        /* Hero Swiper */
-        .hero-swiper {
-            margin: 30px 0 30px;
-            border-radius: 48px;
-            overflow: hidden;
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.25);
-        }
-
-        .swiper-slide {
-            background: radial-gradient(circle at 30% 10%, #0b3b4f, #03212e);
-            padding: 45px 35px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 25px;
-        }
-
-        .slide-text {
-            color: white;
-            flex: 1;
-        }
-
-        .slide-text h2 {
-            font-size: 2.3rem;
-            font-weight: 800;
-        }
-
-        .catalog-section {
-            margin: 40px 0;
-        }
-
-        .section-title {
+        /* Hero con 6 imágenes destacadas (solo ventas) */
+        .hero-showcase {
+            margin: 40px 0 30px;
             text-align: center;
-            margin-bottom: 20px;
         }
 
-        .section-title h3 {
-            font-size: 2.2rem;
+        .hero-showcase h2 {
+            font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(120deg, #0a4b63, #1f7fa0);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 15px;
         }
 
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin: 30px 0 40px;
+        .hero-showcase p {
+            color: #2c5a6e;
+            margin-bottom: 35px;
         }
 
-        .filter-btn {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(4px);
-            border: 1px solid #bdd9ec;
-            padding: 10px 24px;
-            border-radius: 60px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-
-        .filter-btn.active {
-            background: #0b3b4f;
-            color: white;
-            border-color: #0b3b4f;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-        }
-
-        /* GRID PRODUCTOS RESPONSIVE */
-        .products-grid {
+        /* Grid de 6 imágenes destacadas (en móvil 2 columnas, desktop 3 o 6) */
+        .showcase-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 32px;
-            margin: 20px 0 50px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 25px;
+            margin: 20px 0 40px;
         }
 
-        .product-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(2px);
-            border-radius: 32px;
+        @media (max-width: 900px) {
+            .showcase-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+        @media (max-width: 550px) {
+            .showcase-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+
+        .showcase-card {
+            background: white;
+            border-radius: 28px;
             overflow: hidden;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.7);
+            text-align: center;
         }
 
-        .product-card:hover {
+        .showcase-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 24px 36px -12px rgba(0,0,0,0.25);
+            box-shadow: 0 20px 28px -12px rgba(0,0,0,0.25);
+        }
+
+        .showcase-img {
+            width: 100%;
+            height: 160px;
+            background: #f0f7fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .showcase-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
             background: white;
         }
 
-        /* Imagen del producto (personalizable) */
-        .product-img {
-            width: 100%;
-            height: 220px;
-            background-color: #f0f7fc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+        .showcase-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 12px 0 8px;
+            color: #0a3b4f;
         }
 
-        .product-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s;
-        }
-
-        .product-card:hover .product-img img {
-            transform: scale(1.04);
-        }
-
-        .product-info {
-            padding: 20px 20px 28px;
-        }
-
-        .product-cat {
-            font-size: 0.7rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #0f6b8c;
-            text-transform: uppercase;
-        }
-
-        .product-title {
-            font-size: 1.35rem;
-            font-weight: 800;
-            margin: 8px 0;
-        }
-
-        .product-desc {
-            font-size: 0.85rem;
+        .showcase-card p {
+            font-size: 0.75rem;
             color: #2c5f78;
-            margin: 10px 0;
-            line-height: 1.4;
+            padding: 0 10px 15px;
         }
 
-        .price {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #094c61;
-            margin: 15px 0 18px;
-        }
-
-        .btn-wa-card {
-            background: #25D366;
-            width: 100%;
-            border: none;
-            padding: 12px 0;
-            border-radius: 60px;
-            color: white;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.95rem;
-        }
-
-        /* Banner flotante */
-        .contact-banner {
-            background: linear-gradient(105deg, #0a364b, #0b4e6b);
+        /* Banner whatsapp */
+        .sales-banner {
+            background: linear-gradient(105deg, #0f4e66, #0b384b);
             border-radius: 48px;
-            padding: 40px 30px;
-            margin: 20px 0 60px;
+            padding: 35px 30px;
+            margin: 30px 0 50px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -281,7 +207,7 @@
 
         footer {
             background: #05212e;
-            padding: 45px 0 25px;
+            padding: 40px 0 25px;
             color: #cae3f0;
         }
 
@@ -294,104 +220,234 @@
 
         .social-icons a {
             color: white;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-right: 18px;
             transition: 0.2s;
         }
 
-        .social-icons a:hover {
-            color: #25D366;
-        }
-
         .copyright {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 35px;
             padding-top: 15px;
             border-top: 1px solid #2b6c88;
+            font-size: 0.8rem;
+        }
+
+        /* ---- ESTILOS PARA PÁGINA DE CATÁLOGO DE REPUESTOS (oculto inicialmente) ---- */
+        .catalog-page {
+            display: none;
+            margin: 30px 0;
+        }
+
+        .catalog-page.active {
+            display: block;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #0b3b4f;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+
+        .back-home:hover {
+            background: #1e627e;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 25px 0 35px;
+        }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid #b9d6ec;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-btn.active {
+            background: #0b3b4f;
+            color: white;
+            border-color: #0b3b4f;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+            margin: 20px 0 50px;
         }
 
         @media (max-width: 700px) {
-            .swiper-slide {
-                flex-direction: column;
-                text-align: center;
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
             }
-            .slide-text h2 {
-                font-size: 1.7rem;
+            .product-info {
+                padding: 12px 10px 16px;
             }
-            .container {
-                padding: 0 20px;
+            .product-title {
+                font-size: 0.9rem;
             }
-            .product-img {
-                height: 180px;
+            .price {
+                font-size: 1rem;
+            }
+            .btn-wa-card {
+                padding: 8px 0;
+                font-size: 0.7rem;
+            }
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 22px -12px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 170px;
+            background: #f2f8fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+            background: white;
+        }
+
+        .product-info {
+            padding: 16px 14px 20px;
+        }
+
+        .product-cat {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #0f6b8c;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 6px 0;
+        }
+
+        .product-desc {
+            font-size: 0.75rem;
+            color: #2c5f78;
+            margin: 8px 0;
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #094c61;
+            margin: 10px 0 14px;
+        }
+
+        .btn-wa-card {
+            background: #25D366;
+            width: 100%;
+            border: none;
+            padding: 10px 0;
+            border-radius: 60px;
+            color: white;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                gap: 12px;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- Canvas para copos de nieve animados -->
 <canvas id="snowCanvas"></canvas>
 
 <div class="main-content">
     <header>
         <div class="container header-flex">
             <div class="logo">
-                <h1>❄️ HE Refrigeración</h1>
+                <h1>NE Refrigeración <span>solo ventas</span></h1>
             </div>
-            <a href="#" id="whatsappHeaderBtn" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Contactar</a>
+            <a href="#" id="whatsappHeaderBtn" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Ventas directas</a>
         </div>
     </header>
 
     <div class="container">
-        <!-- Hero con Swiper -->
-        <div class="hero-swiper swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="slide-text">
-                        <h2>Equipos de frío de última generación</h2>
-                        <p>Catálogo con imágenes reales, precios competitivos y atención personalizada por WhatsApp.</p>
-                        <a href="#catalogo" style="background:white; color:#0a2c41; padding:10px 25px; border-radius:40px; font-weight:700; text-decoration:none; display:inline-block;">Ver productos <i class="fas fa-arrow-down"></i></a>
-                    </div>
-                    <i class="fas fa-snowflake" style="font-size: 5rem; color:white; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));"></i>
-                </div>
-                <div class="swiper-slide">
-                    <div class="slide-text">
-                        <h2>Ofertas en Aires y Heladeras</h2>
-                        <p>Hacé tu pedido desde el catálogo con solo un clic. Respondemos al instante.</p>
-                        <a href="#catalogo" style="background:white; color:#0a2c41; padding:10px 25px; border-radius:40px; font-weight:700; text-decoration:none;">Explorar ahora</a>
-                    </div>
-                    <i class="fas fa-temperature-low" style="font-size: 5rem; color:white;"></i>
+        <!-- PÁGINA PRINCIPAL con 6 imágenes destacadas -->
+        <div id="homePage">
+            <div class="hero-showcase">
+                <h2><i class="fas fa-microchip"></i> Repuestos originales para refrigeración</h2>
+                <p>Hacé clic en cualquier imagen para ver todo el catálogo de esa categoría. ¡Envíos a todo el país!</p>
+                <div class="showcase-grid" id="showcaseGrid">
+                    <!-- 6 imágenes destacadas (se generan con JS) -->
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next" style="color:white;"></div>
-            <div class="swiper-button-prev" style="color:white;"></div>
-        </div>
-    </div>
-
-    <div class="container catalog-section" id="catalogo">
-        <div class="section-title">
-            <h3><i class="fas fa-catalog"></i> Nuestros productos destacados</h3>
-            <p style="color:#2c5a6e;">Cada producto tiene su propia imagen. ¡Seleccioná y consultanos!</p>
-        </div>
-
-        <div class="filter-buttons" id="filterContainer">
-            <button class="filter-btn active" data-category="all">Todos</button>
-            <button class="filter-btn" data-category="aires"><i class="fas fa-wind"></i> Aire Acondicionado</button>
-            <button class="filter-btn" data-category="heladeras"><i class="fas fa-thermometer-half"></i> Heladeras & Freezers</button>
-            <button class="filter-btn" data-category="ventilacion"><i class="fas fa-fan"></i> Ventilación</button>
-        </div>
-
-        <div class="products-grid" id="productsGrid"></div>
-    </div>
-
-    <div class="container">
-        <div class="contact-banner">
-            <div>
-                <h3><i class="fab fa-whatsapp"></i> ¿Necesitas asesoramiento técnico?</h3>
-                <p>Respondemos todas tus dudas sobre instalación, garantía y precios.</p>
+            <div class="sales-banner">
+                <div>
+                    <h3><i class="fab fa-whatsapp"></i> ¿Buscás un repuesto específico?</h3>
+                    <p>Compresores, ventiladores, capacitores, gas y más. Consultanos sin compromiso.</p>
+                </div>
+                <a href="#" id="bannerWhatsappBtn" class="btn-wa" style="background:#25D366;">Preguntar por repuestos</a>
             </div>
-            <a href="#" id="bannerWhatsappBtn" class="btn-wa" style="background:#25D366; font-size:1rem;">Consultar ahora</a>
+        </div>
+
+        <!-- PÁGINA DE CATÁLOGO COMPLETO (oculta al inicio) -->
+        <div id="catalogPage" class="catalog-page">
+            <button id="backHomeBtn" class="back-home"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
+            <div class="section-title" style="text-align:center;">
+                <h3><i class="fas fa-boxes"></i> Todos nuestros repuestos y equipos</h3>
+                <p style="color:#2c5a6e;">Seleccioná una categoría y consultá por WhatsApp</p>
+            </div>
+            <div class="filter-buttons" id="filterContainer">
+                <button class="filter-btn active" data-category="all">Todos</button>
+                <button class="filter-btn" data-category="repuestos"><i class="fas fa-microchip"></i> Repuestos</button>
+                <button class="filter-btn" data-category="equipos"><i class="fas fa-snowflake"></i> Equipos completos</button>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
         </div>
     </div>
 
@@ -399,17 +455,18 @@
         <div class="container">
             <div class="footer-flex">
                 <div>
-                    <h4>HE Refrigeración</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Av. Cabildo 3100, CABA, Argentina</p>
+                    <h4>NE Refrigeración</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Corrientes 3200, CABA</p>
                     <p><i class="fab fa-whatsapp"></i> +54 9 11 6789-1234</p>
+                    <p><i class="fas fa-tools"></i> Venta de repuestos y equipos</p>
                 </div>
                 <div>
-                    <h4>Horarios</h4>
+                    <h4>Atención</h4>
                     <p>Lun a Vie: 9:00 - 18:00 hs</p>
                     <p>Sábados: 9:00 - 13:00 hs</p>
                 </div>
                 <div>
-                    <h4>Seguinos</h4>
+                    <h4>Redes</h4>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -418,28 +475,26 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>❄️ HE Refrigeración - Soluciones en frío | Catálogo con imágenes y contacto directo</p>
+                <p>❄️ NE Refrigeración - Solo ventas de repuestos y equipos de refrigeración. No realizamos instalaciones.</p>
             </div>
         </div>
     </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-    // ----------------- CONFIGURACIÓN WHATSAPP (CAMBIAR NÚMERO REAL) -----------------
-    const WHATSAPP_NUMBER = "5491112345678";  // Reemplazar con el número de HE Refrigeración (ej: 5491122233344)
-    
+    // ---------- CONFIGURACIÓN WHATSAPP ----------
+    const WHATSAPP_NUMBER = "5491112345678";  // CAMBIAR POR NÚMERO REAL DE NE REFRIGERACIÓN
+
     function generateWhatsLink(productName = "", productPrice = "") {
         let message = "";
         if (productName) {
-            message = `Hola HE Refrigeración, me interesa el producto: ${productName} - ${productPrice}. ¿Podrían darme más información?`;
+            message = `Hola NE Refrigeración, quiero comprar: ${productName} - ${productPrice}. ¿Me das información de stock y envío?`;
         } else {
-            message = "Hola, quiero consultar por sus productos de refrigeración.";
+            message = "Hola, quiero consultar por la venta de repuestos y equipos de refrigeración.";
         }
         return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     }
 
-    // Actualizar todos los enlaces globales
     function updateGlobalWA() {
         const headerBtn = document.getElementById("whatsappHeaderBtn");
         const bannerBtn = document.getElementById("bannerWhatsappBtn");
@@ -447,48 +502,101 @@
         if(bannerBtn) bannerBtn.href = generateWhatsLink();
     }
 
-    // ----------------- PRODUCTOS CON IMÁGENES PERSONALIZADAS (USANDO IMÁGENES DE EJEMPLO / UNSPLASH, pero son demostrativas y reemplazables) -----------------
-    // Para que cada producto tenga su imagen, usamos URLs de placeholder gratuitas con temática de refrigeración.
-    // En un caso real, reemplazar con las rutas de las imágenes propias (subidas a tu servidor o CDN).
-    // He usado imágenes de alta calidad de placeholder con concepto de electrodomésticos / frío.
-    const productos = [
-        { id: 1, nombre: "Split Inverter 3200W", descripcion: "Eficiencia A+++, control wifi, silencioso", precio: "$199.900", categoria: "aires", imagen: "https://images.unsplash.com/photo-1634405741613-0b6e2b4e7a7c?w=400&h=250&fit=crop", iconoDefault: "fas fa-wind" },
-        { id: 2, nombre: "Aire Portátil 2600W", descripcion: "Movilidad total, deshumidificador, fácil instalación", precio: "$159.500", categoria: "aires", imagen: "https://images.unsplash.com/photo-1629131726697-3b6a5f8c1e2f?w=400&h=250&fit=crop" },
-        { id: 3, nombre: "Split On/Off 4800W", descripcion: "Para grandes ambientes, gas ecológico R32", precio: "$289.000", categoria: "aires", imagen: "https://images.unsplash.com/photo-1611174742087-a2c0c1b8f5a6?w=400&h=250&fit=crop" },
-        { id: 4, nombre: "Heladera Side by Side 520L", descripcion: "No Frost, dispensador de agua, acero inoxidable", precio: "$499.999", categoria: "heladeras", imagen: "https://images.unsplash.com/photo-1608043152269-42306bba45e4?w=400&h=250&fit=crop" },
-        { id: 5, nombre: "Freezer Horizontal 400L", descripcion: "Uso comercial, tapa corrediza, rápida congelación", precio: "$378.000", categoria: "heladeras", imagen: "https://images.unsplash.com/photo-1584568694244-14fbdfd3a94c?w=400&h=250&fit=crop" },
-        { id: 6, nombre: "Heladera Ciclónica 360L", descripcion: "Inverter, tecnología frost free, diseño moderno", precio: "$425.000", categoria: "heladeras", imagen: "https://images.unsplash.com/photo-1567696911980-2ee69ce79ec4?w=400&h=250&fit=crop" },
-        { id: 7, nombre: "Vitrina Refrigerada 1.8m", descripcion: "Exhibidora de góndola, LED interior, alta visibilidad", precio: "$649.000", categoria: "heladeras", imagen: "https://images.unsplash.com/photo-1588854337118-9e4e1cfb1f6c?w=400&h=250&fit=crop" },
-        { id: 8, nombre: "Ventilador Industrial 24\"", descripcion: "Estructura metálica, 3 velocidades, gran flujo", precio: "$99.900", categoria: "ventilacion", imagen: "https://images.unsplash.com/photo-1626806787462-102c1a40e2b8?w=400&h=250&fit=crop" },
-        { id: 9, nombre: "Extractor de Aire Axial 14\"", descripcion: "Muy potente, ideal para galpones o depósitos", precio: "$134.000", categoria: "ventilacion", imagen: "https://images.unsplash.com/photo-1581091870626-9c9d15b8d1d1?w=400&h=250&fit=crop" },
-        { id: 10, nombre: "Ventilador de pedestal industrial", descripcion: "Base reforzada, silencioso, regulable", precio: "$74.500", categoria: "ventilacion", imagen: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=250&fit=crop" },
-        { id: 11, nombre: "Multisplit 3x1", descripcion: "Ideal para oficinas, 3 ambientes, control central", precio: "$1.049.000", categoria: "aires", imagen: "https://images.unsplash.com/photo-1621259182978-fbf93132d3fd?w=400&h=250&fit=crop" }
+    // ---------- BASE DE DATOS DE REPUESTOS Y EQUIPOS (con imágenes creadas para cada producto) ----------
+    // Todos los productos tienen imágenes realistas de repuestos y equipos
+    const todosProductos = [
+        // REPUESTOS (imágenes de repuestos)
+        { id: 1, nombre: "Compresor Rotativo 1/3 HP", descripcion: "Para heladeras, bajo consumo, R134a", precio: "$45.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png" },
+        { id: 2, nombre: "Ventilador Condensador 12\"", descripcion: "220V, 2 velocidades, flujo 800CFM", precio: "$18.500", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png" },
+        { id: 3, nombre: "Capacitor 30+3uF 450V", descripcion: "Para aires acondicionados, original", precio: "$8.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png" },
+        { id: 4, nombre: "Gas Refrigerante R410a 1kg", descripcion: "Envase descartable, alta pureza", precio: "$32.000", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
+        { id: 5, nombre: "Termostato Digital", descripcion: "Rango -30 a 50°C, sonda NTC", precio: "$12.400", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png" },
+        { id: 6, nombre: "Motor Evaporador 18W", descripcion: "1300rpm, para freezers y vitrinas", precio: "$22.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png" },
+        { id: 7, nombre: "Válvula de expansión termostática", descripcion: "1/4", descripcion2: "Para sistemas de refrigeración", precio: "$28.700", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/4225/4225840.png" },
+        { id: 8, nombre: "Kit de sellado y juntas", descripcion: "20 piezas, para compresores", precio: "$14.300", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2972/2972991.png" },
+        // EQUIPOS COMPLETOS
+        { id: 9, nombre: "Split Inverter 3000W", descripcion: "Frío/Calor, A+++, control wifi", precio: "$199.900", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1634405741613-0b6e2b4e7a7c?w=400&h=220&fit=crop" },
+        { id: 10, nombre: "Heladera No Frost 420L", descripcion: "Inverter, acero inoxidable", precio: "$399.999", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1608043152269-42306bba45e4?w=400&h=220&fit=crop" },
+        { id: 11, nombre: "Freezer Horizontal 300L", descripcion: "Tapa corrediza, uso comercial", precio: "$325.000", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1584568694244-14fbdfd3a94c?w=400&h=220&fit=crop" },
+        { id: 12, nombre: "Ventilador Industrial 20\"", descripcion: "Trípode, 3 velocidades", precio: "$89.900", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1626806787462-102c1a40e2b8?w=400&h=220&fit=crop" }
     ];
 
+    // 6 IMÁGENES DESTACADAS (se muestran en home, cada una representa una categoría/llamado a acción)
+    // Usamos iconos/representaciones visuales de repuestos
+    const destacados = [
+        { titulo: "Compresores", descripcion: "Alta eficiencia", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png", filtro: "repuestos" },
+        { titulo: "Ventiladores", descripcion: "Condensación y evaporación", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png", filtro: "repuestos" },
+        { titulo: "Capacitores", descripcion: "Originales", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png", filtro: "repuestos" },
+        { titulo: "Gases refrigerantes", descripcion: "R410a, R134a, R32", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", filtro: "repuestos" },
+        { titulo: "Termostatos", descripcion: "Digitales y analógicos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png", filtro: "repuestos" },
+        { titulo: "Equipos completos", descripcion: "Aires, heladeras, freezers", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png", filtro: "equipos" }
+    ];
+
+    // Renderizar las 6 tarjetas en home
+    const showcaseGrid = document.getElementById("showcaseGrid");
+    function renderShowcase() {
+        let html = "";
+        destacados.forEach(item => {
+            html += `
+                <div class="showcase-card" data-filter="${item.filtro}" data-category="${item.filtro}">
+                    <div class="showcase-img">
+                        <img src="${item.imagen}" alt="${item.titulo}" loading="lazy">
+                    </div>
+                    <h3>${item.titulo}</h3>
+                    <p>${item.descripcion}</p>
+                </div>
+            `;
+        });
+        showcaseGrid.innerHTML = html;
+        // Agregar evento a cada tarjeta: al hacer clic, abre el catálogo filtrado
+        document.querySelectorAll(".showcase-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const filterValue = card.getAttribute("data-filter");
+                // Mostrar página de catálogo y ocultar home
+                document.getElementById("homePage").style.display = "none";
+                document.getElementById("catalogPage").classList.add("active");
+                // Aplicar filtro correspondiente
+                if (filterValue === "repuestos") {
+                    activeCategory = "repuestos";
+                } else if (filterValue === "equipos") {
+                    activeCategory = "equipos";
+                } else {
+                    activeCategory = "all";
+                }
+                // Actualizar botones activos visualmente
+                document.querySelectorAll(".filter-btn").forEach(btn => {
+                    if(btn.getAttribute("data-category") === activeCategory) {
+                        btn.classList.add("active");
+                    } else {
+                        btn.classList.remove("active");
+                    }
+                });
+                renderProducts();
+            });
+        });
+    }
+
+    // Lógica catálogo completo
     let activeCategory = "all";
     const productsGrid = document.getElementById("productsGrid");
 
     function getCategoryLabel(cat) {
-        if(cat === "aires") return "❄️ AIRE ACONDICIONADO";
-        if(cat === "heladeras") return "🧊 HELADERAS / FREEZERS";
-        if(cat === "ventilacion") return "🌀 VENTILACIÓN";
-        return "🔧 EQUIPOS";
+        if(cat === "equipos") return "❄️ EQUIPO COMPLETO";
+        return "🔧 REPUESTO";
     }
 
     function renderProducts() {
-        let filtered = activeCategory === "all" ? [...productos] : productos.filter(p => p.categoria === activeCategory);
+        let filtered = activeCategory === "all" ? [...todosProductos] : todosProductos.filter(p => p.categoria === activeCategory);
         if(filtered.length === 0) {
-            productsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; background: rgba(255,255,255,0.7); border-radius:48px;"><i class="fas fa-snowflake fa-3x"></i><h3>Próximamente más equipos</h3><p>Consultá por WhatsApp modelos exclusivos</p></div>`;
+            productsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;"><i class="fas fa-box-open fa-3x"></i><h3>No hay productos en esta categoría</h3><p>Consultanos por WhatsApp para más opciones.</p></div>`;
             return;
         }
-
         let html = "";
         filtered.forEach(prod => {
-            // Se asigna la imagen personalizada, si falla se coloca un icono de respaldo (pero las imágenes son robustas)
             html += `
                 <div class="product-card">
                     <div class="product-img">
-                        <img src="${prod.imagen}" alt="${prod.nombre}" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fas fa-snowflake\\' style=\\'font-size:3rem; color:#147e9e;\\'></i>';">
+                        <img src="${prod.imagen}" alt="${prod.nombre}" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fas fa-snowflake\\' style=\\'font-size:2.5rem;\\'></i>';">
                     </div>
                     <div class="product-info">
                         <div class="product-cat">${getCategoryLabel(prod.categoria)}</div>
@@ -503,8 +611,6 @@
             `;
         });
         productsGrid.innerHTML = html;
-
-        // Eventos botones de cada producto
         document.querySelectorAll(".btn-wa-card").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const name = btn.getAttribute("data-name");
@@ -514,8 +620,7 @@
         });
     }
 
-    // Filtros interactivos
-    function initFilters() {
+    function initCatalogFilters() {
         const btns = document.querySelectorAll(".filter-btn");
         btns.forEach(btn => {
             btn.addEventListener("click", () => {
@@ -527,7 +632,22 @@
         });
     }
 
-    // ---------- EFECTO COPOS DE NIEVE CON CANVAS (RESPONSIVE, SUAVE) ----------
+    // Mostrar home / volver atrás
+    const backBtn = document.getElementById("backHomeBtn");
+    backBtn.addEventListener("click", () => {
+        document.getElementById("homePage").style.display = "block";
+        document.getElementById("catalogPage").classList.remove("active");
+        // resetear filtro visual opcional
+        activeCategory = "all";
+    });
+
+    // Inicializar
+    renderShowcase();
+    initCatalogFilters();
+    renderProducts();  // para que cargue catálogo pero esté oculto
+    updateGlobalWA();
+
+    // ---------- COPOS DE NIEVE ----------
     const canvas = document.getElementById("snowCanvas");
     let ctx = canvas.getContext("2d");
     let particles = [];
@@ -541,14 +661,14 @@
 
     function initSnow() {
         resizeCanvas();
-        const numFlakes = Math.min(120, Math.floor(window.innerWidth / 12));
+        const numFlakes = Math.min(110, Math.floor(window.innerWidth / 12));
         particles = [];
         for(let i = 0; i < numFlakes; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: Math.random() * 4 + 2,
-                speedY: Math.random() * 1.2 + 0.6,
+                speedY: Math.random() * 1.2 + 0.5,
                 speedX: Math.random() * 0.5 - 0.25,
                 opacity: Math.random() * 0.5 + 0.3
             });
@@ -559,13 +679,11 @@
     function drawSnow() {
         if(!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "white";
         for(let p of particles) {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
             ctx.fill();
-            // movimiento
             p.x += p.speedX;
             p.y += p.speedY;
             if(p.y > canvas.height) {
@@ -586,39 +704,12 @@
         }, 150);
     }
 
-    // Inicializar swiper
-    const swiper = new Swiper('.hero-swiper', {
-        loop: true,
-        autoplay: { delay: 4500, disableOnInteraction: false },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        speed: 700
-    });
-
-    // Smooth scroll para anclas
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function(e) {
-            const targetId = this.getAttribute("href");
-            if(targetId === "#" || targetId === "") return;
-            const targetEl = document.querySelector(targetId);
-            if(targetEl) {
-                e.preventDefault();
-                targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-        });
-    });
-
-    // Llamadas iniciales
-    renderProducts();
-    initFilters();
-    updateGlobalWA();
     initSnow();
     window.addEventListener("resize", handleResize);
-    // opcional: si se necesita limpiar animación al salir (buena práctica)
     window.addEventListener("beforeunload", () => {
         if(animationId) cancelAnimationFrame(animationId);
     });
 </script>
-<!-- Instrucción: Reemplazar WHATSAPP_NUMBER por el número real de HE Refrigeración, y las imágenes de los productos pueden cambiarse por las propias en el array 'productos' (campo imagen) -->
+<!-- Instrucción: Reemplazar WHATSAPP_NUMBER con el número real de NE Refrigeración (ej: 5491122233344) -->
 </body>
 </html>

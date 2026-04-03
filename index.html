@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>NE Refrigeración | Repuestos y Equipos</title>
+    <title>NE Refrigeración | Catálogo de repuestos y equipos</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
@@ -23,7 +23,7 @@
             color: #022b3b;
         }
 
-        /* CANVAS DE COPOS DE NIEVE */
+        /* CANVAS COPOS DE NIEVE */
         #snowCanvas {
             position: fixed;
             top: 0;
@@ -37,6 +37,9 @@
         .main-content {
             position: relative;
             z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* HEADER */
@@ -84,159 +87,141 @@
             margin-left: 8px;
         }
 
-        .btn-wa {
-            background: linear-gradient(95deg, #25D366, #128C7E);
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .cart-icon i {
+            font-size: 1.4rem;
             color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-flex;
+        }
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+            justify-content: center;
         }
 
-        .btn-wa:hover {
-            transform: scale(1.02);
-        }
-
-        /* Hero con 6 imágenes destacadas (solo ventas) */
+        /* PANTALLA PRINCIPAL: SOLO 6 IMÁGENES */
         .hero-showcase {
-            margin: 40px 0 30px;
-            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 60px 20px;
         }
 
         .hero-showcase h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(120deg, #0a4b63, #1f7fa0);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-align: center;
             margin-bottom: 15px;
         }
 
-        .hero-showcase p {
+        .hero-showcase > p {
+            text-align: center;
             color: #2c5a6e;
-            margin-bottom: 35px;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
         }
 
-        /* Grid de 6 imágenes destacadas (en móvil 2 columnas, desktop 3 o 6) */
         .showcase-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 25px;
-            margin: 20px 0 40px;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
             .showcase-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
+                gap: 25px;
             }
         }
-        @media (max-width: 550px) {
+        @media (max-width: 600px) {
             .showcase-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                gap: 20px;
+            }
+            .hero-showcase h2 {
+                font-size: 1.6rem;
             }
         }
 
         .showcase-card {
             background: white;
-            border-radius: 28px;
-            overflow: hidden;
+            border-radius: 32px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.15);
             text-align: center;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
         .showcase-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 28px -12px rgba(0,0,0,0.25);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.25);
         }
 
         .showcase-img {
-            width: 100%;
             height: 160px;
-            background: #f0f7fc;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            background: linear-gradient(145deg, #f5faff, #e8f0f8);
+            padding: 20px;
         }
 
         .showcase-img img {
-            width: 100%;
-            height: 100%;
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            padding: 20px;
-            background: white;
+            transition: transform 0.3s;
+        }
+
+        .showcase-card:hover .showcase-img img {
+            transform: scale(1.05);
         }
 
         .showcase-card h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 12px 0 8px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 18px 0 6px;
             color: #0a3b4f;
         }
 
         .showcase-card p {
-            font-size: 0.75rem;
-            color: #2c5f78;
-            padding: 0 10px 15px;
-        }
-
-        /* Banner whatsapp */
-        .sales-banner {
-            background: linear-gradient(105deg, #0f4e66, #0b384b);
-            border-radius: 48px;
-            padding: 35px 30px;
-            margin: 30px 0 50px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            gap: 20px;
-        }
-
-        footer {
-            background: #05212e;
-            padding: 40px 0 25px;
-            color: #cae3f0;
-        }
-
-        .footer-flex {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
-        }
-
-        .social-icons a {
-            color: white;
-            font-size: 1.5rem;
-            margin-right: 18px;
-            transition: 0.2s;
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 35px;
-            padding-top: 15px;
-            border-top: 1px solid #2b6c88;
             font-size: 0.8rem;
+            color: #2c5f78;
+            padding: 0 15px 20px;
         }
 
-        /* ---- ESTILOS PARA PÁGINA DE CATÁLOGO DE REPUESTOS (oculto inicialmente) ---- */
+        /* PÁGINA DE CATÁLOGO (oculta al inicio) */
         .catalog-page {
             display: none;
-            margin: 30px 0;
+            margin: 30px 0 50px;
         }
 
         .catalog-page.active {
@@ -250,9 +235,9 @@
             background: #0b3b4f;
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
             cursor: pointer;
             margin-bottom: 30px;
             font-family: inherit;
@@ -268,7 +253,7 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 14px;
-            margin: 25px 0 35px;
+            margin: 20px 0 35px;
         }
 
         .filter-btn {
@@ -292,8 +277,8 @@
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 32px;
-            margin: 20px 0 50px;
+            gap: 30px;
+            margin: 25px 0;
         }
 
         @media (max-width: 700px) {
@@ -302,17 +287,13 @@
                 gap: 16px;
             }
             .product-info {
-                padding: 12px 10px 16px;
+                padding: 12px 12px 16px;
             }
             .product-title {
                 font-size: 0.9rem;
             }
             .price {
                 font-size: 1rem;
-            }
-            .btn-wa-card {
-                padding: 8px 0;
-                font-size: 0.7rem;
             }
         }
 
@@ -326,7 +307,8 @@
         }
 
         .product-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 28px -12px rgba(0,0,0,0.2);
         }
 
         .product-img {
@@ -340,15 +322,13 @@
         }
 
         .product-img img {
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
+            max-height: 140px;
             object-fit: contain;
-            padding: 12px;
-            background: white;
         }
 
         .product-info {
-            padding: 16px 14px 20px;
+            padding: 16px 15px 20px;
         }
 
         .product-cat {
@@ -360,8 +340,8 @@
         }
 
         .product-title {
-            font-size: 1rem;
             font-weight: 800;
+            font-size: 1rem;
             margin: 6px 0;
         }
 
@@ -372,34 +352,111 @@
         }
 
         .price {
-            font-size: 1.25rem;
             font-weight: 800;
+            font-size: 1.2rem;
             color: #094c61;
             margin: 10px 0 14px;
         }
 
-        .btn-wa-card {
-            background: #25D366;
-            width: 100%;
-            border: none;
-            padding: 10px 0;
-            border-radius: 60px;
+        .add-to-cart {
+            background: #0b3b4f;
             color: white;
-            font-weight: 800;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            cursor: pointer;
             transition: 0.2s;
-            font-size: 0.8rem;
         }
 
-        @media (max-width: 480px) {
-            .products-grid {
-                gap: 12px;
-            }
+        .add-to-cart:hover {
+            background: #1e627e;
         }
+
+        /* CARRITO LATERAL */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 420px;
+            max-width: 90%;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .cart-overlay.open { right: 0; }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .cart-items { flex: 1; }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-item-info h4 { font-size: 0.9rem; }
+        .cart-item-info p { font-size: 0.8rem; color: #0f6b8c; }
+        .cart-item-actions button {
+            background: #e2e8f0;
+            border: none;
+            width: 28px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+        .cart-total { margin: 20px 0; font-weight: 800; font-size: 1.1rem; }
+        .shipping-select {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 28px;
+            border: 1px solid #cbd5e1;
+            width: 100%;
+        }
+        .btn-send-wa {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #05212e;
+            padding: 40px 0 25px;
+            color: #cae3f0;
+            margin-top: auto;
+        }
+        .footer-flex { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+        .copyright { text-align: center; margin-top: 35px; padding-top: 15px; border-top: 1px solid #2b6c88; font-size: 0.8rem; }
+        @media (max-width: 600px) { .cart-overlay { width: 100%; right: -100%; } }
     </style>
 </head>
 <body>
@@ -412,35 +469,29 @@
             <div class="logo">
                 <h1>NE Refrigeración <span>solo ventas</span></h1>
             </div>
-            <a href="#" id="whatsappHeaderBtn" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Ventas directas</a>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- PÁGINA PRINCIPAL con 6 imágenes destacadas -->
+        <!-- PANTALLA PRINCIPAL: SOLO 6 IMÁGENES -->
         <div id="homePage">
             <div class="hero-showcase">
-                <h2><i class="fas fa-microchip"></i> Repuestos originales para refrigeración</h2>
-                <p>Hacé clic en cualquier imagen para ver todo el catálogo de esa categoría. ¡Envíos a todo el país!</p>
-                <div class="showcase-grid" id="showcaseGrid">
-                    <!-- 6 imágenes destacadas (se generan con JS) -->
-                </div>
-            </div>
-            <div class="sales-banner">
-                <div>
-                    <h3><i class="fab fa-whatsapp"></i> ¿Buscás un repuesto específico?</h3>
-                    <p>Compresores, ventiladores, capacitores, gas y más. Consultanos sin compromiso.</p>
-                </div>
-                <a href="#" id="bannerWhatsappBtn" class="btn-wa" style="background:#25D366;">Preguntar por repuestos</a>
+                <h2><i class="fas fa-microchip"></i> Repuestos y equipos de refrigeración</h2>
+                <p>Elegí una categoría, armá tu pedido y recibí el presupuesto con envío por WhatsApp</p>
+                <div class="showcase-grid" id="showcaseGrid"></div>
             </div>
         </div>
 
-        <!-- PÁGINA DE CATÁLOGO COMPLETO (oculta al inicio) -->
+        <!-- PÁGINA DE CATÁLOGO (oculta al inicio) -->
         <div id="catalogPage" class="catalog-page">
             <button id="backHomeBtn" class="back-home"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
-            <div class="section-title" style="text-align:center;">
-                <h3><i class="fas fa-boxes"></i> Todos nuestros repuestos y equipos</h3>
-                <p style="color:#2c5a6e;">Seleccioná una categoría y consultá por WhatsApp</p>
+            <div style="text-align:center; margin-bottom:10px;">
+                <h3 style="font-size:1.8rem; color:#0a4b63;"><i class="fas fa-boxes"></i> Todos los productos</h3>
+                <p style="color:#2c5a6e;">Agregá al carrito y sumá el costo de envío</p>
             </div>
             <div class="filter-buttons" id="filterContainer">
                 <button class="filter-btn active" data-category="all">Todos</button>
@@ -454,118 +505,221 @@
     <footer>
         <div class="container">
             <div class="footer-flex">
-                <div>
-                    <h4>NE Refrigeración</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Av. Corrientes 3200, CABA</p>
-                    <p><i class="fab fa-whatsapp"></i> +54 9 11 6789-1234</p>
-                    <p><i class="fas fa-tools"></i> Venta de repuestos y equipos</p>
-                </div>
-                <div>
-                    <h4>Atención</h4>
-                    <p>Lun a Vie: 9:00 - 18:00 hs</p>
-                    <p>Sábados: 9:00 - 13:00 hs</p>
-                </div>
-                <div>
-                    <h4>Redes</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
+                <div><h4>NE Refrigeración</h4><p><i class="fas fa-map-marker-alt"></i> Av. Corrientes 3200, CABA</p><p><i class="fab fa-whatsapp"></i> +54 9 11 6789-1234</p></div>
+                <div><h4>Atención</h4><p>Lun a Vie 9-18hs · Sáb 9-13hs</p></div>
+                <div><h4>Redes</h4><div><a href="#" style="color:white; margin-right:15px;"><i class="fab fa-instagram"></i></a><a href="#" style="color:white;"><i class="fab fa-facebook"></i></a></div></div>
             </div>
-            <div class="copyright">
-                <p>❄️ NE Refrigeración - Solo ventas de repuestos y equipos de refrigeración. No realizamos instalaciones.</p>
-            </div>
+            <div class="copyright"><p>❄️ NE Refrigeración - Armá tu presupuesto con envío incluido.</p></div>
         </div>
     </footer>
 </div>
 
+<!-- CARRITO LATERAL -->
+<div id="cartSidebar" class="cart-overlay">
+    <div class="cart-header">
+        <h3>🛒 Tu presupuesto</h3>
+        <button class="close-cart" id="closeCartBtn">&times;</button>
+    </div>
+    <div id="cartItemsList" class="cart-items"></div>
+    <div class="cart-total" id="cartTotal">Total productos: $0</div>
+    <select id="shippingSelect" class="shipping-select">
+        <option value="0">📦 Retiro en local (Gratis)</option>
+        <option value="3500">🚚 Envío CABA - $3.500</option>
+        <option value="6500">🚛 Envío GBA - $6.500</option>
+        <option value="12000">📦 Envío interior - $12.000</option>
+    </select>
+    <div id="totalWithShipping" style="font-weight:800; margin:10px 0; font-size:1.1rem;">Total + envío: $0</div>
+    <button id="sendWhatsAppBtn" class="btn-send-wa"><i class="fab fa-whatsapp"></i> Enviar presupuesto por WhatsApp</button>
+</div>
+
 <script>
-    // ---------- CONFIGURACIÓN WHATSAPP ----------
+    // ---------- CONFIGURACIÓN ----------
     const WHATSAPP_NUMBER = "5491112345678";  // CAMBIAR POR NÚMERO REAL DE NE REFRIGERACIÓN
 
-    function generateWhatsLink(productName = "", productPrice = "") {
-        let message = "";
-        if (productName) {
-            message = `Hola NE Refrigeración, quiero comprar: ${productName} - ${productPrice}. ¿Me das información de stock y envío?`;
-        } else {
-            message = "Hola, quiero consultar por la venta de repuestos y equipos de refrigeración.";
-        }
-        return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    }
-
-    function updateGlobalWA() {
-        const headerBtn = document.getElementById("whatsappHeaderBtn");
-        const bannerBtn = document.getElementById("bannerWhatsappBtn");
-        if(headerBtn) headerBtn.href = generateWhatsLink();
-        if(bannerBtn) bannerBtn.href = generateWhatsLink();
-    }
-
-    // ---------- BASE DE DATOS DE REPUESTOS Y EQUIPOS (con imágenes creadas para cada producto) ----------
-    // Todos los productos tienen imágenes realistas de repuestos y equipos
-    const todosProductos = [
-        // REPUESTOS (imágenes de repuestos)
-        { id: 1, nombre: "Compresor Rotativo 1/3 HP", descripcion: "Para heladeras, bajo consumo, R134a", precio: "$45.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png" },
-        { id: 2, nombre: "Ventilador Condensador 12\"", descripcion: "220V, 2 velocidades, flujo 800CFM", precio: "$18.500", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png" },
-        { id: 3, nombre: "Capacitor 30+3uF 450V", descripcion: "Para aires acondicionados, original", precio: "$8.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png" },
-        { id: 4, nombre: "Gas Refrigerante R410a 1kg", descripcion: "Envase descartable, alta pureza", precio: "$32.000", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-        { id: 5, nombre: "Termostato Digital", descripcion: "Rango -30 a 50°C, sonda NTC", precio: "$12.400", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png" },
-        { id: 6, nombre: "Motor Evaporador 18W", descripcion: "1300rpm, para freezers y vitrinas", precio: "$22.900", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png" },
-        { id: 7, nombre: "Válvula de expansión termostática", descripcion: "1/4", descripcion2: "Para sistemas de refrigeración", precio: "$28.700", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/4225/4225840.png" },
-        { id: 8, nombre: "Kit de sellado y juntas", descripcion: "20 piezas, para compresores", precio: "$14.300", categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2972/2972991.png" },
-        // EQUIPOS COMPLETOS
-        { id: 9, nombre: "Split Inverter 3000W", descripcion: "Frío/Calor, A+++, control wifi", precio: "$199.900", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1634405741613-0b6e2b4e7a7c?w=400&h=220&fit=crop" },
-        { id: 10, nombre: "Heladera No Frost 420L", descripcion: "Inverter, acero inoxidable", precio: "$399.999", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1608043152269-42306bba45e4?w=400&h=220&fit=crop" },
-        { id: 11, nombre: "Freezer Horizontal 300L", descripcion: "Tapa corrediza, uso comercial", precio: "$325.000", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1584568694244-14fbdfd3a94c?w=400&h=220&fit=crop" },
-        { id: 12, nombre: "Ventilador Industrial 20\"", descripcion: "Trípode, 3 velocidades", precio: "$89.900", categoria: "equipos", imagen: "https://images.unsplash.com/photo-1626806787462-102c1a40e2b8?w=400&h=220&fit=crop" }
+    // LISTA DE PRODUCTOS (Repuestos + Equipos)
+    const productos = [
+        { id: 1, nombre: "Compresor Rotativo 1/3 HP", descripcion: "Para heladeras, R134a, alta eficiencia", precio: 45900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png" },
+        { id: 2, nombre: "Ventilador Condensador 12\"", descripcion: "220V, 2 velocidades, bajo ruido", precio: 18500, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png" },
+        { id: 3, nombre: "Capacitor 30+3uF 450V", descripcion: "Para aires acondicionados", precio: 8900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png" },
+        { id: 4, nombre: "Gas Refrigerante R410a 1kg", descripcion: "Envase descartable, alta pureza", precio: 32000, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
+        { id: 5, nombre: "Termostato Digital", descripcion: "Con sonda NTC, rango -30 a 50°C", precio: 12400, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png" },
+        { id: 6, nombre: "Motor Evaporador 18W", descripcion: "1300rpm, para freezers", precio: 22900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png" },
+        { id: 7, nombre: "Split Inverter 3000W", descripcion: "Frío/Calor A+++, control wifi", precio: 199900, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1634405741613-0b6e2b4e7a7c?w=300&h=180&fit=crop" },
+        { id: 8, nombre: "Heladera No Frost 420L", descripcion: "Inverter, acero inoxidable", precio: 399999, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1608043152269-42306bba45e4?w=300&h=180&fit=crop" },
+        { id: 9, nombre: "Freezer Horizontal 300L", descripcion: "Tapa corrediza, uso comercial", precio: 325000, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1584568694244-14fbdfd3a94c?w=300&h=180&fit=crop" },
+        { id: 10, nombre: "Ventilador Industrial 20\"", descripcion: "Trípode, 3 velocidades", precio: 89900, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1626806787462-102c1a40e2b8?w=300&h=180&fit=crop" }
     ];
 
-    // 6 IMÁGENES DESTACADAS (se muestran en home, cada una representa una categoría/llamado a acción)
-    // Usamos iconos/representaciones visuales de repuestos
+    // 6 IMÁGENES DESTACADAS (solo para pantalla principal)
     const destacados = [
-        { titulo: "Compresores", descripcion: "Alta eficiencia", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png", filtro: "repuestos" },
+        { titulo: "Compresores", descripcion: "Alta eficiencia y durabilidad", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png", filtro: "repuestos" },
         { titulo: "Ventiladores", descripcion: "Condensación y evaporación", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png", filtro: "repuestos" },
-        { titulo: "Capacitores", descripcion: "Originales", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png", filtro: "repuestos" },
+        { titulo: "Capacitores", descripcion: "Originales para AA", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png", filtro: "repuestos" },
         { titulo: "Gases refrigerantes", descripcion: "R410a, R134a, R32", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", filtro: "repuestos" },
         { titulo: "Termostatos", descripcion: "Digitales y analógicos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png", filtro: "repuestos" },
         { titulo: "Equipos completos", descripcion: "Aires, heladeras, freezers", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png", filtro: "equipos" }
     ];
 
-    // Renderizar las 6 tarjetas en home
-    const showcaseGrid = document.getElementById("showcaseGrid");
-    function renderShowcase() {
-        let html = "";
-        destacados.forEach(item => {
-            html += `
-                <div class="showcase-card" data-filter="${item.filtro}" data-category="${item.filtro}">
-                    <div class="showcase-img">
-                        <img src="${item.imagen}" alt="${item.titulo}" loading="lazy">
-                    </div>
-                    <h3>${item.titulo}</h3>
-                    <p>${item.descripcion}</p>
+    // Estado del carrito
+    let cart = [];
+
+    // Funciones del carrito
+    function updateCartUI() {
+        const cartItemsDiv = document.getElementById("cartItemsList");
+        const cartCountSpan = document.getElementById("cartCount");
+        const cartTotalSpan = document.getElementById("cartTotal");
+        let total = 0;
+        let itemCount = 0;
+        cartItemsDiv.innerHTML = "";
+        cart.forEach(item => {
+            total += item.precio * item.cantidad;
+            itemCount += item.cantidad;
+            const div = document.createElement("div");
+            div.className = "cart-item";
+            div.innerHTML = `
+                <div class="cart-item-info">
+                    <h4>${item.nombre}</h4>
+                    <p>$${item.precio.toLocaleString()} x ${item.cantidad}</p>
+                </div>
+                <div class="cart-item-actions">
+                    <button onclick="changeQuantity(${item.id}, -1)">-</button>
+                    <span style="margin:0 6px;">${item.cantidad}</span>
+                    <button onclick="changeQuantity(${item.id}, 1)">+</button>
+                    <button onclick="removeItem(${item.id})" style="margin-left:8px; background:#fee2e2;"><i class="fas fa-trash"></i></button>
                 </div>
             `;
+            cartItemsDiv.appendChild(div);
         });
-        showcaseGrid.innerHTML = html;
-        // Agregar evento a cada tarjeta: al hacer clic, abre el catálogo filtrado
-        document.querySelectorAll(".showcase-card").forEach(card => {
+        cartCountSpan.innerText = itemCount;
+        cartTotalSpan.innerText = `Total productos: $${total.toLocaleString()}`;
+        updateTotalWithShipping();
+    }
+
+    function updateTotalWithShipping() {
+        const shippingSelect = document.getElementById("shippingSelect");
+        let shippingCost = parseInt(shippingSelect.value) || 0;
+        let subtotal = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+        let total = subtotal + shippingCost;
+        document.getElementById("totalWithShipping").innerHTML = `<strong>💰 Total + envío: $${total.toLocaleString()}</strong>`;
+        return { subtotal, shippingCost, total };
+    }
+
+    window.changeQuantity = function(id, delta) {
+        const index = cart.findIndex(i => i.id === id);
+        if (index !== -1) {
+            const newQty = cart[index].cantidad + delta;
+            if (newQty <= 0) {
+                cart.splice(index, 1);
+            } else {
+                cart[index].cantidad = newQty;
+            }
+            updateCartUI();
+            saveCart();
+        }
+    }
+
+    window.removeItem = function(id) {
+        cart = cart.filter(i => i.id !== id);
+        updateCartUI();
+        saveCart();
+    }
+
+    function addToCart(product) {
+        const existing = cart.find(i => i.id === product.id);
+        if (existing) {
+            existing.cantidad++;
+        } else {
+            cart.push({ id: product.id, nombre: product.nombre, precio: product.precio, cantidad: 1 });
+        }
+        updateCartUI();
+        saveCart();
+        document.getElementById("cartSidebar").classList.add("open");
+    }
+
+    function saveCart() { localStorage.setItem("neCart", JSON.stringify(cart)); }
+    function loadCart() {
+        const saved = localStorage.getItem("neCart");
+        if (saved) {
+            cart = JSON.parse(saved);
+            updateCartUI();
+        }
+    }
+
+    function sendBudget() {
+        if (cart.length === 0) {
+            alert("Agregá productos al carrito antes de enviar el presupuesto.");
+            return;
+        }
+        const shippingSelect = document.getElementById("shippingSelect");
+        const shippingText = shippingSelect.options[shippingSelect.selectedIndex].text;
+        const shippingCost = parseInt(shippingSelect.value);
+        const subtotal = cart.reduce((sum, i) => sum + (i.precio * i.cantidad), 0);
+        const total = subtotal + shippingCost;
+        let productosList = "";
+        cart.forEach(item => {
+            productosList += `✓ ${item.nombre} x${item.cantidad} = $${(item.precio * item.cantidad).toLocaleString()}\n`;
+        });
+        const mensaje = `🛒 *PRESUPUESTO NE REFRIGERACIÓN* 🛒\n\n${productosList}\n📦 *Subtotal:* $${subtotal.toLocaleString()}\n🚚 *Envío:* ${shippingText} $${shippingCost.toLocaleString()}\n\n💰 *TOTAL A PAGAR:* $${total.toLocaleString()}\n\n¡Esperamos tu confirmación para coordinar el pago y envío!`;
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, "_blank");
+    }
+
+    // Renderizar productos en catálogo
+    let activeCategory = "all";
+    function renderProducts() {
+        const grid = document.getElementById("productsGrid");
+        let filtered = activeCategory === "all" ? [...productos] : productos.filter(p => p.categoria === activeCategory);
+        grid.innerHTML = "";
+        filtered.forEach(prod => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+                <div class="product-img"><img src="${prod.imagen}" alt="${prod.nombre}" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1793/1793076.png'"></div>
+                <div class="product-info">
+                    <div class="product-cat">${prod.categoria === "repuestos" ? "🔧 REPUESTO" : "❄️ EQUIPO"}</div>
+                    <div class="product-title">${prod.nombre}</div>
+                    <div class="product-desc">${prod.descripcion}</div>
+                    <div class="price">$${prod.precio.toLocaleString()}</div>
+                    <button class="add-to-cart" data-id="${prod.id}"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        document.querySelectorAll(".add-to-cart").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const id = parseInt(btn.getAttribute("data-id"));
+                const product = productos.find(p => p.id === id);
+                if (product) addToCart(product);
+            });
+        });
+    }
+
+    // Renderizar 6 imágenes destacadas (pantalla principal)
+    function renderShowcase() {
+        const showcaseGrid = document.getElementById("showcaseGrid");
+        showcaseGrid.innerHTML = "";
+        destacados.forEach(d => {
+            const card = document.createElement("div");
+            card.className = "showcase-card";
+            card.innerHTML = `
+                <div class="showcase-img"><img src="${d.imagen}" loading="lazy"></div>
+                <h3>${d.titulo}</h3>
+                <p>${d.descripcion}</p>
+            `;
             card.addEventListener("click", () => {
-                const filterValue = card.getAttribute("data-filter");
-                // Mostrar página de catálogo y ocultar home
+                // Al hacer clic, mostrar catálogo y filtrar por categoría
                 document.getElementById("homePage").style.display = "none";
                 document.getElementById("catalogPage").classList.add("active");
-                // Aplicar filtro correspondiente
-                if (filterValue === "repuestos") {
+                if (d.filtro === "repuestos") {
                     activeCategory = "repuestos";
-                } else if (filterValue === "equipos") {
+                } else if (d.filtro === "equipos") {
                     activeCategory = "equipos";
                 } else {
                     activeCategory = "all";
                 }
-                // Actualizar botones activos visualmente
+                // Actualizar botones de filtro visualmente
                 document.querySelectorAll(".filter-btn").forEach(btn => {
-                    if(btn.getAttribute("data-category") === activeCategory) {
+                    if (btn.getAttribute("data-category") === activeCategory) {
                         btn.classList.add("active");
                     } else {
                         btn.classList.remove("active");
@@ -573,54 +727,12 @@
                 });
                 renderProducts();
             });
+            showcaseGrid.appendChild(card);
         });
     }
 
-    // Lógica catálogo completo
-    let activeCategory = "all";
-    const productsGrid = document.getElementById("productsGrid");
-
-    function getCategoryLabel(cat) {
-        if(cat === "equipos") return "❄️ EQUIPO COMPLETO";
-        return "🔧 REPUESTO";
-    }
-
-    function renderProducts() {
-        let filtered = activeCategory === "all" ? [...todosProductos] : todosProductos.filter(p => p.categoria === activeCategory);
-        if(filtered.length === 0) {
-            productsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;"><i class="fas fa-box-open fa-3x"></i><h3>No hay productos en esta categoría</h3><p>Consultanos por WhatsApp para más opciones.</p></div>`;
-            return;
-        }
-        let html = "";
-        filtered.forEach(prod => {
-            html += `
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="${prod.imagen}" alt="${prod.nombre}" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fas fa-snowflake\\' style=\\'font-size:2.5rem;\\'></i>';">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-cat">${getCategoryLabel(prod.categoria)}</div>
-                        <div class="product-title">${prod.nombre}</div>
-                        <div class="product-desc">${prod.descripcion}</div>
-                        <div class="price">${prod.precio}</div>
-                        <button class="btn-wa-card" data-name="${prod.nombre}" data-price="${prod.precio}">
-                            <i class="fab fa-whatsapp"></i> Consultar / Comprar
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-        productsGrid.innerHTML = html;
-        document.querySelectorAll(".btn-wa-card").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const name = btn.getAttribute("data-name");
-                const price = btn.getAttribute("data-price");
-                window.open(generateWhatsLink(name, price), "_blank");
-            });
-        });
-    }
-
-    function initCatalogFilters() {
+    // Inicializar filtros del catálogo
+    function initFilters() {
         const btns = document.querySelectorAll(".filter-btn");
         btns.forEach(btn => {
             btn.addEventListener("click", () => {
@@ -632,84 +744,59 @@
         });
     }
 
-    // Mostrar home / volver atrás
-    const backBtn = document.getElementById("backHomeBtn");
-    backBtn.addEventListener("click", () => {
-        document.getElementById("homePage").style.display = "block";
-        document.getElementById("catalogPage").classList.remove("active");
-        // resetear filtro visual opcional
-        activeCategory = "all";
-    });
+    // Eventos carrito y navegación
+    function initCartEvents() {
+        document.getElementById("cartIcon").addEventListener("click", () => document.getElementById("cartSidebar").classList.add("open"));
+        document.getElementById("closeCartBtn").addEventListener("click", () => document.getElementById("cartSidebar").classList.remove("open"));
+        document.getElementById("sendWhatsAppBtn").addEventListener("click", sendBudget);
+        document.getElementById("shippingSelect").addEventListener("change", () => updateTotalWithShipping());
+        document.getElementById("backHomeBtn").addEventListener("click", () => {
+            document.getElementById("homePage").style.display = "block";
+            document.getElementById("catalogPage").classList.remove("active");
+        });
+    }
 
-    // Inicializar
-    renderShowcase();
-    initCatalogFilters();
-    renderProducts();  // para que cargue catálogo pero esté oculto
-    updateGlobalWA();
-
-    // ---------- COPOS DE NIEVE ----------
+    // COPOS DE NIEVE
     const canvas = document.getElementById("snowCanvas");
     let ctx = canvas.getContext("2d");
     let particles = [];
     let animationId = null;
-    let resizeTimeout;
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     function initSnow() {
         resizeCanvas();
-        const numFlakes = Math.min(110, Math.floor(window.innerWidth / 12));
+        const numFlakes = Math.min(100, Math.floor(window.innerWidth / 12));
         particles = [];
-        for(let i = 0; i < numFlakes; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 4 + 2,
-                speedY: Math.random() * 1.2 + 0.5,
-                speedX: Math.random() * 0.5 - 0.25,
-                opacity: Math.random() * 0.5 + 0.3
-            });
+        for (let i = 0; i < numFlakes; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 4 + 2, speedY: Math.random() * 1 + 0.5, speedX: Math.random() * 0.5 - 0.25, opacity: Math.random() * 0.5 + 0.3 });
         }
         drawSnow();
     }
-
     function drawSnow() {
-        if(!ctx) return;
+        if (!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for(let p of particles) {
+        for (let p of particles) {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
             ctx.fill();
             p.x += p.speedX;
             p.y += p.speedY;
-            if(p.y > canvas.height) {
-                p.y = -10;
-                p.x = Math.random() * canvas.width;
-            }
-            if(p.x > canvas.width) p.x = 0;
-            if(p.x < 0) p.x = canvas.width;
+            if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; }
+            if (p.x > canvas.width) p.x = 0;
+            if (p.x < 0) p.x = canvas.width;
         }
         animationId = requestAnimationFrame(drawSnow);
     }
+    window.addEventListener("resize", () => { resizeCanvas(); initSnow(); });
 
-    function handleResize() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            resizeCanvas();
-            initSnow();
-        }, 150);
-    }
-
+    // Inicializar todo
+    renderShowcase();
+    renderProducts();
+    initFilters();
+    loadCart();
+    initCartEvents();
     initSnow();
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("beforeunload", () => {
-        if(animationId) cancelAnimationFrame(animationId);
-    });
+    window.addEventListener("beforeunload", () => { if (animationId) cancelAnimationFrame(animationId); });
 </script>
-<!-- Instrucción: Reemplazar WHATSAPP_NUMBER con el número real de NE Refrigeración (ej: 5491122233344) -->
 </body>
 </html>

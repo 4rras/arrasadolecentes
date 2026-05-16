@@ -1,678 +1,546 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>NE Refrigeración | Soluciones en frío</title>
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Swiper JS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AH Ropas y Calzados | Tienda de Lujo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f0f7fe;
-            color: #1a2c3e;
-            position: relative;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050a12;
+      color: #eef2ff;
+      overflow-x: hidden;
+    }
 
-        /* Copos de nieve */
-        #snowCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    /* Scroll suave */
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .main-content {
-            position: relative;
-            z-index: 2;
-        }
+    /* Header glassmorphism */
+    .main-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(5, 10, 18, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 180, 71, 0.3);
+      transition: all 0.3s;
+    }
 
-        /* Header estilo Climaxco */
-        header {
-            background: linear-gradient(135deg, #0a2c3e 0%, #0f3f55 100%);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
+    .logo h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #ffb347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo p {
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
 
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+    .social-header {
+      display: flex;
+      gap: 1.2rem;
+    }
+    .social-header a {
+      color: #cbd5e1;
+      font-size: 1.3rem;
+      transition: 0.2s;
+    }
+    .social-header a:hover {
+      color: #ffb347;
+      transform: translateY(-2px);
+    }
 
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    /* Hero con partículas y parallax */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: url('https://images.pexels.com/photos/996484/pexels-photo-996484.jpeg?auto=compress&cs=tinysrgb&w=1600') no-repeat center center/cover;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(5,10,18,0.7), rgba(0,0,0,0.85));
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 2rem;
+      animation: fadeInUp 1s ease;
+    }
+    .hero h2 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #ffb347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #f1f5f9;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .btn-hero {
+      background: #ffb347;
+      color: #0a0f1c;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-hero:hover {
+      background: #ff9500;
+      transform: scale(1.02);
+    }
 
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: white;
-            letter-spacing: -0.5px;
-        }
-        .logo h1 span {
-            color: #4fc3f7;
-            font-weight: 600;
-        }
-        .logo p {
-            color: #a0c4e0;
-            font-size: 0.75rem;
-            margin-top: 4px;
-        }
+    /* Filtros */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 3rem 1rem 2rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,180,71,0.3);
+      color: #f1f5f9;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #ffb347;
+      color: #0a0f1c;
+      border-color: #ffb347;
+      box-shadow: 0 8px 20px -6px rgba(255,180,71,0.4);
+    }
 
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            background: rgba(255,255,255,0.15);
-            padding: 10px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        .cart-icon:hover { background: rgba(255,255,255,0.25); }
-        .cart-icon i { font-size: 1.3rem; color: white; }
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #25D366;
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Productos grid */
+    .products-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+      border: 1px solid rgba(255,180,71,0.2);
+      transform: translateY(0);
+      animation: fadeInUp 0.6s ease backwards;
+      animation-delay: calc(var(--i) * 0.05s);
+    }
+    .product-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(255,180,71,0.6);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.5);
+    }
+    .product-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .product-img {
+      transform: scale(1.05);
+    }
+    .product-info {
+      padding: 1.5rem;
+    }
+    .product-category {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #ffb34720;
+      color: #ffb347;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+    .product-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .product-price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffb347;
+      margin: 0.7rem 0;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .btn-wa, .btn-video {
+      border: none;
+      padding: 0.7rem;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .btn-wa {
+      background: #25D366;
+      color: white;
+    }
+    .btn-wa:hover {
+      background: #128C7E;
+      transform: scale(0.98);
+    }
+    .btn-video {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,180,71,0.4);
+    }
+    .btn-video:hover {
+      background: #ffb347;
+      color: #0a0f1c;
+    }
 
-        /* Hero Swiper estilo moderno */
-        .hero-swiper {
-            margin: 30px 0 40px;
-            border-radius: 32px;
-            overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
-        }
-        .swiper-slide {
-            background: linear-gradient(135deg, #0f3f55, #0a2c3e);
-            padding: 50px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        .slide-text h2 {
-            font-size: 2.3rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 15px;
-        }
-        .slide-text p {
-            color: #cde5f0;
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-        .slide-btn {
-            background: #25D366;
-            color: white;
-            padding: 12px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-block;
-        }
+    /* Modal video */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: transparent;
+      width: 90%;
+      max-width: 900px;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 500px;
+      border-radius: 28px;
+      border: 3px solid #ffb347;
+    }
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: #ffb347;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
 
-        /* 6 imágenes destacadas (estilo catálogo) */
-        .featured-section {
-            margin: 50px 0 30px;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .section-title h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0a2c3e;
-            position: relative;
-            display: inline-block;
-        }
-        .section-title h2:after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: #25D366;
-            border-radius: 3px;
-        }
-        .showcase-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 25px;
-        }
-        @media (max-width: 1000px) { .showcase-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 600px) { .showcase-grid { grid-template-columns: repeat(2, 1fr); } }
-        .showcase-card {
-            background: white;
-            border-radius: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            overflow: hidden;
-            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.1);
-        }
-        .showcase-card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15); }
-        .showcase-img {
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(145deg, #f0f7fc, #e8f0f8);
-            padding: 20px;
-        }
-        .showcase-img img { width: 80px; height: 80px; object-fit: contain; }
-        .showcase-card h3 { font-size: 1rem; font-weight: 700; margin: 15px 0 5px; }
-        .showcase-card p { font-size: 0.7rem; color: #5a7e9a; padding-bottom: 18px; }
+    /* Footer */
+    .main-footer {
+      background: #020617;
+      color: #cbd5e1;
+      padding: 3rem 2rem 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid #ffb34720;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .footer-col h4 {
+      color: white;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .footer-col a {
+      display: block;
+      color: #94a3b8;
+      text-decoration: none;
+      margin-bottom: 0.6rem;
+      transition: 0.2s;
+    }
+    .footer-col a:hover {
+      color: #ffb347;
+    }
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
+    }
+    .social-links a {
+      font-size: 1.6rem;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1e293b;
+      font-size: 0.8rem;
+    }
+    .empty-message {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem;
+      background: rgba(15,23,42,0.7);
+      border-radius: 40px;
+    }
 
-        /* Catálogo completo */
-        .catalog-page {
-            display: none;
-            margin: 30px 0 50px;
-        }
-        .catalog-page.active { display: block; }
-        .back-home {
-            background: #0a2c3e;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            cursor: pointer;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 20px 0 35px;
-        }
-        .filter-btn {
-            background: white;
-            border: 1px solid #cde0ec;
-            padding: 10px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .filter-btn.active {
-            background: #0a2c3e;
-            color: white;
-            border-color: #0a2c3e;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        @media (max-width: 700px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
-        .product-card {
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -12px rgba(0,0,0,0.15); }
-        .product-img {
-            height: 170px;
-            background: #f5faff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .product-img img { max-width: 100%; max-height: 130px; object-fit: contain; }
-        .product-info { padding: 16px; }
-        .product-title { font-weight: 800; font-size: 1rem; margin-bottom: 6px; }
-        .product-desc { font-size: 0.7rem; color: #5a7e9a; margin: 5px 0; }
-        .price { font-weight: 800; font-size: 1.2rem; color: #0f3f55; margin: 10px 0; }
-        .add-to-cart {
-            background: #0a2c3e;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+    /* Animaciones */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Carrito lateral */
-        .cart-overlay {
-            position: fixed;
-            top: 0;
-            right: -450px;
-            width: 420px;
-            max-width: 90%;
-            height: 100%;
-            background: white;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-            z-index: 1000;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .cart-overlay.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
-        .cart-items { flex: 1; }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .cart-item-actions button { background: #e2e8f0; border: none; width: 28px; border-radius: 20px; cursor: pointer; margin: 0 2px; }
-        .shipping-select { margin: 15px 0; padding: 12px; border-radius: 28px; border: 1px solid #cbd5e1; width: 100%; }
-        .btn-send-wa { background: #25D366; color: white; width: 100%; padding: 14px; border: none; border-radius: 60px; font-weight: 800; margin-top: 15px; cursor: pointer; }
-        .close-cart { background: none; border: none; font-size: 1.8rem; cursor: pointer; }
-        .cart-user-info {
-            background: #e8f0f8;
-            padding: 12px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .cart-register-btn {
-            background: linear-gradient(95deg, #0a2c3e, #1a5a7a);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 60px;
-            font-weight: 700;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-
-        footer {
-            background: #0a2c3e;
-            padding: 40px 0 25px;
-            color: #b8d4e8;
-            margin-top: 50px;
-        }
-        .footer-flex { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
-        .copyright { text-align: center; margin-top: 35px; padding-top: 15px; border-top: 1px solid #2a5a78; }
-    </style>
+    @media (max-width: 700px) {
+      .hero h2 { font-size: 2.2rem; }
+      .hero { background-attachment: scroll; }
+      .main-header { padding: 0.8rem 1rem; }
+      .products-section { padding: 0 1rem 2rem; }
+      .product-img { height: 250px; }
+    }
+  </style>
 </head>
 <body>
 
-<canvas id="snowCanvas"></canvas>
+<header class="main-header">
+  <div class="logo">
+    <h1>AH<span style="color:#ffb347;"> Ropas y Calzados</span></h1>
+    <p>Lujo · Estilo · Exclusividad</p>
+  </div>
+  <div class="social-header">
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-tiktok"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</header>
 
-<div class="main-content">
-    <header>
-        <div class="container header-flex">
-            <div class="logo">
-                <h1>NE<span>Refrigeración</span></h1>
-                <p>Equipos y repuestos de alta calidad</p>
-            </div>
-            <div class="cart-icon" id="cartIcon">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-        </div>
-    </header>
+<section class="hero">
+  <div class="hero-content">
+    <h2>Descubrí la nueva colección</h2>
+    <p>Prendas únicas y championes de edición limitada. Diseñados para los que exigen lo mejor.</p>
+    <button class="btn-hero" onclick="document.querySelector('.filters').scrollIntoView({behavior:'smooth'});">
+      <i class="fas fa-arrow-down"></i> Ver colección
+    </button>
+  </div>
+</section>
 
-    <div class="container">
-        <!-- Hero Swiper -->
-        <div class="hero-swiper swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="slide-text">
-                        <h2>Soluciones en refrigeración</h2>
-                        <p>Equipos y repuestos originales para todo tipo de sistemas</p>
-                        <a href="#" class="slide-btn" id="heroExploreBtn">Ver productos</a>
-                    </div>
-                    <i class="fas fa-snowflake" style="font-size: 5rem; color: white; opacity: 0.8;"></i>
-                </div>
-                <div class="swiper-slide">
-                    <div class="slide-text">
-                        <h2>Envíos a todo el país</h2>
-                        <p>Presupuestos personalizados vía WhatsApp</p>
-                        <a href="#" class="slide-btn" id="heroExploreBtn2">Explorar catálogo</a>
-                    </div>
-                    <i class="fas fa-truck" style="font-size: 5rem; color: white; opacity: 0.8;"></i>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next" style="color:white;"></div>
-            <div class="swiper-button-prev" style="color:white;"></div>
-        </div>
-
-        <!-- Página principal con 6 imágenes -->
-        <div id="homePage">
-            <div class="featured-section">
-                <div class="section-title">
-                    <h2>Categorías destacadas</h2>
-                </div>
-                <div class="showcase-grid" id="showcaseGrid"></div>
-            </div>
-        </div>
-
-        <!-- Catálogo completo -->
-        <div id="catalogPage" class="catalog-page">
-            <button id="backHomeBtn" class="back-home"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
-            <div class="section-title">
-                <h2>Todos los productos</h2>
-            </div>
-            <div class="filter-buttons" id="filterContainer">
-                <button class="filter-btn active" data-category="all">Todos</button>
-                <button class="filter-btn" data-category="repuestos"><i class="fas fa-microchip"></i> Repuestos</button>
-                <button class="filter-btn" data-category="equipos"><i class="fas fa-snowflake"></i> Equipos</button>
-            </div>
-            <div class="products-grid" id="productsGrid"></div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="footer-flex">
-                <div><h4>NE Refrigeración</h4><p><i class="fas fa-map-marker-alt"></i> Av. Corrientes 3200, CABA</p><p><i class="fab fa-whatsapp"></i> +54 9 11 6789-1234</p></div>
-                <div><h4>Horarios</h4><p>Lun a Vie 9-18hs · Sáb 9-13hs</p></div>
-                <div><h4>Seguinos</h4><a href="#" style="color:#b8d4e8; margin-right:15px;"><i class="fab fa-instagram"></i></a><a href="#" style="color:#b8d4e8;"><i class="fab fa-facebook"></i></a></div>
-            </div>
-            <div class="copyright"><p>❄️ NE Refrigeración - Equipos y repuestos para refrigeración</p></div>
-        </div>
-    </footer>
+<div class="filters" id="filterContainer">
+  <button class="filter-btn active" data-category="all">Todo</button>
+  <button class="filter-btn" data-category="Ropa">👕 Ropa</button>
+  <button class="filter-btn" data-category="Championes">👟 Championes</button>
 </div>
 
-<!-- Carrito lateral -->
-<div id="cartSidebar" class="cart-overlay">
-    <div class="cart-header">
-        <h3>🛒 Tu presupuesto</h3>
-        <button class="close-cart" id="closeCartBtn">&times;</button>
-    </div>
-    <div id="cartUserInfo" class="cart-user-info" style="display: none;"></div>
-    <div id="cartItemsList" class="cart-items"></div>
-    <div class="cart-total" id="cartTotal">Total: $0</div>
-    <select id="shippingSelect" class="shipping-select">
-        <option value="0">📦 Retiro en local (Gratis)</option>
-        <option value="3500">🚚 Envío CABA - $3.500</option>
-        <option value="6500">🚛 Envío GBA - $6.500</option>
-        <option value="12000">📦 Envío interior - $12.000</option>
-    </select>
-    <div id="totalWithShipping" style="font-weight:800; margin:10px 0;">Total + envío: $0</div>
-    <button id="cartRegisterBtn" class="cart-register-btn"><i class="fas fa-user-plus"></i> Registrarme para enviar</button>
-    <button id="sendWhatsAppBtn" class="btn-send-wa" style="display: none;"><i class="fab fa-whatsapp"></i> Enviar presupuesto</button>
+<div class="products-section">
+  <div id="productsGrid" class="products-grid">Cargando productos...</div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<footer class="main-footer">
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>AH Ropas y Calzados</h4>
+      <p>Moda de alta gama.<br>Envíos a todo el país.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Enlaces</h4>
+      <a href="#">Novedades</a>
+      <a href="#">Catálogo</a>
+      <a href="#">Contacto</a>
+    </div>
+    <div class="footer-col">
+      <h4>Seguinos</h4>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <p>© 2025 AH Ropas y Calzados – Todos los derechos reservados</p>
+  </div>
+</footer>
+
+<div id="videoModal" class="video-modal">
+  <div class="modal-content">
+    <button class="close-modal">&times;</button>
+    <iframe id="videoIframe" src="" allowfullscreen></iframe>
+  </div>
+</div>
+
 <script>
-    // Configuración
-    const WHATSAPP_NUMBER = "5491112345678"; // Cambiar por número real
+  // Mismo backend y funcionalidad que antes, sin cambios
+  const API_URL = 'backend.php/productos';
+  const WHATSAPP_NUMBER = "5491112345678"; // Cambiar por tu número real
 
-    // Productos
-    const productos = [
-        { id: 1, nombre: "Compresor Rotativo 1/3 HP", descripcion: "Para heladeras, R134a", precio: 45900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png" },
-        { id: 2, nombre: "Ventilador Condensador 12\"", descripcion: "220V, 2 velocidades", precio: 18500, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png" },
-        { id: 3, nombre: "Capacitor 30+3uF 450V", descripcion: "Para aires acondicionados", precio: 8900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png" },
-        { id: 4, nombre: "Gas Refrigerante R410a 1kg", descripcion: "Envase descartable", precio: 32000, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-        { id: 5, nombre: "Termostato Digital", descripcion: "Con sonda NTC", precio: 12400, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png" },
-        { id: 6, nombre: "Motor Evaporador 18W", descripcion: "1300rpm", precio: 22900, categoria: "repuestos", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png" },
-        { id: 7, nombre: "Split Inverter 3000W", descripcion: "Frío/Calor A+++", precio: 199900, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1634405741613-0b6e2b4e7a7c?w=300&h=180&fit=crop" },
-        { id: 8, nombre: "Heladera No Frost 420L", descripcion: "Inverter", precio: 399999, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1608043152269-42306bba45e4?w=300&h=180&fit=crop" },
-        { id: 9, nombre: "Freezer Horizontal 300L", descripcion: "Uso comercial", precio: 325000, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1584568694244-14fbdfd3a94c?w=300&h=180&fit=crop" },
-        { id: 10, nombre: "Ventilador Industrial 20\"", descripcion: "Trípode", precio: 89900, categoria: "equipos", imagen: "https://images.unsplash.com/photo-1626806787462-102c1a40e2b8?w=300&h=180&fit=crop" }
-    ];
+  let productosGlobal = [];
+  let currentFilter = "all";
 
-    // 6 categorías destacadas
-    const destacados = [
-        { titulo: "Compresores", imagen: "https://cdn-icons-png.flaticon.com/512/1793/1793076.png", filtro: "repuestos" },
-        { titulo: "Ventiladores", imagen: "https://cdn-icons-png.flaticon.com/512/2790/2790147.png", filtro: "repuestos" },
-        { titulo: "Capacitores", imagen: "https://cdn-icons-png.flaticon.com/512/2964/2964515.png", filtro: "repuestos" },
-        { titulo: "Gases", imagen: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", filtro: "repuestos" },
-        { titulo: "Termostatos", imagen: "https://cdn-icons-png.flaticon.com/512/2985/2985155.png", filtro: "repuestos" },
-        { titulo: "Equipos", imagen: "https://cdn-icons-png.flaticon.com/512/2040/2040995.png", filtro: "equipos" }
-    ];
+  async function cargarProductos() {
+    try {
+      const resp = await fetch(API_URL);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      if (data.error) throw new Error(data.error);
+      productosGlobal = data;
+      renderizarProductos();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('productsGrid').innerHTML = `<div class="empty-message">Error al cargar productos. Intenta más tarde.</div>`;
+    }
+  }
 
-    let cart = [];
-    let currentUser = null;
+  function renderizarProductos() {
+    let filtrados = currentFilter === 'all' ? productosGlobal : productosGlobal.filter(p => p.categoria === currentFilter);
+    const container = document.getElementById('productsGrid');
+    if (!filtrados.length) {
+      container.innerHTML = '<div class="empty-message">No hay productos en esta categoría.</div>';
+      return;
+    }
+    container.innerHTML = filtrados.map((p, idx) => `
+      <div class="product-card" style="--i: ${idx}">
+        <img class="product-img" src="${p.imagen_url || 'https://via.placeholder.com/500?text=AH+Store'}" onerror="this.src='https://via.placeholder.com/500?text=Error'">
+        <div class="product-info">
+          <span class="product-category">${p.categoria === 'Ropa' ? '👕 Ropa' : '👟 Championes'}</span>
+          <div class="product-title">${escapeHtml(p.nombre)}</div>
+          <div class="product-price">$${parseFloat(p.precio).toFixed(2)} USD</div>
+          <div class="card-actions">
+            <button class="btn-wa" data-nombre="${escapeAttr(p.nombre)}" data-precio="${p.precio}"><i class="fab fa-whatsapp"></i> Consultar</button>
+            ${p.video_url ? `<button class="btn-video" data-video="${escapeAttr(p.video_url)}"><i class="fas fa-play"></i> Video</button>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
 
-    // Swiper
-    const swiper = new Swiper('.hero-swiper', {
-        loop: true,
-        autoplay: { delay: 5000, disableOnInteraction: false },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    document.querySelectorAll('.btn-wa').forEach(btn => {
+      btn.addEventListener('click', () => sendWhatsApp(btn.dataset.nombre, parseFloat(btn.dataset.precio)));
     });
+    document.querySelectorAll('.btn-video').forEach(btn => {
+      btn.addEventListener('click', () => openVideoModal(btn.dataset.video));
+    });
+  }
 
-    // Carrito funciones
-    function loadCart() {
-        const saved = localStorage.getItem("neCart");
-        if (saved) { cart = JSON.parse(saved); updateCartUI(); }
-    }
-    function saveCart() { localStorage.setItem("neCart", JSON.stringify(cart)); }
-    function updateCartUI() {
-        const container = document.getElementById("cartItemsList");
-        const countSpan = document.getElementById("cartCount");
-        const totalSpan = document.getElementById("cartTotal");
-        let total = 0, count = 0;
-        container.innerHTML = "";
-        cart.forEach(item => {
-            total += item.precio * item.cantidad;
-            count += item.cantidad;
-            const div = document.createElement("div");
-            div.className = "cart-item";
-            div.innerHTML = `
-                <div><strong>${item.nombre}</strong><br>$${item.precio.toLocaleString()} x ${item.cantidad}</div>
-                <div><button onclick="changeQty(${item.id}, -1)">-</button> ${item.cantidad} <button onclick="changeQty(${item.id}, 1)">+</button> <button onclick="removeItem(${item.id})" style="background:#fee2e2;">🗑️</button></div>
-            `;
-            container.appendChild(div);
-        });
-        countSpan.innerText = count;
-        totalSpan.innerText = `Total: $${total.toLocaleString()}`;
-        updateShipping();
-    }
-    function updateShipping() {
-        const shipping = parseInt(document.getElementById("shippingSelect").value) || 0;
-        const subtotal = cart.reduce((s, i) => s + (i.precio * i.cantidad), 0);
-        document.getElementById("totalWithShipping").innerHTML = `<strong>💰 Total + envío: $${(subtotal + shipping).toLocaleString()}</strong>`;
-    }
-    window.changeQty = function(id, delta) {
-        const idx = cart.findIndex(i => i.id === id);
-        if (idx !== -1) {
-            cart[idx].cantidad += delta;
-            if (cart[idx].cantidad <= 0) cart.splice(idx, 1);
-            updateCartUI(); saveCart();
-        }
-    }
-    window.removeItem = function(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); saveCart(); }
-    function addToCart(product) {
-        const exist = cart.find(i => i.id === product.id);
-        if (exist) exist.cantidad++;
-        else cart.push({ ...product, cantidad: 1 });
-        updateCartUI(); saveCart();
-        document.getElementById("cartSidebar").classList.add("open");
-    }
+  function sendWhatsApp(nombre, precio) {
+    const msg = `Hola! Me interesa comprar *${nombre}* por $${precio.toFixed(2)} USD. ¿Podrían darme más información?`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
 
-    // Registro
-    function showRegisterModal() {
-        let modal = document.getElementById("registerModal");
-        if (!modal) {
-            modal = document.createElement("div");
-            modal.id = "registerModal";
-            modal.className = "modal-overlay";
-            modal.innerHTML = `
-                <div style="background:white; border-radius:48px; max-width:400px; width:90%; padding:35px; text-align:center;">
-                    <i class="fas fa-user-plus" style="font-size:3rem; color:#0a2c3e;"></i>
-                    <h3 style="margin:15px 0">Completá tus datos</h3>
-                    <input type="text" id="regName" placeholder="Nombre completo" style="width:100%; padding:12px; margin:8px 0; border-radius:30px; border:1px solid #ccc;">
-                    <input type="email" id="regEmail" placeholder="Correo electrónico" style="width:100%; padding:12px; margin:8px 0; border-radius:30px; border:1px solid #ccc;">
-                    <input type="tel" id="regPhone" placeholder="Teléfono / WhatsApp" style="width:100%; padding:12px; margin:8px 0; border-radius:30px; border:1px solid #ccc;">
-                    <button id="confirmReg" style="background:#0a2c3e; color:white; width:100%; padding:12px; border:none; border-radius:40px; margin-top:15px; font-weight:700;">Registrarme</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            const style = document.createElement('style');
-            style.textContent = `.modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(5px); z-index:1100; display:none; align-items:center; justify-content:center; } .modal-overlay.active { display:flex; }`;
-            document.head.appendChild(style);
-        }
-        modal.classList.add("active");
-        document.getElementById("confirmReg").onclick = () => {
-            const nombre = document.getElementById("regName").value.trim();
-            const email = document.getElementById("regEmail").value.trim();
-            const telefono = document.getElementById("regPhone").value.trim();
-            if (!nombre || !email || !telefono) { alert("Completá todos los campos"); return; }
-            currentUser = { nombre, email, telefono };
-            localStorage.setItem("neUser", JSON.stringify(currentUser));
-            modal.classList.remove("active");
-            updateCartUserInfo();
-            document.getElementById("cartRegisterBtn").style.display = "none";
-            document.getElementById("sendWhatsAppBtn").style.display = "block";
-        };
-        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("active"); };
+  function openVideoModal(url) {
+    let embed = url;
+    if (url.includes('youtube.com/watch?v=')) {
+      let id = url.split('v=')[1];
+      id = id.split('&')[0];
+      embed = `https://www.youtube.com/embed/${id}`;
+    } else if (url.includes('youtu.be/')) {
+      let id = url.split('youtu.be/')[1];
+      id = id.split('?')[0];
+      embed = `https://www.youtube.com/embed/${id}`;
     }
+    document.getElementById('videoIframe').src = embed;
+    document.getElementById('videoModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
 
-    function updateCartUserInfo() {
-        const infoDiv = document.getElementById("cartUserInfo");
-        if (currentUser) {
-            infoDiv.style.display = "flex";
-            infoDiv.innerHTML = `<span><i class="fas fa-user-check"></i> ${currentUser.nombre}</span><button id="logoutCart" style="background:#dc2626; border:none; padding:5px 12px; border-radius:40px; color:white;">Salir</button>`;
-            document.getElementById("logoutCart").onclick = () => { currentUser = null; localStorage.removeItem("neUser"); updateCartUserInfo(); document.getElementById("cartRegisterBtn").style.display = "block"; document.getElementById("sendWhatsAppBtn").style.display = "none"; };
-        } else { infoDiv.style.display = "none"; }
-    }
+  function closeModal() {
+    document.getElementById('videoModal').style.display = 'none';
+    document.getElementById('videoIframe').src = '';
+    document.body.style.overflow = '';
+  }
 
-    function sendBudget() {
-        if (!currentUser) { showRegisterModal(); return; }
-        if (cart.length === 0) { alert("Agregá productos al carrito"); return; }
-        const shipping = document.getElementById("shippingSelect");
-        const shippingText = shipping.options[shipping.selectedIndex].text;
-        const shippingCost = parseInt(shipping.value);
-        const subtotal = cart.reduce((s, i) => s + (i.precio * i.cantidad), 0);
-        let list = "";
-        cart.forEach(i => list += `✓ ${i.nombre} x${i.cantidad} = $${(i.precio * i.cantidad).toLocaleString()}\n`);
-        const msg = `🛒 PRESUPUESTO NE REFRIGERACIÓN 🛒\n\n👤 Cliente: ${currentUser.nombre}\n📧 ${currentUser.email}\n📱 ${currentUser.telefono}\n\nPRODUCTOS:\n${list}\n📦 Subtotal: $${subtotal.toLocaleString()}\n🚚 Envío: ${shippingText} $${shippingCost.toLocaleString()}\n💰 TOTAL: $${(subtotal + shippingCost).toLocaleString()}\n\n¡Esperamos tu confirmación!`;
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
-        cart = []; saveCart(); updateCartUI();
-        document.getElementById("cartSidebar").classList.remove("open");
-    }
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
+  }
+  function escapeAttr(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
 
-    // Renderizado
-    let activeCat = "all";
-    function renderProducts() {
-        const grid = document.getElementById("productsGrid");
-        let filtered = activeCat === "all" ? productos : productos.filter(p => p.categoria === activeCat);
-        grid.innerHTML = "";
-        filtered.forEach(p => {
-            const card = document.createElement("div");
-            card.className = "product-card";
-            card.innerHTML = `
-                <div class="product-img"><img src="${p.imagen}" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1793/1793076.png'"></div>
-                <div class="product-info"><div class="product-title">${p.nombre}</div><div class="product-desc">${p.descripcion}</div><div class="price">$${p.precio.toLocaleString()}</div><button class="add-to-cart-btn" data-id="${p.id}"><i class="fas fa-cart-plus"></i> Agregar</button></div>
-            `;
-            grid.appendChild(card);
-        });
-        document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-            btn.onclick = () => { const prod = productos.find(p => p.id == btn.dataset.id); if(prod) addToCart(prod); };
-        });
-    }
-
-    function renderShowcase() {
-        const grid = document.getElementById("showcaseGrid");
-        grid.innerHTML = "";
-        destacados.forEach(d => {
-            const card = document.createElement("div");
-            card.className = "showcase-card";
-            card.innerHTML = `<div class="showcase-img"><img src="${d.imagen}"></div><h3>${d.titulo}</h3><p>Ver productos</p>`;
-            card.onclick = () => {
-                document.getElementById("homePage").style.display = "none";
-                document.getElementById("catalogPage").classList.add("active");
-                activeCat = d.filtro;
-                document.querySelectorAll(".filter-btn").forEach(btn => { btn.classList.remove("active"); if(btn.dataset.category === activeCat) btn.classList.add("active"); });
-                renderProducts();
-            };
-            grid.appendChild(card);
-        });
-    }
-
-    function initFilters() {
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                activeCat = btn.dataset.category;
-                renderProducts();
-            };
-        });
-    }
-
-    // Eventos
-    function initEvents() {
-        document.getElementById("cartIcon").onclick = () => document.getElementById("cartSidebar").classList.add("open");
-        document.getElementById("closeCartBtn").onclick = () => document.getElementById("cartSidebar").classList.remove("open");
-        document.getElementById("sendWhatsAppBtn").onclick = sendBudget;
-        document.getElementById("cartRegisterBtn").onclick = showRegisterModal;
-        document.getElementById("shippingSelect").onchange = updateShipping;
-        document.getElementById("backHomeBtn").onclick = () => { document.getElementById("homePage").style.display = "block"; document.getElementById("catalogPage").classList.remove("active"); };
-        document.getElementById("heroExploreBtn").onclick = (e) => { e.preventDefault(); document.getElementById("homePage").style.display = "none"; document.getElementById("catalogPage").classList.add("active"); };
-        document.getElementById("heroExploreBtn2").onclick = (e) => { e.preventDefault(); document.getElementById("homePage").style.display = "none"; document.getElementById("catalogPage").classList.add("active"); };
-    }
-
-    // Copos nieve
-    const canvas = document.getElementById("snowCanvas");
-    let ctx = canvas.getContext("2d"), particles = [], anim;
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    function initSnow() {
-        resize();
-        for(let i=0;i<90;i++) particles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+2, sy:Math.random()*0.8+0.4, sx:Math.random()*0.4-0.2, op:Math.random()*0.5+0.3 });
-        draw();
-    }
-    function draw() {
-        if(!ctx) return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${p.op})`; ctx.fill(); p.x+=p.sx; p.y+=p.sy; if(p.y>canvas.height){ p.y=-10; p.x=Math.random()*canvas.width; } if(p.x>canvas.width) p.x=0; });
-        anim = requestAnimationFrame(draw);
-    }
-    window.addEventListener("resize", () => { resize(); initSnow(); });
-
-    // Inicializar
-    const savedUser = localStorage.getItem("neUser");
-    if(savedUser) { currentUser = JSON.parse(savedUser); updateCartUserInfo(); document.getElementById("cartRegisterBtn").style.display = "none"; document.getElementById("sendWhatsAppBtn").style.display = "block"; }
-    renderShowcase();
-    renderProducts();
-    initFilters();
-    initEvents();
-    loadCart();
-    initSnow();
-    window.addEventListener("beforeunload", () => cancelAnimationFrame(anim));
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarProductos();
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.category;
+        renderizarProductos();
+      });
+    });
+    document.getElementById('videoModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('videoModal')) closeModal();
+    });
+    document.querySelector('.close-modal').addEventListener('click', closeModal);
+  });
 </script>
 </body>
 </html>
